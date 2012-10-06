@@ -6,8 +6,13 @@
         <property name="hibernate.format_sql">false</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         
+        <!-- master -->
         <mapping class="perpus.domain.Buku" />
         <mapping class="perpus.domain.Anggota" />
+        
+        <!-- transaksi -->
+        <mapping class="perpus.domain.Peminjaman" />
+        <mapping class="perpus.domain.PeminjamanDetail" />
         
         <!-- security -->
         <mapping class="perpus.domain.security.Pegawai" />
