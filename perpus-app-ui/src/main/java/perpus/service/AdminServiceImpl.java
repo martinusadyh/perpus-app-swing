@@ -27,4 +27,16 @@ public class AdminServiceImpl implements AdminService {
                 .createQuery("from PegawaiRole pr order by pr.createdDate desc")
                 .list();
     }
+
+    @Override
+    @Transactional(readOnly=false)
+    public void save(Object obj) {
+        sessionFactory.getCurrentSession().saveOrUpdate(obj);
+    }
+
+    @Override
+    @Transactional(readOnly=false)
+    public void delete(Object obj) {
+        sessionFactory.getCurrentSession().delete(obj);
+    }
 }

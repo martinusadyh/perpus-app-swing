@@ -4,14 +4,15 @@
  */
 package perpus.ui.admin;
 
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import perpus.Main;
 import perpus.domain.security.PegawaiRole;
 import perpus.ui.TableUtil;
-import perpus.ui.master.MasterAnggota;
-import perpus.ui.tablemodel.MasterAnggotaTableModel;
+import perpus.ui.tablemodel.HakAksesTableModel;
 
 /**
  *
@@ -146,38 +147,38 @@ public class HakAkses extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-//        anggota = new FormDialogAnggota().showDialog();
-//        if (anggota != null) {
-//            Main.getMasterService().save(anggota);
-//            loadDataToTable();
-//        }
+        pegawaiRole = new FormDialogHakAkses().showDialog();
+        if (pegawaiRole != null) {
+            Main.getAdminService().save(pegawaiRole);
+            loadDataToTable();
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-//        if (tbl.getSelectedRow() >= 0 && anggota != null) {
-//            anggota = new FormDialogAnggota().editAnggota(anggota);
-//            if (anggota != null) {
-//                Main.getMasterService().save(anggota);
-//                loadDataToTable();
-//            }
-//        } else {
-//            JOptionPane.showMessageDialog(Main.getMainForm(),
-//                "Tidak ada data yang ingin di edit !!",
-//                "Terjadi Kesalahan !!",
-//                JOptionPane.ERROR_MESSAGE);
-//        }
+        if (tbl.getSelectedRow() >= 0 && pegawaiRole != null) {
+            pegawaiRole = new FormDialogHakAkses().editDialog(pegawaiRole);
+            if (pegawaiRole != null) {
+                Main.getAdminService().save(pegawaiRole);
+                loadDataToTable();
+            }
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                "Tidak ada data yang ingin di edit !!",
+                "Terjadi Kesalahan !!",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-//        if (tbl.getSelectedRow() >= 0 && anggota != null) {
-//            Main.getMasterService().delete(anggota);
-//            loadDataToTable();
-//        } else {
-//            JOptionPane.showMessageDialog(Main.getMainForm(),
-//                "Tidak ada data yang ingin di hapus !!",
-//                "Terjadi Kesalahan !!",
-//                JOptionPane.ERROR_MESSAGE);
-//        }
+        if (tbl.getSelectedRow() >= 0 && pegawaiRole != null) {
+            Main.getAdminService().delete(pegawaiRole);
+            loadDataToTable();
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                "Tidak ada data yang ingin di hapus !!",
+                "Terjadi Kesalahan !!",
+                JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -193,9 +194,12 @@ public class HakAkses extends javax.swing.JPanel {
     private void loadDataToTable() {
         pegawaiRoles = Main.getAdminService().findAllPegawaiRoles();
         if (pegawaiRoles != null) {
-//            tbl.setModel(new MasterAnggotaTableModel(listAnggota));
-            TableUtil.initColumn(tbl);
-        } 
+            tbl.setModel(new HakAksesTableModel(pegawaiRoles));
+        } else {
+            tbl.setModel(new HakAksesTableModel(new ArrayList<PegawaiRole>()));
+        }
+        
+        TableUtil.initColumn(tbl);
     }
     
     private class TableSelection implements ListSelectionListener {
