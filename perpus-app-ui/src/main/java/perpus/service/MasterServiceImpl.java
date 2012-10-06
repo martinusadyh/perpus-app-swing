@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perpus.domain.Anggota;
 import perpus.domain.Buku;
+import perpus.domain.Konfigurasi;
 import perpus.domain.security.Pegawai;
 
 /**
@@ -61,5 +62,14 @@ public class MasterServiceImpl implements MasterService {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Anggota ag order by ag.namaAnggota, ag.kodeAnggota asc")
                 .list();
+    }
+
+    @Override
+    public Konfigurasi getKonfigurasi() {
+        List<Konfigurasi> list = sessionFactory.getCurrentSession()
+                .createQuery("from Konfigurasi k")
+                .setMaxResults(1)
+                .list();
+        return list.get(0);
     }
 }

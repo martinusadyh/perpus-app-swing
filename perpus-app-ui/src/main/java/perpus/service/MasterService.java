@@ -7,6 +7,7 @@ package perpus.service;
 import java.util.List;
 import perpus.domain.Anggota;
 import perpus.domain.Buku;
+import perpus.domain.Konfigurasi;
 import perpus.domain.security.Pegawai;
 
 /**
@@ -19,6 +20,8 @@ public interface MasterService {
     
     List<Anggota> findAllAnggota();
     Anggota findAnggotaById(String id);
+    
+    Konfigurasi getKonfigurasi();
 
     void save(Object obj);
     void delete(Object obj);

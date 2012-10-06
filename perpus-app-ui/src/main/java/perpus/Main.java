@@ -8,6 +8,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import perpus.service.AdminService;
 import perpus.service.MasterService;
+import perpus.service.TransaksiService;
 import perpus.ui.MainForm;
 
 /**
@@ -19,6 +20,7 @@ public class Main {
     private static ApplicationContext applicationContext;
     private static MasterService masterService;
     private static AdminService adminService;
+    private static TransaksiService transaksiService;
     
     private static MainForm mainForm;
     
@@ -26,6 +28,7 @@ public class Main {
         applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         masterService = (MasterService) applicationContext.getBean("masterService");
         adminService = (AdminService) applicationContext.getBean("adminService");
+        transaksiService = (TransaksiService) applicationContext.getBean("transaksiService");
     }
 
     public static MasterService getMasterService() {
@@ -38,6 +41,10 @@ public class Main {
 
     public static MainForm getMainForm() {
         return mainForm;
+    }
+
+    public static TransaksiService getTransaksiService() {
+        return transaksiService;
     }
     
     public static void main(String[] args) {
