@@ -56,4 +56,10 @@ public class MasterServiceImpl implements MasterService {
                 .setParameter("id", id)
                 .uniqueResult();
     }
+    
+    public List<Anggota> findAllAnggota() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Anggota ag order by ag.namaAnggota, ag.kodeAnggota asc")
+                .list();
+    }
 }

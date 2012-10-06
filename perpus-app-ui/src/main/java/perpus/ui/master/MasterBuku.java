@@ -4,6 +4,7 @@
  */
 package perpus.ui.master;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -45,6 +46,9 @@ public class MasterBuku extends javax.swing.JPanel {
         bukus = Main.getMasterService().findAllBukus();
         if (!bukus.isEmpty()) {
             tbl.setModel(new MasterBukuTableModel(bukus));
+            TableUtil.initColumn(tbl);
+        } else {
+            tbl.setModel(new MasterBukuTableModel(new ArrayList<Buku>()));
             TableUtil.initColumn(tbl);
         }
     }
@@ -208,7 +212,6 @@ public class MasterBuku extends javax.swing.JPanel {
 
             if (tbl.getSelectedRow() >= 0) {
                 buku = bukus.get(tbl.getSelectedRow());
-//                loadDomainToForm();
             }
         }
     }
