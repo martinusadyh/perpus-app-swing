@@ -5,6 +5,7 @@
 package perpus.ui.master;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import perpus.Main;
@@ -73,6 +74,11 @@ public class MasterBuku extends javax.swing.JPanel {
         btnRefresh.setFocusable(false);
         btnRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnRefresh.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnRefresh);
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/add.gif"))); // NOI18N
@@ -92,6 +98,11 @@ public class MasterBuku extends javax.swing.JPanel {
         btnEdit.setFocusable(false);
         btnEdit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEdit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnEdit);
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/delete.gif"))); // NOI18N
@@ -99,6 +110,11 @@ public class MasterBuku extends javax.swing.JPanel {
         btnDelete.setFocusable(false);
         btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btnDelete);
 
         tbl.setModel(new javax.swing.table.DefaultTableModel(
@@ -138,8 +154,40 @@ public class MasterBuku extends javax.swing.JPanel {
         if (buku != null) {
             Main.getMasterService().save(buku);
             loadDataToTable();
-        } 
+        }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        loadDataToTable();
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (tbl.getSelectedRow() >= 0 && buku != null) {
+            Main.getMasterService().delete(buku);
+            loadDataToTable();
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                    "Tidak ada data yang ingin di hapus !!",
+                    "Terjadi Kesalahan !!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        if (tbl.getSelectedRow() >= 0 && buku != null) {
+            buku = new FormDialogBuku().editDialog(buku);
+            if (buku != null) {
+                Main.getMasterService().save(buku);
+                loadDataToTable();
+            }
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                    "Tidak ada data yang ingin di edit !!",
+                    "Terjadi Kesalahan !!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;

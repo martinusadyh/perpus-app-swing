@@ -4,6 +4,7 @@
  */
 package perpus.ui.tablemodel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -48,7 +49,7 @@ public class MasterBukuTableModel extends AbstractTableModel {
             case 2: return buku.getPengarang();
             case 3: return buku.getPenerbit();
             case 4: return buku.getKotaTerbit();
-            case 5: return buku.getTahunTerbit();
+            case 5: return new SimpleDateFormat("yyyy").format(buku.getTahunTerbit());
             case 6: return buku.getJenisBuku();
             default: return "";
         }

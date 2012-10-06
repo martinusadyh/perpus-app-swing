@@ -31,6 +31,23 @@ public class FormDialogBuku extends javax.swing.JDialog {
         return buku;
     }
     
+    public Buku editDialog(Buku buku) {
+        this.buku = buku;
+        loadDomainToForm();
+        setVisible(true);
+        return buku;
+    }
+    
+    private void loadDomainToForm() {
+        txtKodeBuku.setText(buku.getKodeBuku());
+        txtJudulBuku.setText(buku.getJudulBuku());
+        txtPengarang.setText(buku.getPengarang());
+        txtPenerbit.setText(buku.getPenerbit());
+        txtKotaTerbit.setText(buku.getKotaTerbit());
+        txtThnTerbit.setDate(buku.getTahunTerbit());
+        cmbJnsBuku.setSelectedItem(buku.getJenisBuku());
+    }
+    
     private void loadFormToDomain() {
         if (buku == null) {
             buku = new Buku();
