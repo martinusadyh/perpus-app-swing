@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perpus.domain.Anggota;
 import perpus.domain.Buku;
+import perpus.domain.security.Pegawai;
 
 /**
  *
@@ -42,9 +43,9 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public List<Anggota> findAllAnggota() {
+    public List<Pegawai> findAllPegawai() {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Anggota ag order by ag.namaAnggota, ag.kodeAnggota asc")
+                .createQuery("from Pegawai pgw order by pgw.createdDate desc")
                 .list();
     }
 
@@ -54,5 +55,11 @@ public class MasterServiceImpl implements MasterService {
                 .createQuery("from Anggota ag where ag.id = :id")
                 .setParameter("id", id)
                 .uniqueResult();
+    }
+    
+    public List<Anggota> findAllAnggota() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Anggota ag order by ag.namaAnggota, ag.kodeAnggota asc")
+                .list();
     }
 }

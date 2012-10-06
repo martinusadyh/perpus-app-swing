@@ -10,47 +10,36 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import perpus.Main;
-import perpus.domain.Buku;
+import perpus.domain.security.Pegawai;
 import perpus.ui.TableUtil;
-import perpus.ui.tablemodel.MasterBukuTableModel;
+import perpus.ui.tablemodel.MasterPegawaiTableModel;
 
 /**
  *
  * @author martinusadyh
  */
-public class MasterBuku extends javax.swing.JPanel {
+public class MasterPegawai extends javax.swing.JPanel {
+    
+    public static final String PANEL_NAME = "Master Pegawai";
+    private static MasterPegawai panel;
+    private List<Pegawai> pegawais;
+    private Pegawai pegawai;
 
-    public static final String PANEL_NAME = "Master Buku";
-    private static MasterBuku panel;
-    private List<Buku> bukus;
-    private Buku buku;
-
-    public static MasterBuku getPanel() {
+    public static MasterPegawai getPanel() {
         if (panel == null) {
-            panel = new MasterBuku();
+            panel = new MasterPegawai();
         }
 
         return panel;
     }
 
     /**
-     * Creates new form MasterBuku
+     * Creates new form MasterPegawai
      */
-    public MasterBuku() {
+    public MasterPegawai() {
         initComponents();
         loadDataToTable();
         tbl.getSelectionModel().addListSelectionListener(new TableSelection());
-    }
-
-    private void loadDataToTable() {
-        bukus = Main.getMasterService().findAllBukus();
-        if (!bukus.isEmpty()) {
-            tbl.setModel(new MasterBukuTableModel(bukus));
-            TableUtil.initColumn(tbl);
-        } else {
-            tbl.setModel(new MasterBukuTableModel(new ArrayList<Buku>()));
-            TableUtil.initColumn(tbl);
-        }
     }
 
     /**
@@ -126,7 +115,7 @@ public class MasterBuku extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Kode", "Judul", "Pengarang", "Penerbit", "Kota Terbit", "Tahun Terbit", "Jenis"
+                "NIP", "Nama Pegawai", "User Name"
             }
         ));
         tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -137,60 +126,60 @@ public class MasterBuku extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addGap(13, 13, 13))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        buku = new FormDialogBuku().showDialog();
-        if (buku != null) {
-            Main.getMasterService().save(buku);
-            loadDataToTable();
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         loadDataToTable();
     }//GEN-LAST:event_btnRefreshActionPerformed
 
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (tbl.getSelectedRow() >= 0 && buku != null) {
-            Main.getMasterService().delete(buku);
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        pegawai = new FormDialogPegawai().showDialog();
+        if (pegawai != null) {
+            Main.getMasterService().save(pegawai);
             loadDataToTable();
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(),
-                    "Tidak ada data yang ingin di hapus !!",
-                    "Terjadi Kesalahan !!",
-                    JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        if (tbl.getSelectedRow() >= 0 && buku != null) {
-            buku = new FormDialogBuku().editDialog(buku);
-            if (buku != null) {
-                Main.getMasterService().save(buku);
+        if (tbl.getSelectedRow() >= 0 && pegawai != null) {
+            pegawai = new FormDialogPegawai().editDialog(pegawai);
+            if (pegawai != null) {
+                Main.getMasterService().save(pegawai);
                 loadDataToTable();
             }
         } else {
             JOptionPane.showMessageDialog(Main.getMainForm(),
-                    "Tidak ada data yang ingin di edit !!",
-                    "Terjadi Kesalahan !!",
-                    JOptionPane.ERROR_MESSAGE);
+                "Tidak ada data yang ingin di edit !!",
+                "Terjadi Kesalahan !!",
+                JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        if (tbl.getSelectedRow() >= 0 && pegawai != null) {
+            Main.getMasterService().delete(pegawai);
+            loadDataToTable();
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                "Tidak ada data yang ingin di hapus !!",
+                "Terjadi Kesalahan !!",
+                JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -202,6 +191,17 @@ public class MasterBuku extends javax.swing.JPanel {
     private javax.swing.JTable tbl;
     // End of variables declaration//GEN-END:variables
 
+    private void loadDataToTable() {
+        pegawais = Main.getMasterService().findAllPegawai();
+        if (!pegawais.isEmpty()) {
+            tbl.setModel(new MasterPegawaiTableModel(pegawais));
+            TableUtil.initColumn(tbl);
+        } else {
+            tbl.setModel(new MasterPegawaiTableModel(new ArrayList<Pegawai>()));
+            TableUtil.initColumn(tbl);
+        }
+    }
+    
     private class TableSelection implements ListSelectionListener {
 
         @Override
@@ -211,7 +211,7 @@ public class MasterBuku extends javax.swing.JPanel {
             }
 
             if (tbl.getSelectedRow() >= 0) {
-                buku = bukus.get(tbl.getSelectedRow());
+                pegawai = pegawais.get(tbl.getSelectedRow());
             }
         }
     }

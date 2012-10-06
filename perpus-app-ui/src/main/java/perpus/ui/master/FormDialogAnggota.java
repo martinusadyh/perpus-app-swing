@@ -10,7 +10,6 @@
  */
 package perpus.ui.master;
 
-import com.sun.imageio.spi.RAFImageInputStreamSpi;
 import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

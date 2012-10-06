@@ -18,6 +18,12 @@ import perpus.domain.BaseEntity;
 @Table(name="pegawai")
 public class Pegawai extends BaseEntity {
     
+    @Column(name="nip_pegawai")
+    private String nipPegawai;
+    
+    @Column(name="nama_pegawai")
+    private String namaPegawai;
+    
     @Column(name="user_name")
     private String userName;
     
@@ -26,6 +32,22 @@ public class Pegawai extends BaseEntity {
     
     @ManyToOne
     private PegawaiRole pegawaiRole;
+
+    public String getNamaPegawai() {
+        return namaPegawai;
+    }
+
+    public void setNamaPegawai(String namaPegawai) {
+        this.namaPegawai = namaPegawai;
+    }
+
+    public String getNipPegawai() {
+        return nipPegawai;
+    }
+
+    public void setNipPegawai(String nipPegawai) {
+        this.nipPegawai = nipPegawai;
+    }
 
     public String getUserName() {
         return userName;
