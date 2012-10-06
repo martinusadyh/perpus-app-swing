@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import perpus.domain.Anggota;
 import perpus.domain.Buku;
 
 /**
@@ -38,5 +39,20 @@ public class MasterServiceImpl implements MasterService {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Buku bk order by bk.createdDate desc")
                 .list();
+    }
+
+    @Override
+    public List<Anggota> findAllAnggota() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Anggota ag order by ag.namaAnggota, ag.kodeAnggota asc")
+                .list();
+    }
+
+    @Override
+    public Anggota findAnggotaById(String id) {
+        return (Anggota) sessionFactory.getCurrentSession()
+                .createQuery("from Anggota ag where ag.id = :id")
+                .setParameter("id", id)
+                .uniqueResult();
     }
 }
