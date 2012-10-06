@@ -4,6 +4,7 @@
  */
 package perpus.ui;
 
+import perpus.ui.admin.HakAkses;
 import perpus.ui.master.MasterAnggota;
 import perpus.ui.master.MasterBuku;
 import perpus.ui.master.MasterPegawai;
@@ -213,7 +214,14 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_mnItemBukuActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // TODO add your handling code here:
+        HakAkses.getPanel().setName(HakAkses.PANEL_NAME);
+        indexTab = getComponentIndexByName(HakAkses.PANEL_NAME);
+        if (indexTab == -1) {
+            mainTabbedPane.addTab(HakAkses.PANEL_NAME, HakAkses.getPanel());
+            setSelectedPanel(HakAkses.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed

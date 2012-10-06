@@ -43,6 +43,7 @@ public class HakAksesTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         PegawaiRole pegawaiRole = pegawaiRoles.get(rowIndex);
         switch (columnIndex) {
+            case 0: return pegawaiRole.getNama();
             default: return "";
         }
     }
