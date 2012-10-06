@@ -4,30 +4,51 @@
  */
 package perpus.ui.master;
 
+import java.util.List;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import perpus.Main;
+import perpus.domain.Anggota;
+import perpus.ui.TableUtil;
+import perpus.ui.tablemodel.MasterAnggotaTableModel;
+
 /**
  *
  * @author martinusadyh
  */
 public class MasterAnggota extends javax.swing.JPanel {
-    
+
     public static final String PANEL_NAME = "Master Anggota";
-    
     private static MasterAnggota panel;
+    private List<Anggota> listAnggota;
+    private Anggota anggota;
 
     public static MasterAnggota getPanel() {
         if (panel == null) {
             panel = new MasterAnggota();
         }
-        
+
         return panel;
     }
-    
+
     /**
      * Creates new form MasterBuku
      */
     public MasterAnggota() {
         initComponents();
+        loadDataToTable();
+        tbl.getSelectionModel().addListSelectionListener(new TableSelection());
     }
+
+    private void loadDataToTable() {
+        listAnggota = Main.getMasterService().findAllAnggota();
+        if (!listAnggota.isEmpty()) {
+            tbl.setModel(new MasterAnggotaTableModel(listAnggota));
+            TableUtil.initColumn(tbl);
+        }
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,14 +60,14 @@ public class MasterAnggota extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbl = new javax.swing.JTable();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -54,7 +75,7 @@ public class MasterAnggota extends javax.swing.JPanel {
                 "Kode", "Nama", "Jenis Kelamin", "Alamat", "Email", "Agama", "No. Telp", "Thn. Masuk", "Status"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbl);
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
@@ -66,12 +87,17 @@ public class MasterAnggota extends javax.swing.JPanel {
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(jButton1);
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/add.gif"))); // NOI18N
-        jButton2.setToolTipText("Tambah Data");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton2);
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/add.gif"))); // NOI18N
+        btnAdd.setToolTipText("Tambah Data");
+        btnAdd.setFocusable(false);
+        btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnAdd);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/edit.gif"))); // NOI18N
         jButton3.setToolTipText("Edit Data");
@@ -106,13 +132,37 @@ public class MasterAnggota extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        anggota = new FormDialogAnggota().showDialog();
+        if (anggota != null) {
+            Main.getMasterService().save(anggota);
+            loadDataToTable();
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JTable tbl;
     // End of variables declaration//GEN-END:variables
+    
+    private class TableSelection implements ListSelectionListener {
+
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (e.getValueIsAdjusting()) {
+                return;
+            }
+
+            if (tbl.getSelectedRow() >= 0) {
+                anggota = listAnggota.get(tbl.getSelectedRow());
+            }
+        }
+    }
 }
+
