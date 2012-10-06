@@ -38,6 +38,29 @@ public class FormDialogAnggota extends javax.swing.JDialog {
         return anggota;
     }
     
+    public Anggota editAnggota(Anggota anggota){
+        this.anggota = anggota;
+        loadDomainToForm();
+        setVisible(true);
+        return anggota;
+    }
+    
+    private void loadDomainToForm(){
+        if(anggota != null){
+            txtKode.setText(anggota.getKodeAnggota());
+            txtNama.setText(anggota.getNamaAnggota());
+            txtAlamat.setText(anggota.getAlamat());
+            txtEmail.setText(anggota.getEmail());
+            txtNoTelp.setText(anggota.getNoTelp());
+            cmbAgama.setSelectedItem(anggota.getAgama());
+            if(anggota.getJenisKelamin().equals(JKEL.LAKI.toString())){
+                rdLaki.setSelected(true);
+            } else {
+                rdPerempuan.setSelected(true);
+            }
+        }
+    }
+    
     private void loadFormToDomain(){
         if(anggota==null){
             anggota = new Anggota();
@@ -106,13 +129,13 @@ public class FormDialogAnggota extends javax.swing.JDialog {
 
         jLabel2.setText("Nama Anggota*");
 
-        jLabel3.setText("Jenis Kelamin");
+        jLabel3.setText("Jenis Kelamin*");
 
         jLabel4.setText("Alamat*");
 
         jLabel5.setText("Email*");
 
-        jLabel6.setText("Agama");
+        jLabel6.setText("Agama*");
 
         jLabel7.setText("No. Telepon*");
 
