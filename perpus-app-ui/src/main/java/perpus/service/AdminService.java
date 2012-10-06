@@ -14,5 +14,9 @@ import perpus.domain.security.PegawaiRole;
 public interface AdminService {
 
     List<PegawaiRole> findAllPegawaiRoles();
+
+    void save(Object obj);
+
+    void delete(Object obj);
     
 }
