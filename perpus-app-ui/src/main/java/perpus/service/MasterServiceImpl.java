@@ -20,6 +20,18 @@ import perpus.domain.Buku;
 public class MasterServiceImpl implements MasterService {
     
     @Autowired private SessionFactory sessionFactory;
+    
+    @Override
+    @Transactional(readOnly=false)
+    public void save(Object obj) {
+        sessionFactory.getCurrentSession().saveOrUpdate(obj);
+    }
+    
+    @Override
+    @Transactional(readOnly=false)
+    public void delete(Object obj) {
+        sessionFactory.getCurrentSession().delete(obj);
+    }
 
     @Override
     public List<Buku> findAllBukus() {

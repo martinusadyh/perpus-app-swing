@@ -110,6 +110,7 @@ public class MasterBuku extends javax.swing.JPanel {
             }
         ));
         tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tbl);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -135,7 +136,8 @@ public class MasterBuku extends javax.swing.JPanel {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         buku = new FormDialogBuku().showDialog();
         if (buku != null) {
-            
+            Main.getMasterService().save(buku);
+            loadDataToTable();
         } 
     }//GEN-LAST:event_btnAddActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
