@@ -14,5 +14,8 @@ import perpus.domain.Buku;
 public interface MasterService {
     
     List<Buku> findAllBukus();
+
+    void save(Object obj);
+    void delete(Object obj);
     
 }

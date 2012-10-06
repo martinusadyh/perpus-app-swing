@@ -5,6 +5,8 @@
 package perpus.ui.master;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import perpus.Main;
 import perpus.domain.Buku;
 
 /**
@@ -33,14 +35,19 @@ public class FormDialogBuku extends javax.swing.JDialog {
         if (buku == null) {
             buku = new Buku();
         }
+        
         buku.setKodeBuku(txtKodeBuku.getText());
         buku.setJudulBuku(txtJudulBuku.getText());
         buku.setPengarang(txtPengarang.getText());
         buku.setPenerbit(txtPenerbit.getText());
+        buku.setKotaTerbit(txtKotaTerbit.getText());
+        buku.setTahunTerbit(txtThnTerbit.getDate());
+        buku.setJenisBuku(cmbJnsBuku.getSelectedItem().toString());
     }
     
     private Boolean validateForm() {
-        if (txtKodeBuku.getText().length() > 0 && txtJudulBuku.getText().length() > 0) {
+        if (txtKodeBuku.getText().length() > 0 && 
+                txtJudulBuku.getText().length() > 0) {
             return true;
         } else {
             return false;
@@ -76,7 +83,6 @@ public class FormDialogBuku extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tambah / Update Data Buku");
-        setAlwaysOnTop(true);
         setModal(true);
         setResizable(false);
 
@@ -212,6 +218,12 @@ public class FormDialogBuku extends javax.swing.JDialog {
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         if (validateForm()) {
             loadFormToDomain();
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Kolom bertanda * harus diisi !!",
+                        "Terjadi Kesalahan !!",
+                        JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnOKActionPerformed
 

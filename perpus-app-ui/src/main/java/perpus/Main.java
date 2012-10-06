@@ -18,6 +18,8 @@ public class Main {
     private static ApplicationContext applicationContext;
     private static MasterService masterService;
     
+    private static MainForm mainForm;
+    
     private static void initContext() {
         applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         masterService = (MasterService) applicationContext.getBean("masterService");
@@ -25,6 +27,10 @@ public class Main {
 
     public static MasterService getMasterService() {
         return masterService;
+    }
+
+    public static MainForm getMainForm() {
+        return mainForm;
     }
     
     public static void main(String[] args) {
@@ -44,7 +50,8 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new MainForm().setVisible(true);
+                mainForm = new MainForm();
+                mainForm.setVisible(true);
             }
         });
     }
