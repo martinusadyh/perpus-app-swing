@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perpus.domain.Buku;
+import perpus.domain.security.Pegawai;
 
 /**
  *
@@ -37,6 +38,13 @@ public class MasterServiceImpl implements MasterService {
     public List<Buku> findAllBukus() {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Buku bk order by bk.createdDate desc")
+                .list();
+    }
+
+    @Override
+    public List<Pegawai> findAllPegawai() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Pegawai pgw order by pgw.createdDate desc")
                 .list();
     }
 }

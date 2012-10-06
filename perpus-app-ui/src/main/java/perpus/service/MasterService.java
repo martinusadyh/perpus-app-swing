@@ -6,6 +6,7 @@ package perpus.service;
 
 import java.util.List;
 import perpus.domain.Buku;
+import perpus.domain.security.Pegawai;
 
 /**
  *
@@ -17,5 +18,7 @@ public interface MasterService {
 
     void save(Object obj);
     void delete(Object obj);
+
+    List<Pegawai> findAllPegawai();
     
 }
