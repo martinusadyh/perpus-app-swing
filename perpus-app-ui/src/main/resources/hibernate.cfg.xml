@@ -9,6 +9,7 @@
         <!-- master -->
         <mapping class="perpus.domain.Buku" />
         <mapping class="perpus.domain.Anggota" />
+        <mapping class="perpus.domain.Konfigurasi" />
         
         <!-- transaksi -->
         <mapping class="perpus.domain.Peminjaman" />
