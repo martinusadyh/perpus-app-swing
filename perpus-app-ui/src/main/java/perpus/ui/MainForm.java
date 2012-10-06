@@ -7,6 +7,7 @@ package perpus.ui;
 import perpus.ui.master.MasterAnggota;
 import perpus.ui.master.MasterBuku;
 import perpus.ui.master.MasterPegawai;
+import perpus.ui.transaksi.FormPeminjaman;
 
 /**
  *
@@ -47,6 +48,7 @@ public class MainForm extends javax.swing.JFrame {
         mnItemAnggota = new javax.swing.JMenuItem();
         mnItemBuku = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        mnuPeminjaman = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu7 = new javax.swing.JMenu();
@@ -63,7 +65,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 629, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -74,7 +76,7 @@ public class MainForm extends javax.swing.JFrame {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 633, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -128,6 +130,15 @@ public class MainForm extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Transaksi");
+
+        mnuPeminjaman.setText("Peminjaman");
+        mnuPeminjaman.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPeminjamanActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnuPeminjaman);
+
         jMenuBar1.add(jMenu3);
 
         jMenu5.setText("Admin");
@@ -171,7 +182,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -219,6 +230,17 @@ public class MainForm extends javax.swing.JFrame {
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void mnuPeminjamanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPeminjamanActionPerformed
+        FormPeminjaman.getPanel().setName(FormPeminjaman.PANEL_NAME);
+        indexTab = getComponentIndexByName(FormPeminjaman.PANEL_NAME);
+        if(indexTab == -1){
+            mainTabbedPane.addTab(FormPeminjaman.PANEL_NAME, FormPeminjaman.getPanel());
+            setSelectedPanel(FormPeminjaman.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnuPeminjamanActionPerformed
 
     private int getComponentIndexByName(String panelName) {
         return mainTabbedPane.indexOfTab(panelName);
@@ -281,5 +303,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemAnggota;
     private javax.swing.JMenuItem mnItemBuku;
     private javax.swing.JMenuItem mnItemPegawai;
+    private javax.swing.JMenuItem mnuPeminjaman;
     // End of variables declaration//GEN-END:variables
 }
