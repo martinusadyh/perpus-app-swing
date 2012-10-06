@@ -6,6 +6,7 @@ package perpus.ui;
 
 import perpus.ui.master.MasterAnggota;
 import perpus.ui.master.MasterBuku;
+import perpus.ui.master.MasterPegawai;
 
 /**
  *
@@ -47,8 +48,10 @@ public class MainForm extends javax.swing.JFrame {
         mnItemBuku = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -129,8 +132,10 @@ public class MainForm extends javax.swing.JFrame {
 
         jMenu5.setText("Admin");
 
-        jMenuItem4.setText("Grup Akses");
-        jMenu5.add(jMenuItem4);
+        jMenuItem1.setText("Konfigurasi Denda");
+        jMenu5.add(jMenuItem1);
+
+        jMenu7.setText("User Managemen");
 
         jMenuItem5.setText("Hak Akses");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -138,7 +143,12 @@ public class MainForm extends javax.swing.JFrame {
                 jMenuItem5ActionPerformed(evt);
             }
         });
-        jMenu5.add(jMenuItem5);
+        jMenu7.add(jMenuItem5);
+
+        jMenuItem4.setText("Grup Akses");
+        jMenu7.add(jMenuItem4);
+
+        jMenu5.add(jMenu7);
 
         jMenuBar1.add(jMenu5);
 
@@ -161,7 +171,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -170,7 +180,14 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mnItemPegawaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemPegawaiActionPerformed
-        // TODO add your handling code here:
+        MasterPegawai.getPanel().setName(MasterPegawai.PANEL_NAME);
+        indexTab = getComponentIndexByName(MasterPegawai.PANEL_NAME);
+        if (indexTab == -1) {
+            mainTabbedPane.addTab(MasterPegawai.PANEL_NAME, MasterPegawai.getPanel());
+            setSelectedPanel(MasterPegawai.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
     }//GEN-LAST:event_mnItemPegawaiActionPerformed
 
     private void mnItemAnggotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemAnggotaActionPerformed
@@ -251,7 +268,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
