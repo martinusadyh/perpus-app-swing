@@ -23,6 +23,7 @@ import perpus.domain.security.Screen;
 import perpus.ui.admin.FormKonfigurasi;
 import perpus.ui.admin.GrupAkses;
 import perpus.ui.admin.HakAkses;
+import perpus.ui.laporan.LaporanPengembalianPinjaman;
 import perpus.ui.master.MasterAnggota;
 import perpus.ui.master.MasterBuku;
 import perpus.ui.master.MasterPegawai;
@@ -143,6 +144,7 @@ public class MainMenu extends javax.swing.JFrame {
         mnItemHakAkses = new javax.swing.JMenuItem();
         mnItemGrupAkses = new javax.swing.JMenuItem();
         menuLaporan = new javax.swing.JMenu();
+        mnItemRptPeminjamanPengembalian = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -344,6 +346,15 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuBar1.add(menuAdmin);
 
         menuLaporan.setText("Laporan");
+
+        mnItemRptPeminjamanPengembalian.setText("Peminjaman / Pengembalian");
+        mnItemRptPeminjamanPengembalian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemRptPeminjamanPengembalianActionPerformed(evt);
+            }
+        });
+        menuLaporan.add(mnItemRptPeminjamanPengembalian);
+
         jMenuBar1.add(menuLaporan);
 
         setJMenuBar(jMenuBar1);
@@ -361,7 +372,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -515,6 +526,17 @@ public class MainMenu extends javax.swing.JFrame {
         plasticLaf();
     }//GEN-LAST:event_mnItemPlasticActionPerformed
 
+    private void mnItemRptPeminjamanPengembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemRptPeminjamanPengembalianActionPerformed
+        LaporanPengembalianPinjaman.getPanel().setName(LaporanPengembalianPinjaman.PANEL_NAME);
+        indexTab = getComponentIndexByName(LaporanPengembalianPinjaman.PANEL_NAME);
+        if(indexTab == -1){
+            mainTabbedPane.addTab(LaporanPengembalianPinjaman.PANEL_NAME, LaporanPengembalianPinjaman.getPanel());
+            setSelectedPanel(LaporanPengembalianPinjaman.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnItemRptPeminjamanPengembalianActionPerformed
+
     private void plasticLaf() {
         try {
             PlasticLookAndFeel laf = new PlasticXPLookAndFeel();
@@ -554,6 +576,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemNimbus;
     private javax.swing.JMenuItem mnItemPegawai;
     private javax.swing.JMenuItem mnItemPlastic;
+    private javax.swing.JMenuItem mnItemRptPeminjamanPengembalian;
     private javax.swing.JMenuItem mnItemSystem;
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
