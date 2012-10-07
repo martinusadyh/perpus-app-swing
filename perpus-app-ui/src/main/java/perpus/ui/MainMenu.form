@@ -177,6 +177,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Laporan"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="mnItemRptPeminjamanPengembalian">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Peminjaman / Pengembalian"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemRptPeminjamanPengembalianActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
       </SubComponents>
     </Menu>
@@ -213,7 +223,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panelHeaderDashboard1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="mainTabbedPane" pref="349" max="32767" attributes="0"/>
+              <Component id="mainTabbedPane" pref="353" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
           </Group>
