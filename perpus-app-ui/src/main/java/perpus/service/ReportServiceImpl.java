@@ -65,7 +65,21 @@ public class ReportServiceImpl implements ReportService{
         } else {
             List<PengembalianDetail> detailpengembalians = 
                     transaksiService.getTransaksiPengembalian(mulai, sampai);
-            
+            for (PengembalianDetail p : detailpengembalians) {
+                LaporanPeminjamanDto lpd = new LaporanPeminjamanDto();
+                lpd.setId(p.getId().toString());
+                lpd.setKodeAnggota(p.getHeader().getTransaksiPeminjaman().getAnggota().getKodeAnggota());
+                lpd.setNamaAnggota(p.getHeader().getTransaksiPeminjaman().getAnggota().getNamaAnggota());
+                lpd.setTglPinjam(p.getHeader().getTransaksiPeminjaman().getTglPinjam());
+                lpd.setTglKembali(p.getHeader().getTransaksiPeminjaman().getTglKembali());
+                lpd.setKodeBuku(p.getBuku().getKodeBuku());
+                lpd.setJudul(p.getBuku().getJudulBuku());
+                lpd.setTglKembaliSebenarnya(p.getCreatedDate());
+                lpd.setTelat(p.getTelat());
+                lpd.setDenda(p.getDenda());
+                lpd.setStatus("Sudah Kembali");
+                result.add(lpd);
+            }
         }
         return result;
     }
