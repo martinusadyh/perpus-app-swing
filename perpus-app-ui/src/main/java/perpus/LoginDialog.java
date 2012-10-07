@@ -155,6 +155,8 @@ public class LoginDialog extends javax.swing.JDialog {
             List<Screen> screens = Main.getAdminService().findAllScreenByPegawaiRoleId(pegawai.getPegawaiRole().getId());
             if (!screens.isEmpty()) {
                 Main.setScreens(screens);
+                Main.setPegawai(pegawai);
+                
                 notLogin = false;
                 this.dispose();
             }
