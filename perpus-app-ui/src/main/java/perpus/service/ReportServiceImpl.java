@@ -43,7 +43,7 @@ public class ReportServiceImpl implements ReportService{
                             p.getHeader().getId(), p.getBuku().getId());
 
                 LaporanPeminjamanDto lpd = new LaporanPeminjamanDto();
-                lpd.setId(p.getId().toString());
+                lpd.setId(p.getHeader().getId().toString());
                 lpd.setKodeAnggota(p.getHeader().getAnggota().getKodeAnggota());
                 lpd.setNamaAnggota(p.getHeader().getAnggota().getNamaAnggota());
                 lpd.setTglPinjam(p.getHeader().getTglPinjam());
@@ -67,7 +67,7 @@ public class ReportServiceImpl implements ReportService{
                     transaksiService.getTransaksiPengembalian(mulai, sampai);
             for (PengembalianDetail p : detailpengembalians) {
                 LaporanPeminjamanDto lpd = new LaporanPeminjamanDto();
-                lpd.setId(p.getId().toString());
+                lpd.setId(p.getHeader().getId().toString());
                 lpd.setKodeAnggota(p.getHeader().getTransaksiPeminjaman().getAnggota().getKodeAnggota());
                 lpd.setNamaAnggota(p.getHeader().getTransaksiPeminjaman().getAnggota().getNamaAnggota());
                 lpd.setTglPinjam(p.getHeader().getTransaksiPeminjaman().getTglPinjam());
