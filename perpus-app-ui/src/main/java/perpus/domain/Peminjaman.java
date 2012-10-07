@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import perpus.domain.security.Pegawai;
 
 /**
  *
@@ -41,6 +42,10 @@ public class Peminjaman extends BaseEntity{
     @OneToMany(mappedBy="header")
     @Cascade(CascadeType.SAVE_UPDATE)
     private List<PeminjamanDetail> detailPeminjamans = new ArrayList<PeminjamanDetail>();
+    
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private Pegawai pegawai;
 
     public Anggota getAnggota() {
         return anggota;
@@ -73,4 +78,13 @@ public class Peminjaman extends BaseEntity{
     public void setTglPinjam(Date tglPinjam) {
         this.tglPinjam = tglPinjam;
     }
+
+    public Pegawai getPegawai() {
+        return pegawai;
+    }
+
+    public void setPegawai(Pegawai pegawai) {
+        this.pegawai = pegawai;
+    }
+    
 }
