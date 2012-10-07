@@ -73,7 +73,7 @@ public class Main {
     private static void checkDefaultUser() {
         List<Pegawai> pegawais = masterService.findAllPegawai();
         PegawaiRole defaultPegawaiRole = masterService.findPegawaiRoleByName("SUPERVISOR");
-        Pegawai pegawai = masterService.findPegawaiByUserName("ama");
+        pegawai = masterService.findPegawaiByUserName("ama");
 
         if (pegawais != null || pegawais.isEmpty()) {
             if (defaultPegawaiRole == null) {
@@ -103,7 +103,7 @@ public class Main {
         }
     }
 
-    private static void initLogin() {
+    public static void initLogin() {
         checkDefaultUser();
         if (mainForm == null) {
             mainForm = new MainForm();

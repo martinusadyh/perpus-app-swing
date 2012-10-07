@@ -38,6 +38,8 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         initComponents();
+        mnItemLogin.setEnabled(false);
+        
         menus = new ArrayList<JMenu>();
         menuItems = new ArrayList<JMenuItem>();
         
@@ -99,12 +101,11 @@ public class MainForm extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         mainTabbedPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        panelHeaderDashboard1 = new perpus.ui.PanelHeaderDashboard();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         mnItemLogin = new javax.swing.JMenuItem();
         mnItemLogout = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
         menuMaster = new javax.swing.JMenu();
         mnItemPegawai = new javax.swing.JMenuItem();
         mnItemAnggota = new javax.swing.JMenuItem();
@@ -126,7 +127,7 @@ public class MainForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Aplikasi Perpustakaan v0.1");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,18 +137,20 @@ public class MainForm extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 17, Short.MAX_VALUE)
+            .addGap(0, 26, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 633, Short.MAX_VALUE)
+        panelHeaderDashboard1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        javax.swing.GroupLayout panelHeaderDashboard1Layout = new javax.swing.GroupLayout(panelHeaderDashboard1);
+        panelHeaderDashboard1.setLayout(panelHeaderDashboard1Layout);
+        panelHeaderDashboard1Layout.setHorizontalGroup(
+            panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 57, Short.MAX_VALUE)
+        panelHeaderDashboard1Layout.setVerticalGroup(
+            panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
         );
 
         menuFile.setText("File");
@@ -164,12 +167,14 @@ public class MainForm extends javax.swing.JFrame {
 
         mnItemLogout.setText("Logout");
         mnItemLogout.setName("Logout"); // NOI18N
+        mnItemLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemLogoutActionPerformed(evt);
+            }
+        });
         menuFile.add(mnItemLogout);
 
         jMenuBar1.add(menuFile);
-
-        jMenu6.setText("Themes");
-        jMenuBar1.add(jMenu6);
 
         menuMaster.setText("Master");
         menuMaster.setName("Master"); // NOI18N
@@ -296,15 +301,14 @@ public class MainForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -438,6 +442,11 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuPengembalianActionPerformed
 
+    private void mnItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLogoutActionPerformed
+        this.dispose();
+        Main.initLogin();
+    }//GEN-LAST:event_mnItemLogoutActionPerformed
+
     private int getComponentIndexByName(String panelName) {
         return mainTabbedPane.indexOfTab(panelName);
     }
@@ -445,45 +454,11 @@ public class MainForm extends javax.swing.JFrame {
     private void setSelectedPanel(String panelName) {
         mainTabbedPane.setSelectedComponent(mainTabbedPane.getComponentAt(getComponentIndexByName(panelName)));
     }
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new MainForm().setVisible(true);
-//            }
-//        });
-//    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JMenu menuAdmin;
     private javax.swing.JMenu menuFile;
@@ -504,5 +479,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
     private javax.swing.JMenuItem mnuPengembalian;
+    private perpus.ui.PanelHeaderDashboard panelHeaderDashboard1;
     // End of variables declaration//GEN-END:variables
 }
