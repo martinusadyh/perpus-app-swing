@@ -5,6 +5,8 @@
 package perpus.ui.laporan;
 
 import java.awt.BorderLayout;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.swing.JRViewer;
@@ -135,12 +137,23 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        JasperPrint jp = Main.getReportService().printLaporanPeminjaman(
-                cmbJnsTransaksi.getSelectedItem().toString(),
-                dateChooserDr.getDate(), dateChooserSampai.getDate());
-        rptPanel.removeAll();
-        rptPanel.setLayout(new BorderLayout());
-        rptPanel.add(new JRViewer(jp), BorderLayout.CENTER);
+        String jnsTransaksi = cmbJnsTransaksi.getSelectedItem().toString();
+        Date tglMulai = dateChooserDr.getDate();
+        Date tglSampai = dateChooserSampai.getDate();
+
+        if (tglMulai != null && tglSampai != null) {
+            JasperPrint jp = Main.getReportService().printLaporanPeminjaman(
+                    jnsTransaksi, tglMulai, tglSampai);
+
+            rptPanel.removeAll();
+            rptPanel.setLayout(new BorderLayout());
+            rptPanel.add(new JRViewer(jp), BorderLayout.CENTER);
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                    "Silahkan pilih tanggal transaksi !!",
+                    "Terjadi Kesalahan !!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnRefreshActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRefresh;
