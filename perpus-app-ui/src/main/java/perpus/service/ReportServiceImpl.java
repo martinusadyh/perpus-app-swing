@@ -5,7 +5,6 @@
 package perpus.service;
 
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,7 +19,6 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import perpus.domain.LaporanPeminjamanDto;
-import perpus.domain.Peminjaman;
 import perpus.domain.PeminjamanDetail;
 import perpus.domain.PengembalianDetail;
 
@@ -28,7 +26,6 @@ import perpus.domain.PengembalianDetail;
  *
  * @author adi
  */
-
 @Service("reportService")
 public class ReportServiceImpl implements ReportService{
     
