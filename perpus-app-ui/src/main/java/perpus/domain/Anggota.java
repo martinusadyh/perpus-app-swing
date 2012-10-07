@@ -45,7 +45,7 @@ public class Anggota extends BaseEntity {
     
     /* status pinjam atau ga */
     @Column(name="status")
-    private Boolean status;
+    private Boolean status = Boolean.FALSE;
 
     public String getKodeAnggota() {
         return kodeAnggota;
