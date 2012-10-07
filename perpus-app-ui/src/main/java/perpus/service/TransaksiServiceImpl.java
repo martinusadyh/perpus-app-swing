@@ -5,6 +5,7 @@
 package perpus.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,6 +123,39 @@ public class TransaksiServiceImpl implements TransaksiService{
                 + "where d.header.transaksiPeminjaman.id = :id")
                 .setParameter("id", id)
                 .list();
+    }
+
+    @Override
+    public List<PeminjamanDetail> getTransaksiBelumKembali(Date mulai, Date sampai) {
+        List<PeminjamanDetail> result = sessionFactory.getCurrentSession()
+                .createQuery("select dp from PeminjamanDetail dp "
+                + "where date(dp.header.tglPinjam) between date(:mulai) and date(:sampai)")
+                .setParameter("mulai", mulai)
+                .setParameter("sampai", sampai)
+                .list();
+        
+        return result;
+    }
+
+    @Override
+    public List<PengembalianDetail> getTransaksiPengembalian(Date mulai, Date sampai) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("select dp from PengembalianDetail dp "
+                + "where date(dp.header.createdDate) between date(:mulai) and date(:sampai)")
+                .setParameter("mulai", mulai)
+                .setParameter("sampai", sampai)
+                .list();
+    }
+
+    @Override
+    public PengembalianDetail getPengembalianByIdPinjamAndKodeBuku(Integer id, Integer kode) {
+        return (PengembalianDetail) sessionFactory.getCurrentSession()
+                .createQuery("select d from PengembalianDetail d "
+                + "where d.header.transaksiPeminjaman.id = :id "
+                + "and d.buku.id = :idBuku")
+                .setParameter("id", id)
+                .setParameter("idBuku", kode)
+                .uniqueResult();
     }
     
 }
