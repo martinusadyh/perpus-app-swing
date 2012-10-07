@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">false</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         
         <!-- master -->
@@ -14,6 +14,8 @@
         <!-- transaksi -->
         <mapping class="perpus.domain.Peminjaman" />
         <mapping class="perpus.domain.PeminjamanDetail" />
+        <mapping class="perpus.domain.Pengembalian" />
+        <mapping class="perpus.domain.PengembalianDetail" />
         
         <!-- security -->
         <mapping class="perpus.domain.security.Pegawai" />

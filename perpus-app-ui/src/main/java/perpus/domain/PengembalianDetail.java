@@ -4,6 +4,7 @@
  */
 package perpus.domain;
 
+import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,12 +17,15 @@ import javax.persistence.UniqueConstraint;
  */
 
 @Entity
-@Table(name="peminjaman_detail",uniqueConstraints=@UniqueConstraint(columnNames={"id_header","id_buku"}))
-public class PeminjamanDetail extends BaseEntity {
+@Table(name="pengembalian_detail",uniqueConstraints=@UniqueConstraint(columnNames={"id_header","id_buku"}))
+public class PengembalianDetail extends BaseEntity{
+    
+    private Integer telat = 0;
+    private BigDecimal denda = BigDecimal.ZERO;
     
     @ManyToOne
     @JoinColumn(name="id_header", nullable=false)
-    private Peminjaman header;
+    private Pengembalian header;
     
     @ManyToOne
     @JoinColumn(name="id_buku", nullable=false)
@@ -35,12 +39,28 @@ public class PeminjamanDetail extends BaseEntity {
         this.buku = buku;
     }
 
-    public Peminjaman getHeader() {
+    public BigDecimal getDenda() {
+        return denda;
+    }
+
+    public void setDenda(BigDecimal denda) {
+        this.denda = denda;
+    }
+
+    public Pengembalian getHeader() {
         return header;
     }
 
-    public void setHeader(Peminjaman header) {
+    public void setHeader(Pengembalian header) {
         this.header = header;
+    }
+
+    public Integer getTelat() {
+        return telat;
+    }
+
+    public void setTelat(Integer telat) {
+        this.telat = telat;
     }
     
 }

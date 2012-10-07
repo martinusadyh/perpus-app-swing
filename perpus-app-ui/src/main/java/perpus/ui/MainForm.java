@@ -21,6 +21,7 @@ import perpus.ui.master.MasterAnggota;
 import perpus.ui.master.MasterBuku;
 import perpus.ui.master.MasterPegawai;
 import perpus.ui.transaksi.FormPeminjaman;
+import perpus.ui.transaksi.FormPengembalian;
 
 /**
  *
@@ -103,6 +104,7 @@ public class MainForm extends javax.swing.JFrame {
         menuFile = new javax.swing.JMenu();
         mnItemLogin = new javax.swing.JMenuItem();
         mnItemLogout = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
         menuMaster = new javax.swing.JMenu();
         mnItemPegawai = new javax.swing.JMenuItem();
         mnItemAnggota = new javax.swing.JMenuItem();
@@ -113,6 +115,7 @@ public class MainForm extends javax.swing.JFrame {
         mnItemNimbus = new javax.swing.JMenuItem();
         menuTransaksi = new javax.swing.JMenu();
         mnuPeminjaman = new javax.swing.JMenuItem();
+        mnuPengembalian = new javax.swing.JMenuItem();
         menuAdmin = new javax.swing.JMenu();
         mnItemKonfigurasiDenda = new javax.swing.JMenuItem();
         mnItemUserManagemen = new javax.swing.JMenu();
@@ -164,6 +167,9 @@ public class MainForm extends javax.swing.JFrame {
         menuFile.add(mnItemLogout);
 
         jMenuBar1.add(menuFile);
+
+        jMenu6.setText("Themes");
+        jMenuBar1.add(jMenu6);
 
         menuMaster.setText("Master");
         menuMaster.setName("Master"); // NOI18N
@@ -236,6 +242,14 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         menuTransaksi.add(mnuPeminjaman);
+
+        mnuPengembalian.setText("Pengembalian");
+        mnuPengembalian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPengembalianActionPerformed(evt);
+            }
+        });
+        menuTransaksi.add(mnuPengembalian);
 
         jMenuBar1.add(menuTransaksi);
 
@@ -412,6 +426,17 @@ public class MainForm extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnItemNimbusActionPerformed
+	
+	private void mnuPengembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPengembalianActionPerformed
+        FormPengembalian.getPanel().setName(FormPengembalian.PANEL_NAME);
+        indexTab = getComponentIndexByName(FormPengembalian.PANEL_NAME);
+        if(indexTab == -1){
+            mainTabbedPane.addTab(FormPengembalian.PANEL_NAME, FormPengembalian.getPanel());
+            setSelectedPanel(FormPengembalian.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnuPengembalianActionPerformed
 
     private int getComponentIndexByName(String panelName) {
         return mainTabbedPane.indexOfTab(panelName);
@@ -478,5 +503,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemSystem;
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
+    private javax.swing.JMenuItem mnuPengembalian;
     // End of variables declaration//GEN-END:variables
 }
