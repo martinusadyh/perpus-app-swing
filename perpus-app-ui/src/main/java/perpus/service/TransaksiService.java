@@ -4,13 +4,14 @@
  */
 package perpus.service;
 
+import perpus.domain.Peminjaman;
+
 /**
  *
  * @author adi
  */
 public interface TransaksiService {
     
-    void save(Object obj);
-    void delete(Object obj);
+    void save(Peminjaman p);
     
 }
