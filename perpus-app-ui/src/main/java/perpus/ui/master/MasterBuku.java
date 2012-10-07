@@ -13,6 +13,7 @@ import perpus.Main;
 import perpus.domain.Buku;
 import perpus.ui.TableUtil;
 import perpus.ui.tablemodel.MasterBukuTableModel;
+import perpus.util.ErrorDialog;
 
 /**
  *
@@ -154,44 +155,59 @@ public class MasterBuku extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        buku = new FormDialogBuku().showDialog();
-        if (buku != null) {
-            Main.getMasterService().save(buku);
-            loadDataToTable();
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        loadDataToTable();
-    }//GEN-LAST:event_btnRefreshActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (tbl.getSelectedRow() >= 0 && buku != null) {
-            Main.getMasterService().delete(buku);
-            loadDataToTable();
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(),
-                    "Tidak ada data yang ingin di hapus !!",
-                    "Terjadi Kesalahan !!",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        if (tbl.getSelectedRow() >= 0 && buku != null) {
-            buku = new FormDialogBuku().editDialog(buku);
+        try {
+            buku = new FormDialogBuku().showDialog();
             if (buku != null) {
                 Main.getMasterService().save(buku);
                 loadDataToTable();
             }
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(),
-                    "Tidak ada data yang ingin di edit !!",
-                    "Terjadi Kesalahan !!",
-                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        try {
+            loadDataToTable();
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if (tbl.getSelectedRow() >= 0 && buku != null) {
+                Main.getMasterService().delete(buku);
+                loadDataToTable();
+            } else {
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Tidak ada data yang ingin di hapus !!",
+                        "Terjadi Kesalahan !!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        try {
+            if (tbl.getSelectedRow() >= 0 && buku != null) {
+                buku = new FormDialogBuku().editDialog(buku);
+                if (buku != null) {
+                    Main.getMasterService().save(buku);
+                    loadDataToTable();
+                }
+            } else {
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Tidak ada data yang ingin di edit !!",
+                        "Terjadi Kesalahan !!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
         }
     }//GEN-LAST:event_btnEditActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;

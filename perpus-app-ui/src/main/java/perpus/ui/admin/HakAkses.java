@@ -144,29 +144,41 @@ public class HakAkses extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        loadDataToTable();
+        try {
+            loadDataToTable();
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        pegawaiRole = new FormDialogHakAkses().showDialog();
-        if (pegawaiRole != null) {
-            Main.getAdminService().save(pegawaiRole);
-            loadDataToTable();
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        if (tbl.getSelectedRow() >= 0 && pegawaiRole != null) {
-            pegawaiRole = new FormDialogHakAkses().editDialog(pegawaiRole);
+        try {
+            pegawaiRole = new FormDialogHakAkses().showDialog();
             if (pegawaiRole != null) {
                 Main.getAdminService().save(pegawaiRole);
                 loadDataToTable();
             }
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(),
-                    "Tidak ada data yang ingin di edit !!",
-                    "Terjadi Kesalahan !!",
-                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        try {
+            if (tbl.getSelectedRow() >= 0 && pegawaiRole != null) {
+                pegawaiRole = new FormDialogHakAkses().editDialog(pegawaiRole);
+                if (pegawaiRole != null) {
+                    Main.getAdminService().save(pegawaiRole);
+                    loadDataToTable();
+                }
+            } else {
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Tidak ada data yang ingin di edit !!",
+                        "Terjadi Kesalahan !!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
