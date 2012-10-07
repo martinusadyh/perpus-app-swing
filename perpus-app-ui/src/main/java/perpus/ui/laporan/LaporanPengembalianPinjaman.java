@@ -4,12 +4,20 @@
  */
 package perpus.ui.laporan;
 
+import java.awt.BorderLayout;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.swing.JRViewer;
+import perpus.Main;
+
 /**
  *
  * @author martinusadyh
  */
 public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
-    
+
     public static final String PANEL_NAME = "Laporan Peminjaman / Pengembalian";
     private static LaporanPengembalianPinjaman panel;
 
@@ -73,6 +81,11 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
 
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/reload.png"))); // NOI18N
         btnRefresh.setToolTipText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -122,6 +135,26 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbJnsTransaksi, dateChooserDr, dateChooserSampai, jLabel1, jLabel2, jLabel3});
 
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        String jnsTransaksi = cmbJnsTransaksi.getSelectedItem().toString();
+        Date tglMulai = dateChooserDr.getDate();
+        Date tglSampai = dateChooserSampai.getDate();
+
+        if (tglMulai != null && tglSampai != null) {
+            JasperPrint jp = Main.getReportService().printLaporanPeminjaman(
+                    jnsTransaksi, tglMulai, tglSampai);
+
+            rptPanel.removeAll();
+            rptPanel.setLayout(new BorderLayout());
+            rptPanel.add(new JRViewer(jp), BorderLayout.CENTER);
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                    "Silahkan pilih tanggal transaksi !!",
+                    "Terjadi Kesalahan !!",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnRefreshActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRefresh;
     private javax.swing.JComboBox cmbJnsTransaksi;
