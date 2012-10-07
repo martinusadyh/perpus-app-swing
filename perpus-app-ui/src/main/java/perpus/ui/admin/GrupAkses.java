@@ -10,37 +10,47 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import perpus.Main;
-import perpus.domain.security.PegawaiRole;
+import perpus.domain.security.Pegawai;
 import perpus.ui.TableUtil;
-import perpus.ui.tablemodel.HakAksesTableModel;
+import perpus.ui.tablemodel.GrupAksesTableModel;
 import perpus.util.ErrorDialog;
 
 /**
  *
  * @author martinusadyh
  */
-public class HakAkses extends javax.swing.JPanel {
+public class GrupAkses extends javax.swing.JPanel {
 
-    public static final String PANEL_NAME = "Hak Akses";
-    private static HakAkses panel;
-    private List<PegawaiRole> pegawaiRoles;
-    private PegawaiRole pegawaiRole;
+    public static final String PANEL_NAME = "Grup Akses";
+    private static GrupAkses panel;
+    private List<Pegawai> pegawais;
+    private Pegawai pegawai;
 
-    public static HakAkses getPanel() {
+    public static GrupAkses getPanel() {
         if (panel == null) {
-            panel = new HakAkses();
+            panel = new GrupAkses();
         }
 
         return panel;
     }
 
     /**
-     * Creates new form HakAkses
+     * Creates new form GrupAkses
      */
-    public HakAkses() {
+    public GrupAkses() {
         initComponents();
         loadDataToTable();
         tbl.getSelectionModel().addListSelectionListener(new TableSelection());
+    }
+
+    private void loadDataToTable() {
+        pegawais = Main.getMasterService().findAllPegawaiWithRole();
+        if (!pegawais.isEmpty()) {
+            tbl.setModel(new GrupAksesTableModel(pegawais));
+        } else {
+            tbl.setModel(new GrupAksesTableModel(new ArrayList<Pegawai>()));
+        }
+        TableUtil.initColumn(tbl);
     }
 
     /**
@@ -116,7 +126,7 @@ public class HakAkses extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Hak Akses"
+                "Hak Akses", "User Name"
             }
         ));
         tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -128,10 +138,10 @@ public class HakAkses extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(13, 13, 13)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(13, 13, 13))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,18 +158,22 @@ public class HakAkses extends javax.swing.JPanel {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        pegawaiRole = new FormDialogHakAkses().showDialog();
-        if (pegawaiRole != null) {
-            Main.getAdminService().save(pegawaiRole);
-            loadDataToTable();
+        try {
+            pegawai = new FormDialogGrupAkses().showDialog();
+            if (pegawai != null) {
+                Main.getAdminService().save(pegawai);
+                loadDataToTable();
+            }
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        if (tbl.getSelectedRow() >= 0 && pegawaiRole != null) {
-            pegawaiRole = new FormDialogHakAkses().editDialog(pegawaiRole);
-            if (pegawaiRole != null) {
-                Main.getAdminService().save(pegawaiRole);
+        if (tbl.getSelectedRow() >= 0 && pegawai != null) {
+            pegawai = new FormDialogGrupAkses().editDialog(pegawai);
+            if (pegawai != null) {
+                Main.getAdminService().save(pegawai);
                 loadDataToTable();
             }
         } else {
@@ -171,18 +185,14 @@ public class HakAkses extends javax.swing.JPanel {
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        try {
-            if (tbl.getSelectedRow() >= 0 && pegawaiRole != null) {
-                Main.getAdminService().delete(pegawaiRole);
-                loadDataToTable();
-            } else {
-                JOptionPane.showMessageDialog(Main.getMainForm(),
-                        "Tidak ada data yang ingin di hapus !!",
-                        "Terjadi Kesalahan !!",
-                        JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-            ErrorDialog.showErrorDialog(e);
+        if (tbl.getSelectedRow() >= 0 && pegawai != null) {
+            Main.getAdminService().delete(pegawai);
+            loadDataToTable();
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                    "Tidak ada data yang ingin di hapus !!",
+                    "Terjadi Kesalahan !!",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -195,17 +205,6 @@ public class HakAkses extends javax.swing.JPanel {
     private javax.swing.JTable tbl;
     // End of variables declaration//GEN-END:variables
 
-    private void loadDataToTable() {
-        pegawaiRoles = Main.getAdminService().findAllPegawaiRoles();
-        if (pegawaiRoles != null) {
-            tbl.setModel(new HakAksesTableModel(pegawaiRoles));
-        } else {
-            tbl.setModel(new HakAksesTableModel(new ArrayList<PegawaiRole>()));
-        }
-
-        TableUtil.initColumn(tbl);
-    }
-
     private class TableSelection implements ListSelectionListener {
 
         @Override
@@ -215,7 +214,7 @@ public class HakAkses extends javax.swing.JPanel {
             }
 
             if (tbl.getSelectedRow() >= 0) {
-                pegawaiRole = pegawaiRoles.get(tbl.getSelectedRow());
+                pegawai = pegawais.get(tbl.getSelectedRow());
             }
         }
     }

@@ -4,17 +4,24 @@
  */
 package perpus.ui.admin;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import perpus.Main;
 import perpus.domain.security.PegawaiRole;
+import perpus.domain.security.Screen;
+import perpus.ui.TableUtil;
+import perpus.ui.tablemodel.ScreenTableModel;
+import perpus.util.SecurityHandler;
 
 /**
  *
  * @author martinusadyh
  */
 public class FormDialogHakAkses extends javax.swing.JDialog {
-    
+
+    private List<Screen> screens;
     private PegawaiRole pegawaiRole;
 
     /**
@@ -23,30 +30,48 @@ public class FormDialogHakAkses extends javax.swing.JDialog {
     public FormDialogHakAkses() {
         super(new JFrame(), true);
         initComponents();
+        initDefaultData();
         setLocationRelativeTo(null);
     }
-    
+
+    private void initDefaultData() {
+        tbl.setModel(new ScreenTableModel(new ArrayList<Screen>()));
+        TableUtil.initColumn(tbl);
+    }
+
     public PegawaiRole showDialog() {
+        chkBoxTampilkanLyr.setEnabled(true);
         setVisible(true);
         return pegawaiRole;
     }
-    
+
     public PegawaiRole editDialog(PegawaiRole pegawaiRole) {
         this.pegawaiRole = pegawaiRole;
         loadDomainToForm();
+        
+        /* klo edit, ga boleh lihat akses default */
+        chkBoxTampilkanLyr.setEnabled(false);
+        
         setVisible(true);
         return pegawaiRole;
     }
-    
+
     private void loadDomainToForm() {
         txtHakAkses.setText(pegawaiRole.getNama());
+        screens = pegawaiRole.getScreens();
+        tbl.setModel(new ScreenTableModel(screens));
+        TableUtil.initColumn(tbl);
     }
-    
+
     private void loadFormToDomain() {
         if (pegawaiRole == null) {
             pegawaiRole = new PegawaiRole();
         }
         pegawaiRole.setNama(txtHakAkses.getText());
+        for (Screen screen : screens) {
+            screen.setPegawaiRole(pegawaiRole);
+        }
+        pegawaiRole.setScreens(screens);
     }
 
     /**
@@ -63,6 +88,9 @@ public class FormDialogHakAkses extends javax.swing.JDialog {
         jSeparator1 = new javax.swing.JSeparator();
         btnOK = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
+        chkBoxTampilkanLyr = new javax.swing.JCheckBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tambah / Update Hak Akses");
@@ -85,23 +113,49 @@ public class FormDialogHakAkses extends javax.swing.JDialog {
             }
         });
 
+        chkBoxTampilkanLyr.setText("Tampilkan Daftar Layar");
+        chkBoxTampilkanLyr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkBoxTampilkanLyrActionPerformed(evt);
+            }
+        });
+
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "No#", "Nama", "Enable", "Visible"
+            }
+        ));
+        jScrollPane1.setViewportView(tbl);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtHakAkses, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnOK))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(chkBoxTampilkanLyr, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtHakAkses, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE))
+                        .addGap(0, 147, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnOK)
-                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBatal, btnOK});
@@ -114,12 +168,19 @@ public class FormDialogHakAkses extends javax.swing.JDialog {
                     .addComponent(jLabel1)
                     .addComponent(txtHakAkses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkBoxTampilkanLyr)
+                .addGap(339, 339, 339)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOK)
                     .addComponent(btnBatal))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(82, 82, 82)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(61, Short.MAX_VALUE)))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBatal, btnOK, jLabel1, txtHakAkses});
@@ -132,22 +193,35 @@ public class FormDialogHakAkses extends javax.swing.JDialog {
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        if (txtHakAkses.getText().length() > 0) {
+        if (txtHakAkses.getText().length() > 0
+                && screens != null && !screens.isEmpty()) {
             loadFormToDomain();
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(Main.getMainForm(),
-                        "Kolom bertanda * harus diisi !!",
-                        "Terjadi Kesalahan !!",
-                        JOptionPane.ERROR_MESSAGE);
+                    "Kolom bertanda * harus diisi !!",
+                    "Terjadi Kesalahan !!",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnOKActionPerformed
 
+    private void chkBoxTampilkanLyrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkBoxTampilkanLyrActionPerformed
+        if (chkBoxTampilkanLyr.isSelected()) {
+            screens = SecurityHandler.getAvailableScreen();
+            tbl.setModel(new ScreenTableModel(screens));
+            TableUtil.initColumn(tbl);
+        } else {
+            initDefaultData();
+        }
+    }//GEN-LAST:event_chkBoxTampilkanLyrActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatal;
     private javax.swing.JButton btnOK;
+    private javax.swing.JCheckBox chkBoxTampilkanLyr;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable tbl;
     private javax.swing.JTextField txtHakAkses;
     // End of variables declaration//GEN-END:variables
 }
