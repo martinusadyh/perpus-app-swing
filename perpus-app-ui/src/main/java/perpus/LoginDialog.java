@@ -74,8 +74,6 @@ public class LoginDialog extends javax.swing.JDialog {
             }
         });
 
-        panelHeaderDashboard1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         javax.swing.GroupLayout panelHeaderDashboard1Layout = new javax.swing.GroupLayout(panelHeaderDashboard1);
         panelHeaderDashboard1.setLayout(panelHeaderDashboard1Layout);
         panelHeaderDashboard1Layout.setHorizontalGroup(
@@ -84,7 +82,7 @@ public class LoginDialog extends javax.swing.JDialog {
         );
         panelHeaderDashboard1Layout.setVerticalGroup(
             panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGap(0, 79, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
