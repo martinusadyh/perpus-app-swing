@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 /**
  *
@@ -37,6 +39,7 @@ public class Peminjaman extends BaseEntity{
     private Date tglKembali;
     
     @OneToMany(mappedBy="header")
+    @Cascade(CascadeType.SAVE_UPDATE)
     private List<PeminjamanDetail> detailPeminjamans = new ArrayList<PeminjamanDetail>();
 
     public Anggota getAnggota() {
