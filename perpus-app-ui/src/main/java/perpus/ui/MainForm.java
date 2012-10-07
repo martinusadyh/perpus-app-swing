@@ -14,6 +14,7 @@ import perpus.ui.master.MasterAnggota;
 import perpus.ui.master.MasterBuku;
 import perpus.ui.master.MasterPegawai;
 import perpus.ui.transaksi.FormPeminjaman;
+import perpus.ui.transaksi.FormPengembalian;
 
 /**
  *
@@ -73,6 +74,7 @@ public class MainForm extends javax.swing.JFrame {
         mnItemBuku = new javax.swing.JMenuItem();
         menuTransaksi = new javax.swing.JMenu();
         mnuPeminjaman = new javax.swing.JMenuItem();
+        mnuPengembalian = new javax.swing.JMenuItem();
         menuAdmin = new javax.swing.JMenu();
         mnItemKonfigurasiDenda = new javax.swing.JMenuItem();
         mnItemUserManagemen = new javax.swing.JMenu();
@@ -162,6 +164,14 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
         menuTransaksi.add(mnuPeminjaman);
+
+        mnuPengembalian.setText("Pengembalian");
+        mnuPengembalian.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuPengembalianActionPerformed(evt);
+            }
+        });
+        menuTransaksi.add(mnuPengembalian);
 
         jMenuBar1.add(menuTransaksi);
 
@@ -289,6 +299,17 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnItemGrupAksesActionPerformed
 
+    private void mnuPengembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPengembalianActionPerformed
+        FormPengembalian.getPanel().setName(FormPengembalian.PANEL_NAME);
+        indexTab = getComponentIndexByName(FormPengembalian.PANEL_NAME);
+        if(indexTab == -1){
+            mainTabbedPane.addTab(FormPengembalian.PANEL_NAME, FormPengembalian.getPanel());
+            setSelectedPanel(FormPengembalian.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnuPengembalianActionPerformed
+
     private int getComponentIndexByName(String panelName) {
         return mainTabbedPane.indexOfTab(panelName);
     }
@@ -351,5 +372,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemPegawai;
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
+    private javax.swing.JMenuItem mnuPengembalian;
     // End of variables declaration//GEN-END:variables
 }
