@@ -17,6 +17,12 @@
 	<field name="status" class="java.lang.String"/>
 	<field name="telat" class="java.lang.Integer"/>
 	<field name="denda" class="java.math.BigDecimal"/>
+	<variable name="totalTelat" class="java.lang.Integer" resetType="Group" resetGroup="detail" calculation="Sum">
+		<variableExpression><![CDATA[$F{telat}]]></variableExpression>
+	</variable>
+	<variable name="totalDenda" class="java.math.BigDecimal" resetType="Group" resetGroup="detail" calculation="Sum">
+		<variableExpression><![CDATA[$F{denda}]]></variableExpression>
+	</variable>
 	<group name="detail">
 		<groupExpression><![CDATA[$F{id}]]></groupExpression>
 		<groupHeader>
@@ -98,7 +104,38 @@
 			</band>
 		</groupHeader>
 		<groupFooter>
-			<band height="16"/>
+			<band height="28">
+				<textField pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement x="347" y="4" width="49" height="20"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.lang.Integer"><![CDATA[$V{totalTelat}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0;-#,##0" isBlankWhenNull="true">
+					<reportElement x="396" y="4" width="71" height="20"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<bottomPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle"/>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{totalDenda}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="257" y="4" width="90" height="20"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total    :    ]]></text>
+				</staticText>
+			</band>
 		</groupFooter>
 	</group>
 	<background>
