@@ -29,12 +29,21 @@ public class Main {
     private static TransaksiService transaksiService;
     private static List<Screen> screens;
     private static MainForm mainForm;
+    private static Pegawai pegawai;
 
     private static void initContext() {
         applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         masterService = (MasterService) applicationContext.getBean("masterService");
         adminService = (AdminService) applicationContext.getBean("adminService");
         transaksiService = (TransaksiService) applicationContext.getBean("transaksiService");
+    }
+
+    public static Pegawai getPegawai() {
+        return pegawai;
+    }
+
+    public static void setPegawai(Pegawai pegawai) {
+        Main.pegawai = pegawai;
     }
 
     public static MasterService getMasterService() {

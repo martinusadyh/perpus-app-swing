@@ -46,6 +46,12 @@
     
     <dependencies>
         <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>3.7.6</version>
+        </dependency>
+            
+        <dependency>
             <groupId>org.jasypt</groupId>
             <artifactId>jasypt-hibernate3</artifactId>
             <version>1.9.0</version>
