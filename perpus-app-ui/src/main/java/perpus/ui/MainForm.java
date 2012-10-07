@@ -15,6 +15,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import perpus.Main;
 import perpus.domain.security.Screen;
+import perpus.ui.admin.FormKonfigurasi;
 import perpus.ui.admin.GrupAkses;
 import perpus.ui.admin.HakAkses;
 import perpus.ui.master.MasterAnggota;
@@ -106,6 +107,7 @@ public class MainForm extends javax.swing.JFrame {
         menuFile = new javax.swing.JMenu();
         mnItemLogin = new javax.swing.JMenuItem();
         mnItemLogout = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
         menuMaster = new javax.swing.JMenu();
         mnItemPegawai = new javax.swing.JMenuItem();
         mnItemAnggota = new javax.swing.JMenuItem();
@@ -175,6 +177,9 @@ public class MainForm extends javax.swing.JFrame {
         menuFile.add(mnItemLogout);
 
         jMenuBar1.add(menuFile);
+
+        jMenu6.setText("Themes");
+        jMenuBar1.add(jMenu6);
 
         menuMaster.setText("Master");
         menuMaster.setName("Master"); // NOI18N
@@ -263,6 +268,11 @@ public class MainForm extends javax.swing.JFrame {
 
         mnItemKonfigurasiDenda.setText("Konfigurasi Denda");
         mnItemKonfigurasiDenda.setName("Konfigurasi Denda"); // NOI18N
+        mnItemKonfigurasiDenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemKonfigurasiDendaActionPerformed(evt);
+            }
+        });
         menuAdmin.add(mnItemKonfigurasiDenda);
 
         mnItemUserManagemen.setText("User Managemen");
@@ -442,7 +452,18 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuPengembalianActionPerformed
 
-    private void mnItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLogoutActionPerformed
+        private void mnItemKonfigurasiDendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemKonfigurasiDendaActionPerformed
+            FormKonfigurasi.getPanel().setName(FormKonfigurasi.PANEL_NAME);
+            indexTab = getComponentIndexByName(FormKonfigurasi.PANEL_NAME);
+            if(indexTab == -1){
+                mainTabbedPane.addTab(FormKonfigurasi.PANEL_NAME, FormKonfigurasi.getPanel());
+                setSelectedPanel(FormKonfigurasi.PANEL_NAME);
+            } else {
+                mainTabbedPane.setSelectedIndex(indexTab);
+            }
+        }//GEN-LAST:event_mnItemKonfigurasiDendaActionPerformed
+
+private void mnItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLogoutActionPerformed
         this.dispose();
         Main.initLogin();
     }//GEN-LAST:event_mnItemLogoutActionPerformed
@@ -459,6 +480,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JMenu menuAdmin;
     private javax.swing.JMenu menuFile;
