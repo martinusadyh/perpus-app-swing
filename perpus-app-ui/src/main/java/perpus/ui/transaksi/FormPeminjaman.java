@@ -12,14 +12,20 @@ package perpus.ui.transaksi;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.joda.time.DateTime;
 import perpus.Main;
 import perpus.domain.Anggota;
+import perpus.domain.Buku;
 import perpus.domain.Konfigurasi;
 import perpus.domain.Peminjaman;
 import perpus.domain.PeminjamanDetail;
+import perpus.ui.TableUtil;
+import perpus.ui.tablemodel.MasterBukuTableModel;
+import perpus.ui.tablemodel.PeminjamanDetailTableModel;
+import sun.security.util.PendingException;
 
 /**
  *
@@ -34,6 +40,8 @@ public class FormPeminjaman extends javax.swing.JPanel {
     private PeminjamanDetail detail;
     private List<PeminjamanDetail> detailsPeminjaman = new ArrayList<PeminjamanDetail>();
     private Anggota anggota;
+    private Buku buku;
+    String[] headerTableDetail = { "Kode", "Judul", "Jenis", "Pengarang"};
             
     public static FormPeminjaman getPanel() {
         if(panel==null){
@@ -45,14 +53,54 @@ public class FormPeminjaman extends javax.swing.JPanel {
     /** Creates new form FormPeminjaman */
     public FormPeminjaman() {
         initComponents();
-        
+        settingTanggalTransaksi();
+        tbl.getSelectionModel().addListSelectionListener(new TableSelection());
+    }
+    
+    void settingTanggalTransaksi(){
         Konfigurasi config = Main.getMasterService().getKonfigurasi();
         
         DateTime sekarang = new DateTime();
         jdcPinjam.setDate(sekarang.toDate());
-        jdcKembali.setDate(sekarang.plusDays(config.getMaxLamaPinjam()).toDate());
-        
-        tbl.getSelectionModel().addListSelectionListener(new TableSelection());
+        jdcKembali.setDate(sekarang.plusDays(config.getMaxLamaPinjam()).toDate());   
+    }
+    
+    void refreshTable(List<PeminjamanDetail> list){
+        tbl.setModel(new PeminjamanDetailTableModel(list, headerTableDetail));
+        TableUtil.initColumn(tbl);
+    }
+    
+    Boolean validateForm(){
+        if(anggota != null &&
+                jdcPinjam != null &&
+                jdcKembali != null &&
+                detailsPeminjaman.size() > 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    void loadFormToDomain(){
+        peminjaman = new Peminjaman();
+        peminjaman.setAnggota(anggota);
+        peminjaman.setTglKembali(jdcKembali.getDate());
+        peminjaman.setTglPinjam(jdcPinjam.getDate());
+        for (PeminjamanDetail d : detailsPeminjaman) {
+            d.setHeader(peminjaman);
+        }
+        peminjaman.setDetailPeminjamans(detailsPeminjaman);
+    }
+    
+    void clearForm(){
+        settingTanggalTransaksi();
+        txtNamaAnggota.setText("");
+        detailsPeminjaman = new ArrayList<PeminjamanDetail>();
+        detail = null;
+        anggota = null;
+        buku = null;
+        peminjaman = null;
+        refreshTable(detailsPeminjaman);
     }
 
     /** This method is called from within the constructor to
@@ -107,7 +155,7 @@ public class FormPeminjaman extends javax.swing.JPanel {
         jdcKembali.setEnabled(false);
 
         btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/add.gif"))); // NOI18N
-        btnAdd.setToolTipText("Tambah Detail");
+        btnAdd.setToolTipText("Tambah Buku");
         btnAdd.setFocusable(false);
         btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -118,7 +166,7 @@ public class FormPeminjaman extends javax.swing.JPanel {
         });
 
         btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/delete.gif"))); // NOI18N
-        btnDelete.setToolTipText("Hapus Detail");
+        btnDelete.setToolTipText("Hapus Buku");
         btnDelete.setFocusable(false);
         btnDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -249,23 +297,54 @@ public class FormPeminjaman extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if(detailsPeminjaman.size() == 3){
+            JOptionPane.showMessageDialog(Main.getMainForm(), 
+                    "Maximal 3 buku yang boleh dipinjam !");
+        } else {
+            buku = new LookupBukuDialog().showDialog();
         
+            if(buku != null){
+                    PeminjamanDetail detail = new PeminjamanDetail();
+                    detail.setBuku(buku);
+                    detailsPeminjaman.add(detail);
+            }
+        }
+        
+        refreshTable(detailsPeminjaman);
 }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        
+        if(detail != null){
+            detailsPeminjaman.remove(detail);
+        }
+        refreshTable(detailsPeminjaman);
 }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+        if(validateForm()){
+            loadFormToDomain();
+            Main.getTransaksiService().save(peminjaman);
+            clearForm();
+            JOptionPane.showMessageDialog(Main.getMainForm(), 
+                    "Transaksi berhasil disimpan !");
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(), 
+                    "Data yang anda masukan tidak lengkap !");
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-        // TODO add your handling code here:
+        clearForm();
     }//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnLookupAnggotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLookupAnggotaActionPerformed
-        // TODO add your handling code here:
+        anggota = new LookupAnggotaDialog().showDialog();
+        if(anggota != null && anggota.getStatus() != null && anggota.getStatus().equals(Boolean.FALSE)){
+            txtNamaAnggota.setText(anggota.getNamaAnggota());
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(), 
+                    "Anggota ini masih meminjam buku dan belum dikembalikan !");
+        }
     }//GEN-LAST:event_btnLookupAnggotaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -298,6 +377,7 @@ public class FormPeminjaman extends javax.swing.JPanel {
             if (tbl.getSelectedRow() >= 0) {
                 detail = detailsPeminjaman.get(tbl.getSelectedRow());
             }
+        
         }
     }
 }
