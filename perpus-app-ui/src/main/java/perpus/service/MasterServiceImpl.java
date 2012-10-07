@@ -144,4 +144,14 @@ public class MasterServiceImpl implements MasterService {
                 .createQuery("from Pegawai pgw where pgw.pegawaiRole is not null")
                 .list();
     }
+
+    @Override
+    public Pegawai findPegawaiByUserNameAndPassword(String userName, String encryptPassword) {
+        return (Pegawai) sessionFactory.getCurrentSession()
+                .createQuery("from Pegawai pgw where pgw.userName = :prmUserName and pgw.password = :prmPassword")
+                .setParameter("prmUserName", userName)
+                .setParameter("prmPassword", encryptPassword)
+                .setMaxResults(1)
+                .uniqueResult();
+    }
 }

@@ -6,8 +6,14 @@ package perpus.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import perpus.Main;
 import perpus.ui.admin.GrupAkses;
 import perpus.ui.admin.HakAkses;
 import perpus.ui.master.MasterAnggota;
@@ -45,9 +51,12 @@ public class MainForm extends javax.swing.JFrame {
         menuItems.add(mnItemAnggota);
         menuItems.add(mnItemBuku);
         menuItems.add(mnItemPegawai);
-               
-                
+        
         setExtendedState(MAXIMIZED_BOTH);
+    }
+    
+    private void resetLaf() {
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     /**
@@ -66,11 +75,14 @@ public class MainForm extends javax.swing.JFrame {
         menuFile = new javax.swing.JMenu();
         mnItemLogin = new javax.swing.JMenuItem();
         mnItemLogout = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
         menuMaster = new javax.swing.JMenu();
         mnItemPegawai = new javax.swing.JMenuItem();
         mnItemAnggota = new javax.swing.JMenuItem();
         mnItemBuku = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        mnItemMetal = new javax.swing.JMenuItem();
+        mnItemSystem = new javax.swing.JMenuItem();
+        mnItemNimbus = new javax.swing.JMenuItem();
         menuTransaksi = new javax.swing.JMenu();
         mnuPeminjaman = new javax.swing.JMenuItem();
         menuAdmin = new javax.swing.JMenu();
@@ -122,9 +134,6 @@ public class MainForm extends javax.swing.JFrame {
 
         jMenuBar1.add(menuFile);
 
-        jMenu6.setText("Themes");
-        jMenuBar1.add(jMenu6);
-
         menuMaster.setText("Master");
 
         mnItemPegawai.setText("Entri Pegawai");
@@ -152,6 +161,34 @@ public class MainForm extends javax.swing.JFrame {
         menuMaster.add(mnItemBuku);
 
         jMenuBar1.add(menuMaster);
+
+        jMenu6.setText("Themes");
+
+        mnItemMetal.setText("Metal");
+        mnItemMetal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemMetalActionPerformed(evt);
+            }
+        });
+        jMenu6.add(mnItemMetal);
+
+        mnItemSystem.setText("System");
+        mnItemSystem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemSystemActionPerformed(evt);
+            }
+        });
+        jMenu6.add(mnItemSystem);
+
+        mnItemNimbus.setText("Nimbus");
+        mnItemNimbus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemNimbusActionPerformed(evt);
+            }
+        });
+        jMenu6.add(mnItemNimbus);
+
+        jMenuBar1.add(jMenu6);
 
         menuTransaksi.setText("Transaksi");
 
@@ -211,7 +248,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -289,6 +326,51 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnItemGrupAksesActionPerformed
 
+    private void mnItemMetalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemMetalActionPerformed
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+            resetLaf();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnItemMetalActionPerformed
+
+    private void mnItemSystemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemSystemActionPerformed
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            resetLaf();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnItemSystemActionPerformed
+
+    private void mnItemNimbusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemNimbusActionPerformed
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            resetLaf();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnItemNimbusActionPerformed
+
     private int getComponentIndexByName(String panelName) {
         return mainTabbedPane.indexOfTab(panelName);
     }
@@ -348,7 +430,10 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemKonfigurasiDenda;
     private javax.swing.JMenuItem mnItemLogin;
     private javax.swing.JMenuItem mnItemLogout;
+    private javax.swing.JMenuItem mnItemMetal;
+    private javax.swing.JMenuItem mnItemNimbus;
     private javax.swing.JMenuItem mnItemPegawai;
+    private javax.swing.JMenuItem mnItemSystem;
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
     // End of variables declaration//GEN-END:variables

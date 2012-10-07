@@ -37,5 +37,7 @@ public interface MasterService {
     List<Pegawai> findPegawaisByUserName(String userName);
 
     List<Pegawai> findAllPegawaiWithRole();
+
+    Pegawai findPegawaiByUserNameAndPassword(String userName, String encryptPassword);
     
 }

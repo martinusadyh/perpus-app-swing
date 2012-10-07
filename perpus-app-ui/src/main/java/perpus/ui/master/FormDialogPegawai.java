@@ -6,8 +6,10 @@ package perpus.ui.master;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import perpus.Main;
 import perpus.domain.security.Pegawai;
+import sun.org.mozilla.javascript.commonjs.module.provider.StrongCachingModuleScriptProvider;
 
 /**
  *
@@ -52,7 +54,8 @@ public class FormDialogPegawai extends javax.swing.JDialog {
         pegawai.setNipPegawai(txtNIPPegawai.getText());
         pegawai.setNamaPegawai(txtNmPegawai.getText());
         pegawai.setUserName(txtUserName.getText());
-        pegawai.setPassword(String.valueOf(txtPassword.getPassword()));
+        StrongPasswordEncryptor spe = new StrongPasswordEncryptor();
+        pegawai.setPassword(spe.encryptPassword(String.valueOf(txtPassword.getPassword())));
     }
     
     private Boolean validateForm() {

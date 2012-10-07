@@ -50,8 +50,22 @@ public class Main {
         return transaksiService;
     }
 
+    public static void setScreens(List<Screen> screens) {
+        Main.screens = screens;
+    }
+
     public static List<Screen> getScreens() {
         return screens;
+    }
+    
+    private static void initLogin() {
+        if (mainForm == null) mainForm = new MainForm();
+        
+        boolean notLogin = Boolean.TRUE;
+        while (notLogin) {
+            notLogin = new LoginDialog().showLogin();
+        }
+        mainForm.setVisible(true);
     }
     
     public static void main(String[] args) {
@@ -71,8 +85,7 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                mainForm = new MainForm();
-                mainForm.setVisible(true);
+                initLogin();
             }
         });
     }
