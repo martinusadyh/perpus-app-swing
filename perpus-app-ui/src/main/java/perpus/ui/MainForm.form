@@ -7,11 +7,13 @@
         <Menu class="javax.swing.JMenu" name="menuFile">
           <Properties>
             <Property name="text" type="java.lang.String" value="File"/>
+            <Property name="name" type="java.lang.String" value="File" noResource="true"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnItemLogin">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Login"/>
+                <Property name="name" type="java.lang.String" value="Login" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemLoginActionPerformed"/>
@@ -20,6 +22,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="mnItemLogout">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Logout"/>
+                <Property name="name" type="java.lang.String" value="Logout" noResource="true"/>
               </Properties>
             </MenuItem>
           </SubComponents>
@@ -27,11 +30,13 @@
         <Menu class="javax.swing.JMenu" name="menuMaster">
           <Properties>
             <Property name="text" type="java.lang.String" value="Master"/>
+            <Property name="name" type="java.lang.String" value="Master" noResource="true"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnItemPegawai">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Entri Pegawai"/>
+                <Property name="name" type="java.lang.String" value="Entri Pegawai" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemPegawaiActionPerformed"/>
@@ -40,6 +45,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="mnItemAnggota">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Entri Anggota"/>
+                <Property name="name" type="java.lang.String" value="Entri Anggota" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemAnggotaActionPerformed"/>
@@ -48,6 +54,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="mnItemBuku">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Entri Buku"/>
+                <Property name="name" type="java.lang.String" value="Entri Buku" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemBukuActionPerformed"/>
@@ -89,11 +96,13 @@
         <Menu class="javax.swing.JMenu" name="menuTransaksi">
           <Properties>
             <Property name="text" type="java.lang.String" value="Transaksi"/>
+            <Property name="name" type="java.lang.String" value="Transaksi" noResource="true"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuPeminjaman">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Peminjaman"/>
+                <Property name="name" type="java.lang.String" value="Peminjaman" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuPeminjamanActionPerformed"/>
@@ -104,21 +113,25 @@
         <Menu class="javax.swing.JMenu" name="menuAdmin">
           <Properties>
             <Property name="text" type="java.lang.String" value="Admin"/>
+            <Property name="name" type="java.lang.String" value="Admin" noResource="true"/>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnItemKonfigurasiDenda">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Konfigurasi Denda"/>
+                <Property name="name" type="java.lang.String" value="Konfigurasi Denda" noResource="true"/>
               </Properties>
             </MenuItem>
             <Menu class="javax.swing.JMenu" name="mnItemUserManagemen">
               <Properties>
                 <Property name="text" type="java.lang.String" value="User Managemen"/>
+                <Property name="name" type="java.lang.String" value="User Managemen" noResource="true"/>
               </Properties>
               <SubComponents>
                 <MenuItem class="javax.swing.JMenuItem" name="mnItemHakAkses">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Hak Akses"/>
+                    <Property name="name" type="java.lang.String" value="Hak Akses" noResource="true"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemHakAksesActionPerformed"/>
@@ -127,6 +140,7 @@
                 <MenuItem class="javax.swing.JMenuItem" name="mnItemGrupAkses">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Grup Akses"/>
+                    <Property name="name" type="java.lang.String" value="Grup Akses" noResource="true"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemGrupAksesActionPerformed"/>
@@ -178,7 +192,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="mainTabbedPane" pref="332" max="32767" attributes="0"/>
+              <Component id="mainTabbedPane" pref="336" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
           </Group>

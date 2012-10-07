@@ -7,26 +7,29 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import perpus.domain.security.Pegawai;
+import perpus.domain.security.PegawaiRole;
 import perpus.domain.security.Screen;
 import perpus.service.AdminService;
 import perpus.service.MasterService;
 import perpus.service.TransaksiService;
 import perpus.ui.MainForm;
+import perpus.util.PasswordHelper;
+import perpus.util.SecurityHandler;
 
 /**
  * Hello world!
  *
  */
 public class Main {
-    
+
     private static ApplicationContext applicationContext;
     private static MasterService masterService;
     private static AdminService adminService;
     private static TransaksiService transaksiService;
     private static List<Screen> screens;
-    
     private static MainForm mainForm;
-    
+
     private static void initContext() {
         applicationContext = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
         masterService = (MasterService) applicationContext.getBean("masterService");
@@ -57,17 +60,54 @@ public class Main {
     public static List<Screen> getScreens() {
         return screens;
     }
-    
+
+    private static void checkDefaultUser() {
+        List<Pegawai> pegawais = masterService.findAllPegawai();
+        PegawaiRole defaultPegawaiRole = masterService.findPegawaiRoleByName("SUPERVISOR");
+        Pegawai pegawai = masterService.findPegawaiByUserName("ama");
+
+        if (pegawais != null || pegawais.isEmpty()) {
+            if (defaultPegawaiRole == null) {
+                PegawaiRole pr = new PegawaiRole();
+                pr.setNama("SUPERVISOR");
+                screens = SecurityHandler.getAvailableScreen();
+                for (Screen screen : screens) {
+                    screen.setPegawaiRole(pr);
+                }
+                pr.setScreens(screens);
+                masterService.save(pr);
+            }
+
+            defaultPegawaiRole = masterService.findPegawaiRoleByName("SUPERVISOR");
+            if (defaultPegawaiRole != null && pegawai == null) {
+                pegawai = new Pegawai();
+                pegawai.setNipPegawai("085.693.717.147");
+                pegawai.setNamaPegawai("ama");
+                pegawai.setUserName("ama");
+                pegawai.setPassword(PasswordHelper.getEncryptedTextFromPlainText("amadoang"));
+                pegawai.setPegawaiRole(defaultPegawaiRole);
+
+                defaultPegawaiRole.getPegawais().add(pegawai);
+
+                masterService.save(pegawai);
+            }
+        }
+    }
+
     private static void initLogin() {
-        if (mainForm == null) mainForm = new MainForm();
-        
+        checkDefaultUser();
+        if (mainForm == null) {
+            mainForm = new MainForm();
+        }
+
         boolean notLogin = Boolean.TRUE;
         while (notLogin) {
             notLogin = new LoginDialog().showLogin();
         }
+        mainForm.initSecurity();
         mainForm.setVisible(true);
     }
-    
+
     public static void main(String[] args) {
         initContext();
         try {
@@ -81,7 +121,7 @@ public class Main {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {

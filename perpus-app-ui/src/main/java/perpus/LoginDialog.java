@@ -7,9 +7,11 @@ package perpus;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.jasypt.hibernate3.encryptor.HibernatePBEStringEncryptor;
 import org.jasypt.util.password.StrongPasswordEncryptor;
 import perpus.domain.security.Pegawai;
 import perpus.domain.security.Screen;
+import perpus.util.PasswordHelper;
 
 /**
  *
@@ -147,14 +149,14 @@ public class LoginDialog extends javax.swing.JDialog {
         String userName = txtUserName.getText();
         String password = String.valueOf(txtPassword.getPassword());
         
-        Pegawai pegawai = Main.getMasterService()
-                .findPegawaiByUserNameAndPassword(
-                userName, new StrongPasswordEncryptor().encryptPassword(password));
+        Pegawai pegawai = Main.getMasterService().findPegawaiByUserName(userName);
         
-        if (pegawai != null) {
+        if (pegawai != null && password.equalsIgnoreCase(PasswordHelper.getPlainTextFromEncryptedText(pegawai.getPassword()))) {
             List<Screen> screens = Main.getAdminService().findAllScreenByPegawaiRoleId(pegawai.getPegawaiRole().getId());
             if (!screens.isEmpty()) {
                 Main.setScreens(screens);
+                notLogin = false;
+                this.dispose();
             }
         } else {
             JOptionPane.showMessageDialog(Main.getMainForm(),

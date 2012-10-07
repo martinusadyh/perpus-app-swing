@@ -9,6 +9,7 @@ import perpus.domain.Anggota;
 import perpus.domain.Buku;
 import perpus.domain.Konfigurasi;
 import perpus.domain.security.Pegawai;
+import perpus.domain.security.PegawaiRole;
 
 /**
  *
@@ -38,6 +39,8 @@ public interface MasterService {
 
     List<Pegawai> findAllPegawaiWithRole();
 
-    Pegawai findPegawaiByUserNameAndPassword(String userName, String encryptPassword);
+    Pegawai findPegawaiByUserName(String userName);
+
+    PegawaiRole findPegawaiRoleByName(String supervisoR);
     
 }
