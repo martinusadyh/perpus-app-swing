@@ -6,8 +6,11 @@ package perpus.ui.laporan;
 
 import java.awt.BorderLayout;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.SwingWorker;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.swing.JRViewer;
 import perpus.Main;
@@ -20,6 +23,7 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
 
     public static final String PANEL_NAME = "Laporan Peminjaman / Pengembalian";
     private static LaporanPengembalianPinjaman panel;
+    private WorkerLaporan workerLaporan;
 
     public static LaporanPengembalianPinjaman getPanel() {
         if (panel == null) {
@@ -142,12 +146,15 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
         Date tglSampai = dateChooserSampai.getDate();
 
         if (tglMulai != null && tglSampai != null) {
-            JasperPrint jp = Main.getReportService().printLaporanPeminjaman(
-                    jnsTransaksi, tglMulai, tglSampai);
-
-            rptPanel.removeAll();
-            rptPanel.setLayout(new BorderLayout());
-            rptPanel.add(new JRViewer(jp), BorderLayout.CENTER);
+            if (workerLaporan != null && !workerLaporan.isDone()) {
+                workerLaporan.cancel(true);
+                workerLaporan = null;
+            }
+            workerLaporan = new WorkerLaporan();
+            workerLaporan.execute();
+            btnRefresh.setEnabled(false);
+            Main.getMainForm().getLblStatus().setText("Persiapan laporan ...");
+            Main.getMainForm().getProgressBar().setIndeterminate(true);
         } else {
             JOptionPane.showMessageDialog(Main.getMainForm(),
                     "Silahkan pilih tanggal transaksi !!",
@@ -165,4 +172,40 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel rptPanel;
     // End of variables declaration//GEN-END:variables
+
+    private class WorkerLaporan extends SwingWorker<JasperPrint, Void> {
+
+        @Override
+        protected void done() {
+            try {
+                if (get() != null) {
+                    Main.getMainForm().getLblStatus().setText("Persiapan Tampilan  ...");
+                    rptPanel.removeAll();
+                    rptPanel.setLayout(new BorderLayout());
+                    rptPanel.add(new JRViewer(get()), BorderLayout.CENTER);
+                    rptPanel.repaint();
+                    
+                    btnRefresh.setEnabled(true);
+                    Main.getMainForm().getLblStatus().setText("");
+                    Main.getMainForm().getProgressBar().setIndeterminate(false);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(LaporanPengembalianPinjaman.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ExecutionException ex) {
+                Logger.getLogger(LaporanPengembalianPinjaman.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        @Override
+        protected JasperPrint doInBackground() throws Exception {
+            String jnsTransaksi = cmbJnsTransaksi.getSelectedItem().toString();
+            Date tglMulai = dateChooserDr.getDate();
+            Date tglSampai = dateChooserSampai.getDate();
+            
+            Main.getMainForm().getLblStatus().setText("Fecthing data laporan ...");
+
+            return Main.getReportService().printLaporanPeminjaman(
+                    jnsTransaksi, tglMulai, tglSampai);
+        }
+    }
 }
