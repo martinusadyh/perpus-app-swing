@@ -28,17 +28,19 @@ import perpus.ui.transaksi.FormPengembalian;
  *
  * @author martinusadyh
  */
-public class MainForm extends javax.swing.JFrame {
-    
+public class MainMenu extends javax.swing.JFrame {
+
     private List<JMenu> menus;
     private List<JMenuItem> menuItems;
     private Integer indexTab = -1;
-
+    
     /**
      * Creates new form MainForm
      */
-    public MainForm() {
+    public MainMenu() {
         initComponents();
+        mnItemLogin.setEnabled(false);
+        
         menus = new ArrayList<JMenu>();
         menuItems = new ArrayList<JMenuItem>();
         
@@ -88,6 +90,14 @@ public class MainForm extends javax.swing.JFrame {
     private void resetLaf() {
         SwingUtilities.updateComponentTreeUI(this);
     }
+    
+    private int getComponentIndexByName(String panelName) {
+        return mainTabbedPane.indexOfTab(panelName);
+    }
+    
+    private void setSelectedPanel(String panelName) {
+        mainTabbedPane.setSelectedComponent(mainTabbedPane.getComponentAt(getComponentIndexByName(panelName)));
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -98,9 +108,9 @@ public class MainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelHeaderDashboard1 = new perpus.ui.PanelHeaderDashboard();
         jPanel1 = new javax.swing.JPanel();
         mainTabbedPane = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         mnItemLogin = new javax.swing.JMenuItem();
@@ -124,30 +134,29 @@ public class MainForm extends javax.swing.JFrame {
         menuLaporan = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Aplikasi Perpustakaan v0.1");
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        javax.swing.GroupLayout panelHeaderDashboard1Layout = new javax.swing.GroupLayout(panelHeaderDashboard1);
+        panelHeaderDashboard1.setLayout(panelHeaderDashboard1Layout);
+        panelHeaderDashboard1Layout.setHorizontalGroup(
+            panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelHeaderDashboard1Layout.setVerticalGroup(
+            panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 72, Short.MAX_VALUE)
+        );
+
+        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 629, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 17, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 633, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 57, Short.MAX_VALUE)
+            .addGap(0, 22, Short.MAX_VALUE)
         );
 
         menuFile.setText("File");
@@ -164,6 +173,11 @@ public class MainForm extends javax.swing.JFrame {
 
         mnItemLogout.setText("Logout");
         mnItemLogout.setName("Logout"); // NOI18N
+        mnItemLogout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemLogoutActionPerformed(evt);
+            }
+        });
         menuFile.add(mnItemLogout);
 
         jMenuBar1.add(menuFile);
@@ -296,23 +310,31 @@ public class MainForm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mnItemLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLoginActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mnItemLoginActionPerformed
+
+    private void mnItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLogoutActionPerformed
+        this.dispose();
+        Main.initLogin();
+    }//GEN-LAST:event_mnItemLogoutActionPerformed
 
     private void mnItemPegawaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemPegawaiActionPerformed
         MasterPegawai.getPanel().setName(MasterPegawai.PANEL_NAME);
@@ -346,43 +368,6 @@ public class MainForm extends javax.swing.JFrame {
             mainTabbedPane.setSelectedIndex(indexTab);
         }
     }//GEN-LAST:event_mnItemBukuActionPerformed
-
-    private void mnItemHakAksesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemHakAksesActionPerformed
-        HakAkses.getPanel().setName(HakAkses.PANEL_NAME);
-        indexTab = getComponentIndexByName(HakAkses.PANEL_NAME);
-        if (indexTab == -1) {
-            mainTabbedPane.addTab(HakAkses.PANEL_NAME, HakAkses.getPanel());
-            setSelectedPanel(HakAkses.PANEL_NAME);
-        } else {
-            mainTabbedPane.setSelectedIndex(indexTab);
-        }
-    }//GEN-LAST:event_mnItemHakAksesActionPerformed
-
-    private void mnItemLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLoginActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_mnItemLoginActionPerformed
-
-    private void mnuPeminjamanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPeminjamanActionPerformed
-        FormPeminjaman.getPanel().setName(FormPeminjaman.PANEL_NAME);
-        indexTab = getComponentIndexByName(FormPeminjaman.PANEL_NAME);
-        if(indexTab == -1){
-            mainTabbedPane.addTab(FormPeminjaman.PANEL_NAME, FormPeminjaman.getPanel());
-            setSelectedPanel(FormPeminjaman.PANEL_NAME);
-        } else {
-            mainTabbedPane.setSelectedIndex(indexTab);
-        }
-    }//GEN-LAST:event_mnuPeminjamanActionPerformed
-
-    private void mnItemGrupAksesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemGrupAksesActionPerformed
-        GrupAkses.getPanel().setName(GrupAkses.PANEL_NAME);
-        indexTab = getComponentIndexByName(GrupAkses.PANEL_NAME);
-        if(indexTab == -1){
-            mainTabbedPane.addTab(GrupAkses.PANEL_NAME, GrupAkses.getPanel());
-            setSelectedPanel(GrupAkses.PANEL_NAME);
-        } else {
-            mainTabbedPane.setSelectedIndex(indexTab);
-        }
-    }//GEN-LAST:event_mnItemGrupAksesActionPerformed
 
     private void mnItemMetalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemMetalActionPerformed
         try {
@@ -428,8 +413,19 @@ public class MainForm extends javax.swing.JFrame {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_mnItemNimbusActionPerformed
-	
-	private void mnuPengembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPengembalianActionPerformed
+
+    private void mnuPeminjamanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPeminjamanActionPerformed
+        FormPeminjaman.getPanel().setName(FormPeminjaman.PANEL_NAME);
+        indexTab = getComponentIndexByName(FormPeminjaman.PANEL_NAME);
+        if(indexTab == -1){
+            mainTabbedPane.addTab(FormPeminjaman.PANEL_NAME, FormPeminjaman.getPanel());
+            setSelectedPanel(FormPeminjaman.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnuPeminjamanActionPerformed
+
+    private void mnuPengembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPengembalianActionPerformed
         FormPengembalian.getPanel().setName(FormPengembalian.PANEL_NAME);
         indexTab = getComponentIndexByName(FormPengembalian.PANEL_NAME);
         if(indexTab == -1){
@@ -440,63 +436,43 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnuPengembalianActionPerformed
 
-        private void mnItemKonfigurasiDendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemKonfigurasiDendaActionPerformed
-            FormKonfigurasi.getPanel().setName(FormKonfigurasi.PANEL_NAME);
-            indexTab = getComponentIndexByName(FormKonfigurasi.PANEL_NAME);
-            if(indexTab == -1){
-                mainTabbedPane.addTab(FormKonfigurasi.PANEL_NAME, FormKonfigurasi.getPanel());
-                setSelectedPanel(FormKonfigurasi.PANEL_NAME);
-            } else {
-                mainTabbedPane.setSelectedIndex(indexTab);
-            }
-        }//GEN-LAST:event_mnItemKonfigurasiDendaActionPerformed
+    private void mnItemKonfigurasiDendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemKonfigurasiDendaActionPerformed
+        FormKonfigurasi.getPanel().setName(FormKonfigurasi.PANEL_NAME);
+        indexTab = getComponentIndexByName(FormKonfigurasi.PANEL_NAME);
+        if(indexTab == -1){
+            mainTabbedPane.addTab(FormKonfigurasi.PANEL_NAME, FormKonfigurasi.getPanel());
+            setSelectedPanel(FormKonfigurasi.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnItemKonfigurasiDendaActionPerformed
 
-    private int getComponentIndexByName(String panelName) {
-        return mainTabbedPane.indexOfTab(panelName);
-    }
-    
-    private void setSelectedPanel(String panelName) {
-        mainTabbedPane.setSelectedComponent(mainTabbedPane.getComponentAt(getComponentIndexByName(panelName)));
-    }
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(MainForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new MainForm().setVisible(true);
-//            }
-//        });
-//    }
+    private void mnItemHakAksesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemHakAksesActionPerformed
+        HakAkses.getPanel().setName(HakAkses.PANEL_NAME);
+        indexTab = getComponentIndexByName(HakAkses.PANEL_NAME);
+        if (indexTab == -1) {
+            mainTabbedPane.addTab(HakAkses.PANEL_NAME, HakAkses.getPanel());
+            setSelectedPanel(HakAkses.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnItemHakAksesActionPerformed
+
+    private void mnItemGrupAksesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemGrupAksesActionPerformed
+        GrupAkses.getPanel().setName(GrupAkses.PANEL_NAME);
+        indexTab = getComponentIndexByName(GrupAkses.PANEL_NAME);
+        if(indexTab == -1){
+            mainTabbedPane.addTab(GrupAkses.PANEL_NAME, GrupAkses.getPanel());
+            setSelectedPanel(GrupAkses.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnItemGrupAksesActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JMenu menuAdmin;
     private javax.swing.JMenu menuFile;
@@ -517,5 +493,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
     private javax.swing.JMenuItem mnuPengembalian;
+    private perpus.ui.PanelHeaderDashboard panelHeaderDashboard1;
     // End of variables declaration//GEN-END:variables
 }

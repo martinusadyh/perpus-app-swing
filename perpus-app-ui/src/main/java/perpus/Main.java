@@ -13,7 +13,7 @@ import perpus.domain.security.Screen;
 import perpus.service.AdminService;
 import perpus.service.MasterService;
 import perpus.service.TransaksiService;
-import perpus.ui.MainForm;
+import perpus.ui.MainMenu;
 import perpus.util.PasswordHelper;
 import perpus.util.SecurityHandler;
 
@@ -28,7 +28,7 @@ public class Main {
     private static AdminService adminService;
     private static TransaksiService transaksiService;
     private static List<Screen> screens;
-    private static MainForm mainForm;
+    private static MainMenu mainForm;
     private static Pegawai pegawai;
 
     private static void initContext() {
@@ -54,7 +54,7 @@ public class Main {
         return adminService;
     }
 
-    public static MainForm getMainForm() {
+    public static MainMenu getMainForm() {
         return mainForm;
     }
 
@@ -73,7 +73,7 @@ public class Main {
     private static void checkDefaultUser() {
         List<Pegawai> pegawais = masterService.findAllPegawai();
         PegawaiRole defaultPegawaiRole = masterService.findPegawaiRoleByName("SUPERVISOR");
-        Pegawai pegawai = masterService.findPegawaiByUserName("ama");
+        pegawai = masterService.findPegawaiByUserName("ama");
 
         if (pegawais != null || pegawais.isEmpty()) {
             if (defaultPegawaiRole == null) {
@@ -103,10 +103,10 @@ public class Main {
         }
     }
 
-    private static void initLogin() {
+    public static void initLogin() {
         checkDefaultUser();
         if (mainForm == null) {
-            mainForm = new MainForm();
+            mainForm = new MainMenu();
         }
 
         boolean notLogin = Boolean.TRUE;

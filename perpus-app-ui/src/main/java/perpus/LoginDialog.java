@@ -7,8 +7,6 @@ package perpus;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import org.jasypt.hibernate3.encryptor.HibernatePBEStringEncryptor;
-import org.jasypt.util.password.StrongPasswordEncryptor;
 import perpus.domain.security.Pegawai;
 import perpus.domain.security.Screen;
 import perpus.util.PasswordHelper;
@@ -44,7 +42,6 @@ public class LoginDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtUserName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -52,24 +49,12 @@ public class LoginDialog extends javax.swing.JDialog {
         jProgressBar1 = new javax.swing.JProgressBar();
         btnLogin = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
+        panelHeaderDashboard1 = new perpus.ui.PanelHeaderDashboard();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Form Login !!");
         setModal(true);
         setResizable(false);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 82, Short.MAX_VALUE)
-        );
 
         jLabel1.setText("User Name ");
 
@@ -89,11 +74,21 @@ public class LoginDialog extends javax.swing.JDialog {
             }
         });
 
+        javax.swing.GroupLayout panelHeaderDashboard1Layout = new javax.swing.GroupLayout(panelHeaderDashboard1);
+        panelHeaderDashboard1.setLayout(panelHeaderDashboard1Layout);
+        panelHeaderDashboard1Layout.setHorizontalGroup(
+            panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panelHeaderDashboard1Layout.setVerticalGroup(
+            panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 79, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,6 +108,7 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnLogin)
                 .addGap(22, 22, 22))
+            .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
@@ -122,7 +118,7 @@ public class LoginDialog extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -137,7 +133,7 @@ public class LoginDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLogin)
                     .addComponent(btnBatal))
-                .addGap(0, 4, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBatal, btnLogin, jLabel1, jLabel2, txtPassword, txtUserName});
@@ -177,8 +173,8 @@ public class LoginDialog extends javax.swing.JDialog {
     private javax.swing.JButton btnLogin;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar1;
+    private perpus.ui.PanelHeaderDashboard panelHeaderDashboard1;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUserName;
     // End of variables declaration//GEN-END:variables
