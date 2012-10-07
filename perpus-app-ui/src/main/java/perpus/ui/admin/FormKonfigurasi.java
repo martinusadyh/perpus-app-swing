@@ -10,7 +10,6 @@
  */
 package perpus.ui.admin;
 
-import java.math.BigDecimal;
 import javax.swing.JOptionPane;
 import org.springframework.util.StringUtils;
 import perpus.Main;
@@ -99,7 +98,7 @@ public class FormKonfigurasi extends javax.swing.JPanel {
 
         jLabel2.setText("Denda per Hari");
 
-        btnEdit.setIcon(new javax.swing.ImageIcon("/home/adi/Documents/Coding/Java/perpus-app-swing/perpus-app-ui/src/main/resources/perpus/img/edit.gif")); // NOI18N
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/edit.gif"))); // NOI18N
         btnEdit.setToolTipText("Edit Konfigurasi");
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,7 +106,7 @@ public class FormKonfigurasi extends javax.swing.JPanel {
             }
         });
 
-        btnSimpan.setIcon(new javax.swing.ImageIcon("/home/adi/Documents/Coding/Java/perpus-app-swing/perpus-app-ui/src/main/resources/perpus/img/save.png")); // NOI18N
+        btnSimpan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/save.png"))); // NOI18N
         btnSimpan.setToolTipText("Simpan Konfigurasi");
         btnSimpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -115,7 +114,7 @@ public class FormKonfigurasi extends javax.swing.JPanel {
             }
         });
 
-        btnBatal.setIcon(new javax.swing.ImageIcon("/home/adi/Documents/Coding/Java/perpus-app-swing/perpus-app-ui/src/main/resources/perpus/img/reload.png")); // NOI18N
+        btnBatal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/reload.png"))); // NOI18N
         btnBatal.setToolTipText("Batal");
         btnBatal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,8 +145,8 @@ public class FormKonfigurasi extends javax.swing.JPanel {
                         .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(txtMaxLamaPinjam, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
-                    .addComponent(txtDenda, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE))
+                    .addComponent(txtMaxLamaPinjam)
+                    .addComponent(txtDenda))
                 .addGap(54, 54, 54))
         );
 

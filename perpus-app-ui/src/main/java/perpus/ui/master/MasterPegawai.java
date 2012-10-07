@@ -13,13 +13,14 @@ import perpus.Main;
 import perpus.domain.security.Pegawai;
 import perpus.ui.TableUtil;
 import perpus.ui.tablemodel.MasterPegawaiTableModel;
+import perpus.util.ErrorDialog;
 
 /**
  *
  * @author martinusadyh
  */
 public class MasterPegawai extends javax.swing.JPanel {
-    
+
     public static final String PANEL_NAME = "Master Pegawai";
     private static MasterPegawai panel;
     private List<Pegawai> pegawais;
@@ -143,44 +144,59 @@ public class MasterPegawai extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        loadDataToTable();
+        try {
+            loadDataToTable();
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        pegawai = new FormDialogPegawai().showDialog();
-        if (pegawai != null) {
-            Main.getMasterService().save(pegawai);
-            loadDataToTable();
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        if (tbl.getSelectedRow() >= 0 && pegawai != null) {
-            pegawai = new FormDialogPegawai().editDialog(pegawai);
+        try {
+            pegawai = new FormDialogPegawai().showDialog();
             if (pegawai != null) {
                 Main.getMasterService().save(pegawai);
                 loadDataToTable();
             }
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(),
-                "Tidak ada data yang ingin di edit !!",
-                "Terjadi Kesalahan !!",
-                JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        try {
+            if (tbl.getSelectedRow() >= 0 && pegawai != null) {
+                pegawai = new FormDialogPegawai().editDialog(pegawai);
+                if (pegawai != null) {
+                    Main.getMasterService().save(pegawai);
+                    loadDataToTable();
+                }
+            } else {
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Tidak ada data yang ingin di edit !!",
+                        "Terjadi Kesalahan !!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (tbl.getSelectedRow() >= 0 && pegawai != null) {
-            Main.getMasterService().delete(pegawai);
-            loadDataToTable();
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(),
-                "Tidak ada data yang ingin di hapus !!",
-                "Terjadi Kesalahan !!",
-                JOptionPane.ERROR_MESSAGE);
+        try {
+            if (tbl.getSelectedRow() >= 0 && pegawai != null) {
+                Main.getMasterService().delete(pegawai);
+                loadDataToTable();
+            } else {
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Tidak ada data yang ingin di hapus !!",
+                        "Terjadi Kesalahan !!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
@@ -201,7 +217,7 @@ public class MasterPegawai extends javax.swing.JPanel {
             TableUtil.initColumn(tbl);
         }
     }
-    
+
     private class TableSelection implements ListSelectionListener {
 
         @Override

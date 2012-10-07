@@ -4,6 +4,11 @@
  */
 package perpus.ui;
 
+import com.jgoodies.looks.HeaderStyle;
+import com.jgoodies.looks.Options;
+import com.jgoodies.looks.plastic.PlasticLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+import com.jgoodies.looks.plastic.theme.ExperienceBlue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,7 +44,9 @@ public class MainMenu extends javax.swing.JFrame {
      */
     public MainMenu() {
         initComponents();
-        mnItemLogin.setEnabled(false);
+        mnItemLogin.setVisible(false);
+        
+        lblUserName.setText("<html><b>Username : "+ Main.getPegawai().getUserName()+"</b></html>");
         
         menus = new ArrayList<JMenu>();
         menuItems = new ArrayList<JMenuItem>();
@@ -52,7 +59,6 @@ public class MainMenu extends javax.swing.JFrame {
         menus.add(menuLaporan);
         
         menuItems.add(mnItemLogout);
-        menuItems.add(mnItemLogin);
         
         menuItems.add(mnItemAnggota);
         menuItems.add(mnItemBuku);
@@ -109,7 +115,11 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         panelHeaderDashboard1 = new perpus.ui.PanelHeaderDashboard();
+        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        progressBar = new javax.swing.JProgressBar();
+        lblStatus = new javax.swing.JLabel();
+        lblUserName = new javax.swing.JLabel();
         mainTabbedPane = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
@@ -123,6 +133,7 @@ public class MainMenu extends javax.swing.JFrame {
         mnItemMetal = new javax.swing.JMenuItem();
         mnItemSystem = new javax.swing.JMenuItem();
         mnItemNimbus = new javax.swing.JMenuItem();
+        mnItemPlastic = new javax.swing.JMenuItem();
         menuTransaksi = new javax.swing.JMenu();
         mnuPeminjaman = new javax.swing.JMenuItem();
         mnuPengembalian = new javax.swing.JMenuItem();
@@ -135,34 +146,57 @@ public class MainMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/1-library1.jpg"))); // NOI18N
+
         javax.swing.GroupLayout panelHeaderDashboard1Layout = new javax.swing.GroupLayout(panelHeaderDashboard1);
         panelHeaderDashboard1.setLayout(panelHeaderDashboard1Layout);
         panelHeaderDashboard1Layout.setHorizontalGroup(
             panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panelHeaderDashboard1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelHeaderDashboard1Layout.setVerticalGroup(
             panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 72, Short.MAX_VALUE)
+            .addGroup(panelHeaderDashboard1Layout.createSequentialGroup()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        lblStatus.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+
+        lblUserName.setText("UserName : AA");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 22, Short.MAX_VALUE)
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(lblStatus)
+                .addComponent(lblUserName))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lblStatus, lblUserName, progressBar});
 
         menuFile.setText("File");
         menuFile.setName("File"); // NOI18N
 
         mnItemLogin.setText("Login");
+        mnItemLogin.setEnabled(false);
         mnItemLogin.setName("Login"); // NOI18N
         mnItemLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,6 +274,14 @@ public class MainMenu extends javax.swing.JFrame {
         });
         jMenu6.add(mnItemNimbus);
 
+        mnItemPlastic.setText("Plastic");
+        mnItemPlastic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemPlasticActionPerformed(evt);
+            }
+        });
+        jMenu6.add(mnItemPlastic);
+
         jMenuBar1.add(jMenu6);
 
         menuTransaksi.setText("Transaksi");
@@ -312,14 +354,14 @@ public class MainMenu extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 572, Short.MAX_VALUE)
+            .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 893, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -469,10 +511,32 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnItemGrupAksesActionPerformed
 
+    private void mnItemPlasticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemPlasticActionPerformed
+        plasticLaf();
+    }//GEN-LAST:event_mnItemPlasticActionPerformed
+
+    private void plasticLaf() {
+        try {
+            PlasticLookAndFeel laf = new PlasticXPLookAndFeel();
+            PlasticLookAndFeel.setCurrentTheme(new ExperienceBlue());
+            jMenuBar1.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
+            mainTabbedPane.putClientProperty(Options.EMBEDDED_TABS_KEY, Boolean.TRUE);
+            Options.setPopupDropShadowEnabled(true);
+            UIManager.setLookAndFeel(laf);
+            
+            resetLaf();
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblStatus;
+    private javax.swing.JLabel lblUserName;
     private javax.swing.JTabbedPane mainTabbedPane;
     private javax.swing.JMenu menuAdmin;
     private javax.swing.JMenu menuFile;
@@ -489,10 +553,12 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemMetal;
     private javax.swing.JMenuItem mnItemNimbus;
     private javax.swing.JMenuItem mnItemPegawai;
+    private javax.swing.JMenuItem mnItemPlastic;
     private javax.swing.JMenuItem mnItemSystem;
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
     private javax.swing.JMenuItem mnuPengembalian;
     private perpus.ui.PanelHeaderDashboard panelHeaderDashboard1;
+    private javax.swing.JProgressBar progressBar;
     // End of variables declaration//GEN-END:variables
 }

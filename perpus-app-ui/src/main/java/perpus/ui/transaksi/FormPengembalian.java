@@ -34,6 +34,7 @@ import perpus.domain.PengembalianDetail;
 import perpus.ui.TableUtil;
 import perpus.ui.tablemodel.PengembalianDetailTableModel;
 import perpus.util.BigDecimalTableRenderer;
+import perpus.util.ErrorDialog;
 import perpus.util.TextComponentUtils;
 
 /**
@@ -49,8 +50,10 @@ public class FormPengembalian extends javax.swing.JPanel {
     private PengembalianDetail detail;
     private List<PengembalianDetail> detailPengembalians = new ArrayList<PengembalianDetail>();
     private List<PengembalianDetail> detailPengembaliansOrig = new ArrayList<PengembalianDetail>();
-    
-    /** Creates new form FormPengembalian */
+
+    /**
+     * Creates new form FormPengembalian
+     */
     public FormPengembalian() {
         initComponents();
         TextComponentUtils.setCurrency(txtTotalDenda);
@@ -59,13 +62,13 @@ public class FormPengembalian extends javax.swing.JPanel {
     }
 
     public static FormPengembalian getPanel() {
-        if(panel==null){
+        if (panel == null) {
             panel = new FormPengembalian();
         }
         return panel;
     }
-    
-    void clearForm(){
+
+    void clearForm() {
         peminjaman = null;
         pengembalian = null;
         detailPengembalians = new ArrayList<PengembalianDetail>();
@@ -75,10 +78,10 @@ public class FormPengembalian extends javax.swing.JPanel {
         tglPinjam.setDate(null);
         tglKembali1.setDate(null);
         tglKembali2.setDate(null);
-        
+
         refreshTableDetail();
     }
-    
+
     public static Integer hitungHari(Date from, Date to) {
         DateTime sampai = new DateTime(to);
 
@@ -86,8 +89,8 @@ public class FormPengembalian extends javax.swing.JPanel {
         DateTime current = new DateTime(from);
 
         Integer jumlahHari = 0;
-        if(comparator.compare(current, sampai) < 0){
-            while(comparator.compare(current, sampai) != 0) {
+        if (comparator.compare(current, sampai) < 0) {
+            while (comparator.compare(current, sampai) != 0) {
                 jumlahHari++;
                 current = current.plusDays(1);
             }
@@ -95,24 +98,24 @@ public class FormPengembalian extends javax.swing.JPanel {
 
         return jumlahHari;
     }
-    
-    void loadToDetailPengembalian(){
-        List<PengembalianDetail> listSudahDikembalikan = 
+
+    void loadToDetailPengembalian() {
+        List<PengembalianDetail> listSudahDikembalikan =
                 Main.getTransaksiService().getTransaksiPengembalianByIdPinjam(peminjaman.getId());
-        
+
         Integer telat = hitungHari(peminjaman.getTglKembali(), tglKembali2.getDate());
         System.out.println("Telat " + telat + " hari!");
         Konfigurasi config = Main.getMasterService().getKonfigurasi();
-        
-        for(PeminjamanDetail d1 : peminjaman.getDetailPeminjamans()){
+
+        for (PeminjamanDetail d1 : peminjaman.getDetailPeminjamans()) {
             boolean allowAdd = true;
-            for(PengembalianDetail d2 : listSudahDikembalikan){
-                if(d1.getBuku().getKodeBuku().equalsIgnoreCase(d2.getBuku().getKodeBuku())){
+            for (PengembalianDetail d2 : listSudahDikembalikan) {
+                if (d1.getBuku().getKodeBuku().equalsIgnoreCase(d2.getBuku().getKodeBuku())) {
                     allowAdd = false;
                     break;
                 }
             }
-            if(allowAdd){
+            if (allowAdd) {
                 PengembalianDetail detail = new PengembalianDetail();
                 detail.setBuku(d1.getBuku());
                 detail.setTelat(telat);
@@ -125,28 +128,28 @@ public class FormPengembalian extends javax.swing.JPanel {
         }
         refreshTableDetail();
     }
-    
-    void refreshTableDetail(){
+
+    void refreshTableDetail() {
         tbl.setModel(new PengembalianDetailTableModel(detailPengembalians));
         TableUtil.initColumn(tbl);
         hitungTotalDenda();
     }
-    
-    void hitungTotalDenda(){
+
+    void hitungTotalDenda() {
         BigDecimal total = BigDecimal.ZERO;
         for (PengembalianDetail d : detailPengembalians) {
             total = total.add(d.getDenda());
         }
-        
+
         txtTotalDenda.setText(TextComponentUtils.formatNumber(total));
     }
-    
-    Boolean cekItemExisted(Buku buku){
+
+    Boolean cekItemExisted(Buku buku) {
         Boolean retval = true;
         for (PengembalianDetail d : detailPengembalians) {
-            if(d.getBuku().getKodeBuku().equalsIgnoreCase(buku.getKodeBuku())){
-                JOptionPane.showMessageDialog(Main.getMainForm(), 
-                    "Buku sudah dipilih !");
+            if (d.getBuku().getKodeBuku().equalsIgnoreCase(buku.getKodeBuku())) {
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Buku sudah dipilih !");
                 retval = false;
                 break;
             }
@@ -154,10 +157,10 @@ public class FormPengembalian extends javax.swing.JPanel {
         return retval;
     }
 
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -367,8 +370,8 @@ public class FormPengembalian extends javax.swing.JPanel {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         PengembalianDetail detail = new TambahDetailPengembalianDialog(detailPengembaliansOrig).showDialog();
-        if(detail != null){
-            if(cekItemExisted(detail.getBuku())){
+        if (detail != null) {
+            if (cekItemExisted(detail.getBuku())) {
                 detailPengembalians.add(detail);
             }
         }
@@ -383,7 +386,7 @@ public class FormPengembalian extends javax.swing.JPanel {
 
     private void btnLookupTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLookupTransaksiActionPerformed
         peminjaman = new LookupTransaksiPeminjamanDialog().showDialog();
-        if(peminjaman != null){
+        if (peminjaman != null) {
             StringBuilder text = new StringBuilder();
             text.append(peminjaman.getId());
             text.append(" | ");
@@ -392,7 +395,7 @@ public class FormPengembalian extends javax.swing.JPanel {
             text.append(peminjaman.getDetailPeminjamans().size());
             text.append(" items");
             txtTransaksi.setText(text.toString());
-            
+
             tglPinjam.setDate(peminjaman.getTglPinjam());
             tglKembali1.setDate(peminjaman.getTglKembali());
             tglKembali2.setDate(new Date());
@@ -405,42 +408,46 @@ public class FormPengembalian extends javax.swing.JPanel {
 }//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        if(validateForm()){
-            loadFormToDomain();
-            Main.getTransaksiService().save(pengembalian);
-            clearForm();
-            JOptionPane.showMessageDialog(Main.getMainForm(), 
-                    "Transaksi berhasil disimpan !");
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(), 
-                    "Data yang anda masukan tidak lengkap !");
+        try {
+            if (validateForm()) {
+                loadFormToDomain();
+                Main.getTransaksiService().save(pengembalian);
+                clearForm();
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Transaksi berhasil disimpan !");
+            } else {
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Data yang anda masukan tidak lengkap !");
+            }
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
         }
 }//GEN-LAST:event_btnSaveActionPerformed
-    
-    void loadFormToDomain(){
+
+    void loadFormToDomain() {
         pengembalian = new Pengembalian();
         pengembalian.setTransaksiPeminjaman(peminjaman);
         pengembalian.setTotalDenda(TextComponentUtils.parseNumberToBigDecimal(txtTotalDenda.getText()));
         pengembalian.setTglKembaliRealisasi(tglKembali2.getDate());
         pengembalian.setPegawai(Main.getPegawai());
-        for(PengembalianDetail d : detailPengembalians){
+        for (PengembalianDetail d : detailPengembalians) {
             d.setHeader(pengembalian);
         }
         pengembalian.setDetailsPengembalian(detailPengembalians);
     }
-    
-    Boolean validateForm(){
-        if(peminjaman != null &&
-                tglKembali2 != null &&
-                tglKembali1 != null &&
-                tglPinjam != null &&
-                StringUtils.hasText(txtTotalDenda.getText()) &&
-                detailPengembalians.size() > 0){
+
+    Boolean validateForm() {
+        if (peminjaman != null
+                && tglKembali2 != null
+                && tglKembali1 != null
+                && tglPinjam != null
+                && StringUtils.hasText(txtTotalDenda.getText())
+                && detailPengembalians.size() > 0) {
             return true;
         }
         return false;
     }
-    
+
     private class TableSelection implements ListSelectionListener {
 
         @Override
@@ -452,9 +459,10 @@ public class FormPengembalian extends javax.swing.JPanel {
             if (tbl.getSelectedRow() >= 0) {
                 detail = detailPengembalians.get(tbl.getSelectedRow());
             }
-        
+
         }
     }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBatal;

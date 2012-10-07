@@ -12,6 +12,7 @@ import perpus.Main;
 import perpus.domain.Anggota;
 import perpus.ui.TableUtil;
 import perpus.ui.tablemodel.MasterAnggotaTableModel;
+import perpus.util.ErrorDialog;
 
 /**
  *
@@ -46,10 +47,8 @@ public class MasterAnggota extends javax.swing.JPanel {
         if (listAnggota != null) {
             tbl.setModel(new MasterAnggotaTableModel(listAnggota));
             TableUtil.initColumn(tbl);
-        } 
+        }
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -150,44 +149,59 @@ public class MasterAnggota extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        anggota = new FormDialogAnggota().showDialog();
-        if (anggota != null) {
-            Main.getMasterService().save(anggota);
-            loadDataToTable();
-        }
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        loadDataToTable();
-    }//GEN-LAST:event_btnRefreshActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        if (tbl.getSelectedRow() >= 0 && anggota != null) {
-            Main.getMasterService().delete(anggota);
-            loadDataToTable();
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(),
-                    "Tidak ada data yang ingin di hapus !!",
-                    "Terjadi Kesalahan !!",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnDeleteActionPerformed
-
-    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
-        if (tbl.getSelectedRow() >= 0 && anggota != null) {
-            anggota = new FormDialogAnggota().editAnggota(anggota);
+        try {
+            anggota = new FormDialogAnggota().showDialog();
             if (anggota != null) {
                 Main.getMasterService().save(anggota);
                 loadDataToTable();
             }
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(),
-                    "Tidak ada data yang ingin di edit !!",
-                    "Terjadi Kesalahan !!",
-                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        try {
+            loadDataToTable();
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
+    }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if (tbl.getSelectedRow() >= 0 && anggota != null) {
+                Main.getMasterService().delete(anggota);
+                loadDataToTable();
+            } else {
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Tidak ada data yang ingin di hapus !!",
+                        "Terjadi Kesalahan !!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        try {
+            if (tbl.getSelectedRow() >= 0 && anggota != null) {
+                anggota = new FormDialogAnggota().editAnggota(anggota);
+                if (anggota != null) {
+                    Main.getMasterService().save(anggota);
+                    loadDataToTable();
+                }
+            } else {
+                JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Tidak ada data yang ingin di edit !!",
+                        "Terjadi Kesalahan !!",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            ErrorDialog.showErrorDialog(e);
         }
     }//GEN-LAST:event_btnEditActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
@@ -197,7 +211,7 @@ public class MasterAnggota extends javax.swing.JPanel {
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JTable tbl;
     // End of variables declaration//GEN-END:variables
-    
+
     private class TableSelection implements ListSelectionListener {
 
         @Override
@@ -212,4 +226,3 @@ public class MasterAnggota extends javax.swing.JPanel {
         }
     }
 }
-
