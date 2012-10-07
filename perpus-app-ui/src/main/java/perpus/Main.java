@@ -16,6 +16,7 @@ import perpus.domain.security.PegawaiRole;
 import perpus.domain.security.Screen;
 import perpus.service.AdminService;
 import perpus.service.MasterService;
+import perpus.service.ReportService;
 import perpus.service.TransaksiService;
 import perpus.ui.MainMenu;
 import perpus.util.PasswordHelper;
@@ -31,6 +32,7 @@ public class Main {
     private static MasterService masterService;
     private static AdminService adminService;
     private static TransaksiService transaksiService;
+    private static ReportService reportService;
     private static List<Screen> screens;
     private static MainMenu mainForm;
     private static Pegawai pegawai;
@@ -40,6 +42,11 @@ public class Main {
         masterService = (MasterService) applicationContext.getBean("masterService");
         adminService = (AdminService) applicationContext.getBean("adminService");
         transaksiService = (TransaksiService) applicationContext.getBean("transaksiService");
+        reportService = (ReportService) applicationContext.getBean("reportService");
+    }
+
+    public static ReportService getReportService() {
+        return reportService;
     }
 
     public static Pegawai getPegawai() {

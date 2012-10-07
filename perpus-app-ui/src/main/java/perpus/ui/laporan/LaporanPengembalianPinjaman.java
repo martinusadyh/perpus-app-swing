@@ -4,12 +4,18 @@
  */
 package perpus.ui.laporan;
 
+import java.awt.BorderLayout;
+import javax.swing.JPanel;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.swing.JRViewer;
+import perpus.Main;
+
 /**
  *
  * @author martinusadyh
  */
 public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
-    
+
     public static final String PANEL_NAME = "Laporan Peminjaman / Pengembalian";
     private static LaporanPengembalianPinjaman panel;
 
@@ -73,6 +79,11 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
 
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/reload.png"))); // NOI18N
         btnRefresh.setToolTipText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -122,6 +133,15 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbJnsTransaksi, dateChooserDr, dateChooserSampai, jLabel1, jLabel2, jLabel3});
 
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        JasperPrint jp = Main.getReportService().printLaporanPeminjaman(
+                cmbJnsTransaksi.getSelectedItem().toString(),
+                dateChooserDr.getDate(), dateChooserSampai.getDate());
+        rptPanel.removeAll();
+        rptPanel.setLayout(new BorderLayout());
+        rptPanel.add(new JRViewer(jp), BorderLayout.CENTER);
+    }//GEN-LAST:event_btnRefreshActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRefresh;
     private javax.swing.JComboBox cmbJnsTransaksi;
