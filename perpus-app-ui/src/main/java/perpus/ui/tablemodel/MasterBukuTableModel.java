@@ -24,6 +24,11 @@ public class MasterBukuTableModel extends AbstractTableModel {
     public MasterBukuTableModel(List<Buku> bukus) {
         this.bukus = bukus;
     }
+    
+    public MasterBukuTableModel(List<Buku> bukus, String[] header) {
+        this.bukus = bukus;
+        this.header = header;
+    }
 
     @Override
     public int getRowCount() {

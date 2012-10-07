@@ -123,6 +123,8 @@ public class FormDialogAnggota extends javax.swing.JDialog {
         cmbAgama = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Tambah/Update Data Anggota");
+        setResizable(false);
 
         jLabel1.setText("Kode Anggota*");
 
@@ -198,7 +200,7 @@ public class FormDialogAnggota extends javax.swing.JDialog {
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(txtAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(134, Short.MAX_VALUE)
@@ -255,7 +257,7 @@ public class FormDialogAnggota extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {txtAlamat, txtEmail, txtKode, txtNama, txtNoTelp});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBatal, btnOK, cmbAgama, jLabel1, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, rdLaki, rdPerempuan, txtAlamat, txtEmail, txtKode, txtNama, txtNoTelp});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

@@ -23,6 +23,11 @@ public class MasterAnggotaTableModel extends AbstractTableModel {
     public MasterAnggotaTableModel(List<Anggota> anggotas1) {
         this.anggotas = anggotas1;
     }
+    
+    public MasterAnggotaTableModel(List<Anggota> anggotas1, String[] header) {
+        this.anggotas = anggotas1;
+        this.header = header;
+    }
 
     @Override
     public int getRowCount() {
@@ -51,7 +56,7 @@ public class MasterAnggotaTableModel extends AbstractTableModel {
             case 5: return anggota.getAgama();
             case 6: return anggota.getNoTelp();
             case 7: return anggota.getTahunMasuk();
-            case 8: return anggota.getStatus();
+            case 8: return anggota.getStatus() ? "Masih ada pinjaman buku" : "";
             default: return "";
         }
     }

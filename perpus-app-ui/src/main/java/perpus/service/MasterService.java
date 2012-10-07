@@ -17,9 +17,13 @@ import perpus.domain.security.Pegawai;
 public interface MasterService {
     
     List<Buku> findAllBukus();
+    List<Buku> findBukuByKode(String kode);
+    List<Buku> findBukuByNama(String nama);
     
     List<Anggota> findAllAnggota();
-    Anggota findAnggotaById(String id);
+    Anggota findAnggotaById(Integer id);
+    List<Anggota> findAnggotaByKode(String kode);
+    List<Anggota> findAnggotaByNama(String nama);
     
     Konfigurasi getKonfigurasi();
 
