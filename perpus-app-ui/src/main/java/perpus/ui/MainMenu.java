@@ -4,6 +4,11 @@
  */
 package perpus.ui;
 
+import com.jgoodies.looks.HeaderStyle;
+import com.jgoodies.looks.Options;
+import com.jgoodies.looks.plastic.PlasticLookAndFeel;
+import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
+import com.jgoodies.looks.plastic.theme.ExperienceBlue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -40,6 +45,8 @@ public class MainMenu extends javax.swing.JFrame {
     public MainMenu() {
         initComponents();
         mnItemLogin.setVisible(false);
+        
+        lblUserName.setText("<html><b>Username : "+ Main.getPegawai().getUserName()+"</b></html>");
         
         menus = new ArrayList<JMenu>();
         menuItems = new ArrayList<JMenuItem>();
@@ -108,6 +115,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         panelHeaderDashboard1 = new perpus.ui.PanelHeaderDashboard();
+        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         progressBar = new javax.swing.JProgressBar();
         lblStatus = new javax.swing.JLabel();
@@ -125,6 +133,7 @@ public class MainMenu extends javax.swing.JFrame {
         mnItemMetal = new javax.swing.JMenuItem();
         mnItemSystem = new javax.swing.JMenuItem();
         mnItemNimbus = new javax.swing.JMenuItem();
+        mnItemPlastic = new javax.swing.JMenuItem();
         menuTransaksi = new javax.swing.JMenu();
         mnuPeminjaman = new javax.swing.JMenuItem();
         mnuPengembalian = new javax.swing.JMenuItem();
@@ -137,15 +146,22 @@ public class MainMenu extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/1-library1.jpg"))); // NOI18N
+
         javax.swing.GroupLayout panelHeaderDashboard1Layout = new javax.swing.GroupLayout(panelHeaderDashboard1);
         panelHeaderDashboard1.setLayout(panelHeaderDashboard1Layout);
         panelHeaderDashboard1Layout.setHorizontalGroup(
             panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panelHeaderDashboard1Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelHeaderDashboard1Layout.setVerticalGroup(
             panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 72, Short.MAX_VALUE)
+            .addGroup(panelHeaderDashboard1Layout.createSequentialGroup()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
@@ -257,6 +273,14 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
         jMenu6.add(mnItemNimbus);
+
+        mnItemPlastic.setText("Plastic");
+        mnItemPlastic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemPlasticActionPerformed(evt);
+            }
+        });
+        jMenu6.add(mnItemPlastic);
 
         jMenuBar1.add(jMenu6);
 
@@ -487,7 +511,27 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnItemGrupAksesActionPerformed
 
+    private void mnItemPlasticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemPlasticActionPerformed
+        plasticLaf();
+    }//GEN-LAST:event_mnItemPlasticActionPerformed
+
+    private void plasticLaf() {
+        try {
+            PlasticLookAndFeel laf = new PlasticXPLookAndFeel();
+            PlasticLookAndFeel.setCurrentTheme(new ExperienceBlue());
+            jMenuBar1.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
+            mainTabbedPane.putClientProperty(Options.EMBEDDED_TABS_KEY, Boolean.TRUE);
+            Options.setPopupDropShadowEnabled(true);
+            UIManager.setLookAndFeel(laf);
+            
+            resetLaf();
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
@@ -509,6 +553,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemMetal;
     private javax.swing.JMenuItem mnItemNimbus;
     private javax.swing.JMenuItem mnItemPegawai;
+    private javax.swing.JMenuItem mnItemPlastic;
     private javax.swing.JMenuItem mnItemSystem;
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
