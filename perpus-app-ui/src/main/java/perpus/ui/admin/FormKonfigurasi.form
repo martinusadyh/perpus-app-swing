@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
@@ -16,7 +16,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" max="-2" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel1" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -31,8 +31,8 @@
                       <EmptySpace max="32767" attributes="1"/>
                       <Component id="btnBatal" linkSize="4" min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="txtMaxLamaPinjam" alignment="0" pref="107" max="32767" attributes="1"/>
-                  <Component id="txtDenda" alignment="0" pref="107" max="32767" attributes="1"/>
+                  <Component id="txtMaxLamaPinjam" alignment="0" max="32767" attributes="1"/>
+                  <Component id="txtDenda" alignment="0" max="32767" attributes="1"/>
               </Group>
               <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
           </Group>
@@ -80,7 +80,7 @@
     <Component class="javax.swing.JButton" name="btnEdit">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="/home/adi/Documents/Coding/Java/perpus-app-swing/perpus-app-ui/src/main/resources/perpus/img/edit.gif"/>
+          <Image iconType="3" name="/perpus/img/edit.gif"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Edit Konfigurasi"/>
       </Properties>
@@ -91,7 +91,7 @@
     <Component class="javax.swing.JButton" name="btnSimpan">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="/home/adi/Documents/Coding/Java/perpus-app-swing/perpus-app-ui/src/main/resources/perpus/img/save.png"/>
+          <Image iconType="3" name="/perpus/img/save.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Simpan Konfigurasi"/>
       </Properties>
@@ -102,7 +102,7 @@
     <Component class="javax.swing.JButton" name="btnBatal">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="2" name="/home/adi/Documents/Coding/Java/perpus-app-swing/perpus-app-ui/src/main/resources/perpus/img/reload.png"/>
+          <Image iconType="3" name="/perpus/img/reload.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Batal"/>
       </Properties>
