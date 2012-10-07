@@ -5,6 +5,7 @@
 package perpus.service;
 
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,16 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<PegawaiRole> findAllPegawaiRoles() {
-        return sessionFactory.getCurrentSession()
+        List<PegawaiRole> pegawaiRoles = sessionFactory.getCurrentSession()
                 .createQuery("from PegawaiRole pr order by pr.createdDate desc")
                 .list();
+        
+        for (PegawaiRole pr : pegawaiRoles) {
+            Hibernate.initialize(pr.getPegawais());
+            Hibernate.initialize(pr.getScreens());
+        }
+        
+        return pegawaiRoles;
     }
 
     @Override
