@@ -53,4 +53,9 @@ public class PegawaiRole extends BaseEntity {
     public void setPegawais(List<Pegawai> pegawais) {
         this.pegawais = pegawais;
     }
+
+    @Override
+    public String toString() {
+        return getNama();
+    }
 }

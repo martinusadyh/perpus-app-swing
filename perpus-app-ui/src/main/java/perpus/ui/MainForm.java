@@ -4,6 +4,11 @@
  */
 package perpus.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import perpus.ui.admin.GrupAkses;
 import perpus.ui.admin.HakAkses;
 import perpus.ui.master.MasterAnggota;
 import perpus.ui.master.MasterBuku;
@@ -16,6 +21,8 @@ import perpus.ui.transaksi.FormPeminjaman;
  */
 public class MainForm extends javax.swing.JFrame {
     
+    private List<JMenu> menus;
+    private List<JMenuItem> menuItems;
     private Integer indexTab = -1;
 
     /**
@@ -23,7 +30,23 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm() {
         initComponents();
+        menus = new ArrayList<JMenu>();
+        menuItems = new ArrayList<JMenuItem>();
         
+        menus.add(menuFile);
+        menus.add(menuMaster);
+        menus.add(menuTransaksi);
+        menus.add(menuAdmin);
+        menus.add(menuLaporan);
+        
+        menuItems.add(mnItemLogout);
+        menuItems.add(mnItemLogin);
+        
+        menuItems.add(mnItemAnggota);
+        menuItems.add(mnItemBuku);
+        menuItems.add(mnItemPegawai);
+               
+                
         setExtendedState(MAXIMIZED_BOTH);
     }
 
@@ -40,22 +63,22 @@ public class MainForm extends javax.swing.JFrame {
         mainTabbedPane = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        menuFile = new javax.swing.JMenu();
+        mnItemLogin = new javax.swing.JMenuItem();
+        mnItemLogout = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        menuMaster = new javax.swing.JMenu();
         mnItemPegawai = new javax.swing.JMenuItem();
         mnItemAnggota = new javax.swing.JMenuItem();
         mnItemBuku = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
+        menuTransaksi = new javax.swing.JMenu();
         mnuPeminjaman = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu7 = new javax.swing.JMenu();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        menuAdmin = new javax.swing.JMenu();
+        mnItemKonfigurasiDenda = new javax.swing.JMenuItem();
+        mnItemUserManagemen = new javax.swing.JMenu();
+        mnItemHakAkses = new javax.swing.JMenuItem();
+        mnItemGrupAkses = new javax.swing.JMenuItem();
+        menuLaporan = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Aplikasi Perpustakaan v0.1");
@@ -84,25 +107,25 @@ public class MainForm extends javax.swing.JFrame {
             .addGap(0, 57, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        menuFile.setText("File");
 
-        jMenuItem6.setText("Login");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        mnItemLogin.setText("Login");
+        mnItemLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                mnItemLoginActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem6);
+        menuFile.add(mnItemLogin);
 
-        jMenuItem7.setText("Logout");
-        jMenu1.add(jMenuItem7);
+        mnItemLogout.setText("Logout");
+        menuFile.add(mnItemLogout);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(menuFile);
 
         jMenu6.setText("Themes");
         jMenuBar1.add(jMenu6);
 
-        jMenu2.setText("Master");
+        menuMaster.setText("Master");
 
         mnItemPegawai.setText("Entri Pegawai");
         mnItemPegawai.addActionListener(new java.awt.event.ActionListener() {
@@ -110,7 +133,7 @@ public class MainForm extends javax.swing.JFrame {
                 mnItemPegawaiActionPerformed(evt);
             }
         });
-        jMenu2.add(mnItemPegawai);
+        menuMaster.add(mnItemPegawai);
 
         mnItemAnggota.setText("Entri Anggota");
         mnItemAnggota.addActionListener(new java.awt.event.ActionListener() {
@@ -118,7 +141,7 @@ public class MainForm extends javax.swing.JFrame {
                 mnItemAnggotaActionPerformed(evt);
             }
         });
-        jMenu2.add(mnItemAnggota);
+        menuMaster.add(mnItemAnggota);
 
         mnItemBuku.setText("Entri Buku");
         mnItemBuku.addActionListener(new java.awt.event.ActionListener() {
@@ -126,11 +149,11 @@ public class MainForm extends javax.swing.JFrame {
                 mnItemBukuActionPerformed(evt);
             }
         });
-        jMenu2.add(mnItemBuku);
+        menuMaster.add(mnItemBuku);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(menuMaster);
 
-        jMenu3.setText("Transaksi");
+        menuTransaksi.setText("Transaksi");
 
         mnuPeminjaman.setText("Peminjaman");
         mnuPeminjaman.addActionListener(new java.awt.event.ActionListener() {
@@ -138,34 +161,39 @@ public class MainForm extends javax.swing.JFrame {
                 mnuPeminjamanActionPerformed(evt);
             }
         });
-        jMenu3.add(mnuPeminjaman);
+        menuTransaksi.add(mnuPeminjaman);
 
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(menuTransaksi);
 
-        jMenu5.setText("Admin");
+        menuAdmin.setText("Admin");
 
-        jMenuItem1.setText("Konfigurasi Denda");
-        jMenu5.add(jMenuItem1);
+        mnItemKonfigurasiDenda.setText("Konfigurasi Denda");
+        menuAdmin.add(mnItemKonfigurasiDenda);
 
-        jMenu7.setText("User Managemen");
+        mnItemUserManagemen.setText("User Managemen");
 
-        jMenuItem5.setText("Hak Akses");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        mnItemHakAkses.setText("Hak Akses");
+        mnItemHakAkses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                mnItemHakAksesActionPerformed(evt);
             }
         });
-        jMenu7.add(jMenuItem5);
+        mnItemUserManagemen.add(mnItemHakAkses);
 
-        jMenuItem4.setText("Grup Akses");
-        jMenu7.add(jMenuItem4);
+        mnItemGrupAkses.setText("Grup Akses");
+        mnItemGrupAkses.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemGrupAksesActionPerformed(evt);
+            }
+        });
+        mnItemUserManagemen.add(mnItemGrupAkses);
 
-        jMenu5.add(jMenu7);
+        menuAdmin.add(mnItemUserManagemen);
 
-        jMenuBar1.add(jMenu5);
+        jMenuBar1.add(menuAdmin);
 
-        jMenu4.setText("Laporan");
-        jMenuBar1.add(jMenu4);
+        menuLaporan.setText("Laporan");
+        jMenuBar1.add(menuLaporan);
 
         setJMenuBar(jMenuBar1);
 
@@ -183,7 +211,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -224,7 +252,7 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnItemBukuActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void mnItemHakAksesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemHakAksesActionPerformed
         HakAkses.getPanel().setName(HakAkses.PANEL_NAME);
         indexTab = getComponentIndexByName(HakAkses.PANEL_NAME);
         if (indexTab == -1) {
@@ -233,11 +261,11 @@ public class MainForm extends javax.swing.JFrame {
         } else {
             mainTabbedPane.setSelectedIndex(indexTab);
         }
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_mnItemHakAksesActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void mnItemLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLoginActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_mnItemLoginActionPerformed
 
     private void mnuPeminjamanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPeminjamanActionPerformed
         FormPeminjaman.getPanel().setName(FormPeminjaman.PANEL_NAME);
@@ -249,6 +277,17 @@ public class MainForm extends javax.swing.JFrame {
             mainTabbedPane.setSelectedIndex(indexTab);
         }
     }//GEN-LAST:event_mnuPeminjamanActionPerformed
+
+    private void mnItemGrupAksesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemGrupAksesActionPerformed
+        GrupAkses.getPanel().setName(GrupAkses.PANEL_NAME);
+        indexTab = getComponentIndexByName(GrupAkses.PANEL_NAME);
+        if(indexTab == -1){
+            mainTabbedPane.addTab(GrupAkses.PANEL_NAME, GrupAkses.getPanel());
+            setSelectedPanel(GrupAkses.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnItemGrupAksesActionPerformed
 
     private int getComponentIndexByName(String panelName) {
         return mainTabbedPane.indexOfTab(panelName);
@@ -292,25 +331,25 @@ public class MainForm extends javax.swing.JFrame {
 //        });
 //    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane mainTabbedPane;
+    private javax.swing.JMenu menuAdmin;
+    private javax.swing.JMenu menuFile;
+    private javax.swing.JMenu menuLaporan;
+    private javax.swing.JMenu menuMaster;
+    private javax.swing.JMenu menuTransaksi;
     private javax.swing.JMenuItem mnItemAnggota;
     private javax.swing.JMenuItem mnItemBuku;
+    private javax.swing.JMenuItem mnItemGrupAkses;
+    private javax.swing.JMenuItem mnItemHakAkses;
+    private javax.swing.JMenuItem mnItemKonfigurasiDenda;
+    private javax.swing.JMenuItem mnItemLogin;
+    private javax.swing.JMenuItem mnItemLogout;
     private javax.swing.JMenuItem mnItemPegawai;
+    private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
     // End of variables declaration//GEN-END:variables
 }

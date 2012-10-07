@@ -27,5 +27,11 @@ public interface MasterService {
     void delete(Object obj);
 
     List<Pegawai> findAllPegawai();
+
+    List<Pegawai> findPegawaisByNIP(String nipPegawai);
+    List<Pegawai> findPegawaisByNamaPegawai(String namaPegawai);
+    List<Pegawai> findPegawaisByUserName(String userName);
+
+    List<Pegawai> findAllPegawaiWithRole();
     
 }

@@ -5,6 +5,7 @@
 package perpus.service;
 
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,9 +46,15 @@ public class MasterServiceImpl implements MasterService {
 
     @Override
     public List<Pegawai> findAllPegawai() {
-        return sessionFactory.getCurrentSession()
+        List<Pegawai> pegawais = sessionFactory.getCurrentSession()
                 .createQuery("from Pegawai pgw order by pgw.createdDate desc")
                 .list();
+        
+        for (Pegawai pgw : pegawais) {
+            Hibernate.initialize(pgw.getPegawaiRole());
+        }
+        
+        return pegawais;
     }
 
     @Override
@@ -71,5 +78,36 @@ public class MasterServiceImpl implements MasterService {
                 .setMaxResults(1)
                 .list();
         return list.get(0);
+    }
+
+    @Override
+    public List<Pegawai> findPegawaisByNIP(String nipPegawai) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Pegawai pgw where pgw.nipPegawai like :prmNIP")
+                .setParameter("prmNIP", "%" + nipPegawai + "%")
+                .list();
+    }
+
+    @Override
+    public List<Pegawai> findPegawaisByNamaPegawai(String namaPegawai) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Pegawai pgw where pgw.namaPegawai like :prmNamaPgw")
+                .setParameter("prmNamaPgw", "%" + namaPegawai + "%")
+                .list();
+    }
+
+    @Override
+    public List<Pegawai> findPegawaisByUserName(String userName) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Pegawai pgw where pgw.userName like :prmUserName")
+                .setParameter("prmUserName", "%" + userName + "%")
+                .list();
+    }
+
+    @Override
+    public List<Pegawai> findAllPegawaiWithRole() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Pegawai pgw where pgw.pegawaiRole is not null")
+                .list();
     }
 }

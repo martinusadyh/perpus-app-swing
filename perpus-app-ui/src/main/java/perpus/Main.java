@@ -1,11 +1,13 @@
 package perpus;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import perpus.domain.security.Screen;
 import perpus.service.AdminService;
 import perpus.service.MasterService;
 import perpus.service.TransaksiService;
@@ -21,6 +23,7 @@ public class Main {
     private static MasterService masterService;
     private static AdminService adminService;
     private static TransaksiService transaksiService;
+    private static List<Screen> screens;
     
     private static MainForm mainForm;
     
@@ -45,6 +48,10 @@ public class Main {
 
     public static TransaksiService getTransaksiService() {
         return transaksiService;
+    }
+
+    public static List<Screen> getScreens() {
+        return screens;
     }
     
     public static void main(String[] args) {
