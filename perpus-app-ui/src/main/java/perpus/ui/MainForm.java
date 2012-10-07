@@ -462,8 +462,8 @@ public class MainForm extends javax.swing.JFrame {
                 mainTabbedPane.setSelectedIndex(indexTab);
             }
         }//GEN-LAST:event_mnItemKonfigurasiDendaActionPerformed
-
-private void mnItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLogoutActionPerformed
+        
+    private void mnItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLogoutActionPerformed
         this.dispose();
         Main.initLogin();
     }//GEN-LAST:event_mnItemLogoutActionPerformed
