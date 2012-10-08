@@ -39,6 +39,17 @@ public class Buku extends BaseEntity {
     
     @Column(name="jenis_buku")
     private String jenisBuku;
+    
+    @Column(name="jumlah_buku")
+    private Integer jumlahBuku = new Integer(0);
+
+    public Integer getJumlahBuku() {
+        return jumlahBuku;
+    }
+
+    public void setJumlahBuku(Integer jumlahBuku) {
+        this.jumlahBuku = jumlahBuku;
+    }
 
     public String getKodeBuku() {
         return kodeBuku;

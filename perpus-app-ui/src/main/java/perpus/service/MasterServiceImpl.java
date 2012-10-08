@@ -178,4 +178,11 @@ public class MasterServiceImpl implements MasterService {
         
         return pr;
     }
+
+    @Override
+    public List<Buku> findAllAvailableBukus() {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Buku bk where bk.jumlahBuku > 0 order by bk.createdDate desc")
+                .list();
+    }
 }

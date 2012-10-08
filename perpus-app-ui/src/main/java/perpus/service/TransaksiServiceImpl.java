@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import perpus.domain.Anggota;
+import perpus.domain.Buku;
 import perpus.domain.Peminjaman;
 import perpus.domain.PeminjamanDetail;
 import perpus.domain.Pengembalian;
@@ -37,7 +38,16 @@ public class TransaksiServiceImpl implements TransaksiService{
         Anggota a = masterService.findAnggotaById(p.getAnggota().getId());
         a.setCounterPinjam(a.getCounterPinjam() + p.getDetailPeminjamans().size());
         a.setStatus("Anggota ini meminjam " + a.getCounterPinjam() + " buku");
+        
         masterService.save(a);
+        
+        // kurangi jumlah buku
+        for (PeminjamanDetail pd : p.getDetailPeminjamans()) {
+            Buku bk = pd.getBuku();
+            bk.setJumlahBuku(bk.getJumlahBuku()-1);
+            
+            masterService.save(bk);
+        }
     }
 
     @Override
@@ -52,6 +62,14 @@ public class TransaksiServiceImpl implements TransaksiService{
             a.setStatus("");
         }
         masterService.save(a);
+        
+        // tambah jumlah buku yang dikembalikan
+        for (PengembalianDetail pd : p.getDetailsPengembalian()) {
+            Buku buku = pd.getBuku();
+            buku.setJumlahBuku(buku.getJumlahBuku()+1);
+            
+            masterService.save(buku);
+        }
     }
 
     @Override

@@ -42,5 +42,7 @@ public interface MasterService {
     Pegawai findPegawaiByUserName(String userName);
 
     PegawaiRole findPegawaiRoleByName(String supervisoR);
+
+    List<Buku> findAllAvailableBukus();
     
 }

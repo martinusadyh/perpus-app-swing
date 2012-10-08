@@ -18,7 +18,7 @@ public class MasterBukuTableModel extends AbstractTableModel {
 
     private List<Buku> bukus = new ArrayList<Buku>();
     private String[] header = {
-        "Kode", "Judul", "Pengarang", "Penerbit", "Kota Terbit", "Tahun Terbit", "Jenis"
+        "Kode", "Judul", "Pengarang", "Penerbit", "Kota Terbit", "Tahun Terbit", "Jenis", "Jumlah Buku"
     };
 
     public MasterBukuTableModel(List<Buku> bukus) {
@@ -56,6 +56,7 @@ public class MasterBukuTableModel extends AbstractTableModel {
             case 4: return buku.getKotaTerbit();
             case 5: return new SimpleDateFormat("yyyy").format(buku.getTahunTerbit());
             case 6: return buku.getJenisBuku();
+            case 7: return buku.getJumlahBuku();
             default: return "";
         }
     }
