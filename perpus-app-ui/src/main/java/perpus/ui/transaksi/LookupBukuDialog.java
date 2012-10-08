@@ -40,7 +40,7 @@ public class LookupBukuDialog extends javax.swing.JDialog {
     }
     
     private void loadDataToTable(){
-        listBuku = Main.getMasterService().findAllBukus();
+        listBuku = Main.getMasterService().findAllAvailableBukus();
         if(listBuku!=null){
             tbl.setModel(new MasterBukuTableModel(listBuku,headerModel));
             tbl.getSelectionModel().addListSelectionListener(new TableSelection());
