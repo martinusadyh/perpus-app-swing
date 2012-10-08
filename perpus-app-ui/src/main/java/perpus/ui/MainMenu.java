@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JProgressBar;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -96,6 +97,10 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }
 
+    public JTabbedPane getMainTabbedPane() {
+        return mainTabbedPane;
+    }
+    
     public JProgressBar getProgressBar() {
         return progressBar;
     }

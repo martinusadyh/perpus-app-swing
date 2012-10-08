@@ -57,6 +57,7 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         dateChooserSampai = new com.toedter.calendar.JDateChooser();
         btnRefresh = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
 
         rptPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -91,6 +92,14 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
             }
         });
 
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/close.gif"))); // NOI18N
+        btnClose.setToolTipText("Tutup Form");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -113,10 +122,14 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
                 .addComponent(dateChooserSampai, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnClose)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2});
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClose, btnRefresh});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -131,12 +144,15 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
                     .addComponent(dateChooserDr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
                     .addComponent(dateChooserSampai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRefresh))
+                    .addComponent(btnRefresh)
+                    .addComponent(btnClose))
                 .addGap(10, 10, 10)
                 .addComponent(rptPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbJnsTransaksi, dateChooserDr, dateChooserSampai, jLabel1, jLabel2, jLabel3});
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClose, btnRefresh});
 
     }// </editor-fold>//GEN-END:initComponents
 
@@ -162,7 +178,14 @@ public class LaporanPengembalianPinjaman extends javax.swing.JPanel {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRefreshActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        Main.getMainForm().getMainTabbedPane().remove(this);
+        panel = null;
+    }//GEN-LAST:event_btnCloseActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JComboBox cmbJnsTransaksi;
     private com.toedter.calendar.JDateChooser dateChooserDr;
