@@ -68,6 +68,7 @@ public class MasterBuku extends javax.swing.JPanel {
         btnAdd = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
 
@@ -121,6 +122,18 @@ public class MasterBuku extends javax.swing.JPanel {
             }
         });
         jToolBar1.add(btnDelete);
+
+        btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/close.gif"))); // NOI18N
+        btnClose.setToolTipText("Tutup Form");
+        btnClose.setFocusable(false);
+        btnClose.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnClose.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnClose);
 
         tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -208,8 +221,15 @@ public class MasterBuku extends javax.swing.JPanel {
             ErrorDialog.showErrorDialog(e);
         }
     }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        Main.getMainForm().getMainTabbedPane().remove(this);
+        panel = null;
+    }//GEN-LAST:event_btnCloseActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnRefresh;
