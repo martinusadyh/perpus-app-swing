@@ -56,7 +56,7 @@ public class MasterAnggotaTableModel extends AbstractTableModel {
             case 5: return anggota.getAgama();
             case 6: return anggota.getNoTelp();
             case 7: return anggota.getTahunMasuk();
-            case 8: return anggota.getStatus() ? "Masih ada pinjaman buku" : "";
+            case 8: return anggota.getStatus();
             default: return "";
         }
     }

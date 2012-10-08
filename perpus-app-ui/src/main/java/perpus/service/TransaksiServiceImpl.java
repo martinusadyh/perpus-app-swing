@@ -35,7 +35,8 @@ public class TransaksiServiceImpl implements TransaksiService{
     public void save(Peminjaman p) {
         sessionFactory.getCurrentSession().save(p);
         Anggota a = masterService.findAnggotaById(p.getAnggota().getId());
-        a.setStatus(Boolean.TRUE);
+        a.setCounterPinjam(a.getCounterPinjam() + p.getDetailPeminjamans().size());
+        a.setStatus("Anggota ini meminjam " + a.getCounterPinjam() + " buku");
         masterService.save(a);
     }
 
@@ -44,12 +45,13 @@ public class TransaksiServiceImpl implements TransaksiService{
     public void save(Pengembalian p) {
         sessionFactory.getCurrentSession().save(p);
         Anggota a = masterService.findAnggotaById(p.getTransaksiPeminjaman().getAnggota().getId());
-        
-        List<PengembalianDetail> listDetail = getTransaksiPengembalianByIdPinjam(p.getTransaksiPeminjaman().getId());
-        if(listDetail.size() == p.getTransaksiPeminjaman().getDetailPeminjamans().size()){
-            a.setStatus(Boolean.FALSE);
-            masterService.save(a);
+        a.setCounterPinjam(a.getCounterPinjam() - p.getDetailsPengembalian().size());
+        if(a.getCounterPinjam() > 0){
+            a.setStatus("Anggota ini meminjam " + a.getCounterPinjam() + " buku");
+        } else {
+            a.setStatus("");
         }
+        masterService.save(a);
     }
 
     @Override
