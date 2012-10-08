@@ -38,7 +38,6 @@ public class FormPeminjaman extends javax.swing.JPanel {
     private PeminjamanDetail detail;
     private List<PeminjamanDetail> detailsPeminjaman = new ArrayList<PeminjamanDetail>();
     private Anggota anggota;
-//    private Buku buku;
     String[] headerTableDetail = {"Kode", "Judul", "Jenis", "Pengarang"};
 
     public static FormPeminjaman getPanel() {
@@ -317,7 +316,13 @@ public class FormPeminjaman extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        if (detailsPeminjaman.size() == 3) {
+        if(anggota == null){
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                    "Pilih anggota yang akan meminjam terlebih dahulu !");
+            return;
+        }
+        
+        if (detailsPeminjaman.size() + anggota.getCounterPinjam() == 3) {
             JOptionPane.showMessageDialog(Main.getMainForm(),
                     "Maximal 3 buku yang boleh dipinjam !");
         } else {
@@ -366,11 +371,12 @@ public class FormPeminjaman extends javax.swing.JPanel {
     private void btnLookupAnggotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLookupAnggotaActionPerformed
         anggota = new LookupAnggotaDialog().showDialog();
         if (anggota != null) {
-            if (anggota.getStatus() != null && anggota.getStatus().equals(Boolean.FALSE)) {
+            if (anggota.getCounterPinjam() < 3) {
                 txtNamaAnggota.setText(anggota.getNamaAnggota());
             } else {
                 JOptionPane.showMessageDialog(Main.getMainForm(),
-                        "Anggota ini masih meminjam buku dan belum dikembalikan !");
+                        "Jumlah buku yang di pinjam sudah mencapai batas maximum");
+                anggota = null;
             }
         }
     }//GEN-LAST:event_btnLookupAnggotaActionPerformed
