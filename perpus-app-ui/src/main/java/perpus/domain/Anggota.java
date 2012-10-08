@@ -43,9 +43,13 @@ public class Anggota extends BaseEntity {
     @Column(name="tahun_masuk")
     private Date tahunMasuk;
     
-    /* status pinjam atau ga */
+    /* keterangan status peminjaman anggota */
     @Column(name="status")
-    private Boolean status = Boolean.FALSE;
+    private String status;
+    
+    
+    @Column(name="counter_pinjam", nullable=false)
+    private Integer counterPinjam = 0;
 
     public String getKodeAnggota() {
         return kodeAnggota;
@@ -111,11 +115,20 @@ public class Anggota extends BaseEntity {
         this.tahunMasuk = tahunMasuk;
     }
 
-    public Boolean getStatus() {
+    public Integer getCounterPinjam() {
+        return counterPinjam;
+    }
+
+    public void setCounterPinjam(Integer counterPinjam) {
+        this.counterPinjam = counterPinjam;
+    }
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
+    
 }

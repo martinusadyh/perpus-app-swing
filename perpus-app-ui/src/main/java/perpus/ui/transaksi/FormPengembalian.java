@@ -369,6 +369,12 @@ public class FormPengembalian extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        if(detailPengembalians.size() == detailPengembaliansOrig.size()){
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Semua data sudah terpilih !");
+            return;
+        }
+        
         PengembalianDetail detail = new TambahDetailPengembalianDialog(detailPengembaliansOrig).showDialog();
         if (detail != null) {
             if (cekItemExisted(detail.getBuku())) {
