@@ -38,11 +38,22 @@ public class MasterServiceImpl implements MasterService {
     public void delete(Object obj) {
         sessionFactory.getCurrentSession().delete(obj);
     }
+    
+    @Override
+    public Long countBukus(){
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(b) from Buku b")
+                .uniqueResult();
+    }
 
     @Override
-    public List<Buku> findAllBukus() {
+    public List<Buku> findAllBukus(Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=25;
         return sessionFactory.getCurrentSession()
                 .createQuery("from Buku bk order by bk.createdDate desc")
+                .setFirstResult(start)
+                .setMaxResults(rows)
                 .list();
     }
 
@@ -183,6 +194,38 @@ public class MasterServiceImpl implements MasterService {
     public List<Buku> findAllAvailableBukus() {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Buku bk where bk.jumlahBuku > 0 order by bk.createdDate desc")
+                .list();
+    }
+
+    @Override
+    public Long countBukus(String option, String value) {
+        StringBuilder sb = new StringBuilder("select count(b) from Buku b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeBuku like '%" + value + "%' ");
+        } else {
+            sb.append("where b.judulBuku like '%" + value + "%' ");
+        }
+        
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
+
+    @Override
+    public List<Buku> findAllBukus(String option, String value, Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=25;
+        
+        StringBuilder sb = new StringBuilder("from Buku b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeBuku like '%" + value + "%' ");
+        } else {
+            sb.append("where b.judulBuku like '%" + value + "%' ");
+        }
+        sb.append("order by b.createdDate desc ");
+        
+        return sessionFactory.getCurrentSession()
+                .createQuery(sb.toString())
+                .setFirstResult(start)
+                .setMaxResults(rows)
                 .list();
     }
 }

@@ -17,7 +17,10 @@ import perpus.domain.security.PegawaiRole;
  */
 public interface MasterService {
     
-    List<Buku> findAllBukus();
+    Long countBukus();
+    Long countBukus(String option, String value);
+    List<Buku> findAllBukus(Integer start, Integer rows);
+    List<Buku> findAllBukus(String option, String value, Integer start, Integer rows);
     List<Buku> findBukuByKode(String kode);
     List<Buku> findBukuByNama(String nama);
     

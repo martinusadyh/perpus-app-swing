@@ -4,11 +4,14 @@
  */
 package perpus.ui.master;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.springframework.util.StringUtils;
 import perpus.Main;
 import perpus.domain.Buku;
 import perpus.ui.TableUtil;
@@ -25,6 +28,8 @@ public class MasterBuku extends javax.swing.JPanel {
     private static MasterBuku panel;
     private List<Buku> bukus;
     private Buku buku;
+    private Integer start = 0;
+    private Integer rows = 30;
 
     public static MasterBuku getPanel() {
         if (panel == null) {
@@ -39,12 +44,48 @@ public class MasterBuku extends javax.swing.JPanel {
      */
     public MasterBuku() {
         initComponents();
+        initPaging();
+        
         loadDataToTable();
         tbl.getSelectionModel().addListSelectionListener(new TableSelection());
     }
+    
+    private void initPaging(){
+        //start konfigurasi untuk paging
+        Long count = 0L;
+        
+        if(StringUtils.hasText(txtSearch.getText())){
+            count = Main.getMasterService().countBukus(
+                    cmbOption.getSelectedItem().toString(), txtSearch.getText());
+        } else {
+            count = Main.getMasterService().countBukus();
+        }
+        
+        Long hasilBagi = count/rows;
+        long page = Math.round(hasilBagi); 
+        
+        if ((count%rows) > 0) {
+            page = page + 1;
+        }
+        if(page==0){page=1;}
+        lblMaxPage.setText(String.valueOf(page));
+        spPaging.setModel(new SpinnerNumberModel(1, 1, page, 1));
+        lblCountRows.setText(String.valueOf(count));
+        //end konfigurasi untuk paging
+    }
 
     private void loadDataToTable() {
-        bukus = Main.getMasterService().findAllBukus();
+        Double hal = (Double) spPaging.getModel().getValue();
+        start = (hal.intValue() - 1) * rows;
+        
+        if(StringUtils.hasText(txtSearch.getText())){
+            bukus = Main.getMasterService().findAllBukus(
+                    cmbOption.getSelectedItem().toString(), txtSearch.getText(),
+                    start, rows);
+        } else {
+            bukus = Main.getMasterService().findAllBukus(start, rows);
+        }
+        
         if (!bukus.isEmpty()) {
             tbl.setModel(new MasterBukuTableModel(bukus));
             TableUtil.initColumn(tbl);
@@ -69,6 +110,15 @@ public class MasterBuku extends javax.swing.JPanel {
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
+        lblRows = new javax.swing.JLabel();
+        lblCountRows = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        lblMinPage = new javax.swing.JLabel();
+        spPaging = new javax.swing.JSpinner();
+        jLabel2 = new javax.swing.JLabel();
+        lblMaxPage = new javax.swing.JLabel();
+        cmbOption = new javax.swing.JComboBox();
+        txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
 
@@ -135,6 +185,64 @@ public class MasterBuku extends javax.swing.JPanel {
         });
         jToolBar1.add(btnClose);
 
+        lblRows.setText(" rows : ");
+        lblRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblRows.setMaximumSize(new java.awt.Dimension(55, 55));
+        lblRows.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar1.add(lblRows);
+
+        lblCountRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblCountRows.setMaximumSize(new java.awt.Dimension(50, 50));
+        lblCountRows.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar1.add(lblCountRows);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setText("Page");
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel1.setMaximumSize(new java.awt.Dimension(50, 50));
+        jLabel1.setMinimumSize(new java.awt.Dimension(50, 50));
+        jToolBar1.add(jLabel1);
+
+        lblMinPage.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMinPage.setText("  1  ");
+        lblMinPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblMinPage.setMaximumSize(new java.awt.Dimension(30, 30));
+        lblMinPage.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar1.add(lblMinPage);
+
+        spPaging.setMaximumSize(new java.awt.Dimension(50, 50));
+        spPaging.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spPagingStateChanged(evt);
+            }
+        });
+        jToolBar1.add(spPaging);
+
+        jLabel2.setMaximumSize(new java.awt.Dimension(10, 10));
+        jToolBar1.add(jLabel2);
+
+        lblMaxPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblMaxPage.setMaximumSize(new java.awt.Dimension(50, 50));
+        lblMaxPage.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar1.add(lblMaxPage);
+
+        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "KODE", "NAMA" }));
+        cmbOption.setMaximumSize(new java.awt.Dimension(70, 70));
+        jToolBar1.add(cmbOption);
+
+        txtSearch.setMaximumSize(new java.awt.Dimension(150, 150));
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
+        jToolBar1.add(txtSearch);
+
         tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -151,7 +259,7 @@ public class MasterBuku extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
@@ -227,15 +335,39 @@ public class MasterBuku extends javax.swing.JPanel {
         panel = null;
     }//GEN-LAST:event_btnCloseActionPerformed
 
+    private void spPagingStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spPagingStateChanged
+        loadDataToTable();
+    }//GEN-LAST:event_spPagingStateChanged
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if(evt.getKeyChar() == KeyEvent.VK_ENTER){
+            initPaging();
+            loadDataToTable();
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JComboBox cmbOption;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel lblCountRows;
+    private javax.swing.JLabel lblMaxPage;
+    private javax.swing.JLabel lblMinPage;
+    private javax.swing.JLabel lblRows;
+    private javax.swing.JSpinner spPaging;
     private javax.swing.JTable tbl;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
     private class TableSelection implements ListSelectionListener {
