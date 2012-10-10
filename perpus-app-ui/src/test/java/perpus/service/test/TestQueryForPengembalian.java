@@ -66,7 +66,7 @@ public class TestQueryForPengembalian {
 //         assertEquals(list.size(), 1);
      }
      
-     @Test
+     //@Test
      public void insertOneThousandBuku(){
          for(int i=0; i<1000; i++){
              Buku b = new Buku();

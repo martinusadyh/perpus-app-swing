@@ -213,13 +213,6 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public List<Buku> findAllAvailableBukus() {
-        return sessionFactory.getCurrentSession()
-                .createQuery("from Buku bk where bk.jumlahBuku > 0 order by bk.createdDate desc")
-                .list();
-    }
-
-    @Override
     public Long countBukus(String option, String value) {
         StringBuilder sb = new StringBuilder("select count(b) from Buku b ");
         if(option.equals("KODE")){
@@ -233,7 +226,7 @@ public class MasterServiceImpl implements MasterService {
     
     @Override
     public Long countAnggota(String option, String value) {
-        StringBuilder sb = new StringBuilder("select count(b) from Buku b ");
+        StringBuilder sb = new StringBuilder("select count(b) from Anggota b ");
         if(option.equals("KODE")){
             sb.append("where b.kodeAnggota like '%" + value + "%' ");
         } else {
@@ -307,6 +300,70 @@ public class MasterServiceImpl implements MasterService {
             sb.append("where b.namaPegawai like '%" + value + "%' ");
         }
         sb.append("order by b.createdDate desc ");
+        
+        return sessionFactory.getCurrentSession()
+                .createQuery(sb.toString())
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+
+    @Override
+    public Long countAnggota() {
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(a) from Anggota a")
+                .uniqueResult();
+    }
+
+    @Override
+    public Long countPegawai() {
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(a) from Pegawai a")
+                .uniqueResult();
+    }
+
+    @Override
+    public Long countAvailableBuku() {
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(bk) from Buku bk where bk.jumlahBuku > 0")
+                .uniqueResult();
+    }
+
+    @Override
+    public Long countAvailableBuku(String option, String value) {
+        StringBuilder sb = new StringBuilder("select count(b) from Buku b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeBuku like '%" + value + "%' ");
+        } else {
+            sb.append("where b.judulBuku like '%" + value + "%' ");
+        }
+        sb.append("and b.jumlahBuku > 0 ");
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
+
+    @Override
+    public List<Buku> findAllAvailableBukus(Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=30;
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Buku bk where bk.jumlahBuku > 0 order by bk.createdDate desc")
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+
+    @Override
+    public List<Buku> findAllAvailableBukus(String option, String value, Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=30;
+        
+        StringBuilder sb = new StringBuilder("from Buku b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeBuku like '%" + value + "%' ");
+        } else {
+            sb.append("where b.judulBuku like '%" + value + "%' ");
+        }
+        sb.append("and b.jumlahBuku > 0 order by b.createdDate desc ");
         
         return sessionFactory.getCurrentSession()
                 .createQuery(sb.toString())
