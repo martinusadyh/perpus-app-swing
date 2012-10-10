@@ -102,6 +102,7 @@ public class LookupAnggotaDialog extends javax.swing.JDialog {
                 "Kode", "Nama", "Alamat", "Email", "No Telp"
             }
         ));
+        tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(tbl);
 
         btnBatal.setText("Batal");

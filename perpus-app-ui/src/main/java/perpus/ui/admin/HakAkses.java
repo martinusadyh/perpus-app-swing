@@ -4,6 +4,8 @@
  */
 package perpus.ui.admin;
 
+import com.jgoodies.looks.HeaderStyle;
+import com.jgoodies.looks.Options;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -63,6 +65,7 @@ public class HakAkses extends javax.swing.JPanel {
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
+        jToolBar1.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
 
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/refresh.gif"))); // NOI18N
         btnRefresh.setToolTipText("Refresh");

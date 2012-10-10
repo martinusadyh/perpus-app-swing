@@ -63,7 +63,6 @@ public class LookupBukuDialog extends javax.swing.JDialog {
             if (tbl.getSelectedRow() >= 0) {
                 buku = listBuku.get(tbl.getSelectedRow());
             }
-        
         }
     }
 
@@ -101,6 +100,7 @@ public class LookupBukuDialog extends javax.swing.JDialog {
                 "Kode", "Judul"
             }
         ));
+        tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane1.setViewportView(tbl);
 
         btnBatal.setText("Batal");

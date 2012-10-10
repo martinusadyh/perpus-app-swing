@@ -4,11 +4,16 @@
  */
 package perpus.ui.master;
 
+import com.jgoodies.looks.HeaderStyle;
+import com.jgoodies.looks.Options;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.springframework.util.StringUtils;
 import perpus.Main;
 import perpus.domain.security.Pegawai;
 import perpus.ui.TableUtil;
@@ -25,6 +30,8 @@ public class MasterPegawai extends javax.swing.JPanel {
     private static MasterPegawai panel;
     private List<Pegawai> pegawais;
     private Pegawai pegawai;
+    private Integer start = 0;
+    private Integer rows = 30;
 
     public static MasterPegawai getPanel() {
         if (panel == null) {
@@ -39,8 +46,34 @@ public class MasterPegawai extends javax.swing.JPanel {
      */
     public MasterPegawai() {
         initComponents();
+        initPaging();
+        
         loadDataToTable();
         tbl.getSelectionModel().addListSelectionListener(new TableSelection());
+    }
+    
+    private void initPaging(){
+        //start konfigurasi untuk paging
+        Long count = 0L;
+        
+        if(StringUtils.hasText(txtSearch.getText())){
+            count = Main.getMasterService().countPegawai(
+                    cmbOption.getSelectedItem().toString(), txtSearch.getText());
+        } else {
+            count = Main.getMasterService().countBukus();
+        }
+        
+        Long hasilBagi = count/rows;
+        long page = Math.round(hasilBagi); 
+        
+        if ((count%rows) > 0) {
+            page = page + 1;
+        }
+        if(page==0){page=1;}
+        lblMaxPage.setText(String.valueOf(page));
+        spPaging.setModel(new SpinnerNumberModel(1, 1, page, 1));
+        lblCountRows.setText(String.valueOf(count));
+        //end konfigurasi untuk paging
     }
 
     /**
@@ -60,9 +93,20 @@ public class MasterPegawai extends javax.swing.JPanel {
         btnClose = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
+        jToolBar2 = new javax.swing.JToolBar();
+        lblRows = new javax.swing.JLabel();
+        lblCountRows = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lblMinPage = new javax.swing.JLabel();
+        spPaging = new javax.swing.JSpinner();
+        jLabel4 = new javax.swing.JLabel();
+        lblMaxPage = new javax.swing.JLabel();
+        cmbOption = new javax.swing.JComboBox();
+        txtSearch = new javax.swing.JTextField();
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
+        jToolBar1.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
 
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/refresh.gif"))); // NOI18N
         btnRefresh.setToolTipText("Refresh");
@@ -136,6 +180,63 @@ public class MasterPegawai extends javax.swing.JPanel {
         tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tbl);
 
+        jToolBar2.setFloatable(false);
+        jToolBar2.setRollover(true);
+        jToolBar2.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
+
+        lblRows.setText(" rows : ");
+        lblRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblRows.setMaximumSize(new java.awt.Dimension(55, 55));
+        lblRows.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblRows);
+
+        lblCountRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblCountRows.setMaximumSize(new java.awt.Dimension(50, 50));
+        lblCountRows.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblCountRows);
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Page");
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setMaximumSize(new java.awt.Dimension(50, 50));
+        jLabel3.setMinimumSize(new java.awt.Dimension(50, 50));
+        jToolBar2.add(jLabel3);
+
+        lblMinPage.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMinPage.setText("  1  ");
+        lblMinPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblMinPage.setMaximumSize(new java.awt.Dimension(30, 30));
+        lblMinPage.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblMinPage);
+
+        spPaging.setMaximumSize(new java.awt.Dimension(50, 50));
+        spPaging.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spPagingStateChanged(evt);
+            }
+        });
+        jToolBar2.add(spPaging);
+
+        jLabel4.setMaximumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(jLabel4);
+
+        lblMaxPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblMaxPage.setMaximumSize(new java.awt.Dimension(50, 50));
+        lblMaxPage.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblMaxPage);
+
+        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "NIP", "NAMA" }));
+        cmbOption.setMaximumSize(new java.awt.Dimension(70, 70));
+        jToolBar2.add(cmbOption);
+
+        txtSearch.setMaximumSize(new java.awt.Dimension(150, 150));
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
+        jToolBar2.add(txtSearch);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -145,14 +246,16 @@ public class MasterPegawai extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addGap(13, 13, 13))
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -216,19 +319,50 @@ public class MasterPegawai extends javax.swing.JPanel {
         panel = null;
     }//GEN-LAST:event_btnCloseActionPerformed
 
+    private void spPagingStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spPagingStateChanged
+        loadDataToTable();
+    }//GEN-LAST:event_spPagingStateChanged
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if(evt.getKeyChar() == KeyEvent.VK_ENTER){
+            initPaging();
+            loadDataToTable();
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JComboBox cmbOption;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JLabel lblCountRows;
+    private javax.swing.JLabel lblMaxPage;
+    private javax.swing.JLabel lblMinPage;
+    private javax.swing.JLabel lblRows;
+    private javax.swing.JSpinner spPaging;
     private javax.swing.JTable tbl;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
     private void loadDataToTable() {
-        pegawais = Main.getMasterService().findAllPegawai();
+        Double hal = (Double) spPaging.getModel().getValue();
+        start = (hal.intValue() - 1) * rows;
+        
+        if(StringUtils.hasText(txtSearch.getText())){
+            pegawais = Main.getMasterService().findAllPegawai(
+                    cmbOption.getSelectedItem().toString(), txtSearch.getText(),
+                    start, rows);
+        } else {
+            pegawais = Main.getMasterService().findAllPegawai(start, rows);
+        }
+        
         if (!pegawais.isEmpty()) {
             tbl.setModel(new MasterPegawaiTableModel(pegawais));
             TableUtil.initColumn(tbl);
