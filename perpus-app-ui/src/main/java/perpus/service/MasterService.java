@@ -19,7 +19,9 @@ public interface MasterService {
     
     Long countBukus();
     Long countBukus(String option, String value);
+    Long countAnggota();
     Long countAnggota(String option, String value);
+    Long countPegawai();
     Long countPegawai(String option, String value);
     List<Buku> findAllBukus(Integer start, Integer rows);
     List<Anggota> findAllAnggota(Integer start, Integer rows);
@@ -52,6 +54,9 @@ public interface MasterService {
 
     PegawaiRole findPegawaiRoleByName(String supervisoR);
 
-    List<Buku> findAllAvailableBukus();
+    Long countAvailableBuku();
+    Long countAvailableBuku(String option, String value);
+    List<Buku> findAllAvailableBukus(Integer start, Integer rows);
+    List<Buku> findAllAvailableBukus(String option, String value, Integer start, Integer rows);
     
 }

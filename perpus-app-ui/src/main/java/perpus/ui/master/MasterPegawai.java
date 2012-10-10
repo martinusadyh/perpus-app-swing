@@ -60,7 +60,7 @@ public class MasterPegawai extends javax.swing.JPanel {
             count = Main.getMasterService().countPegawai(
                     cmbOption.getSelectedItem().toString(), txtSearch.getText());
         } else {
-            count = Main.getMasterService().countBukus();
+            count = Main.getMasterService().countPegawai();
         }
         
         Long hasilBagi = count/rows;
