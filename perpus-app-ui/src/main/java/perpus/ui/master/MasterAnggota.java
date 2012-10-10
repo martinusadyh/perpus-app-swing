@@ -58,7 +58,7 @@ public class MasterAnggota extends javax.swing.JPanel {
             count = Main.getMasterService().countAnggota(
                     cmbOption.getSelectedItem().toString(), txtSearch.getText());
         } else {
-            count = Main.getMasterService().countBukus();
+            count = Main.getMasterService().countAnggota();
         }
         
         Long hasilBagi = count/rows;
