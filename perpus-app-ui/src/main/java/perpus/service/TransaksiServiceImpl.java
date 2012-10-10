@@ -49,6 +49,27 @@ public class TransaksiServiceImpl implements TransaksiService{
             masterService.save(bk);
         }
     }
+    
+    @Override
+    public Long countTransaksiPeminjaman(String option, String value) {
+        StringBuilder sb = new StringBuilder("select count(b) from Peminjaman b ");
+        if(option.equals("ID_TRX")){
+            sb.append("where b.id like '%" + value + "%' ");
+        } else if (option.equals("KODE")) {
+            sb.append("where b.anggota.kodeAnggota like '%" + value + "%' ");
+        } else {
+            sb.append("where b.anggota.namaAnggota like '%" + value + "%' ");
+        }
+        
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
+    
+    @Override
+    public Long countTransaksiPeminjaman() {
+        StringBuilder sb = new StringBuilder("select count(b) from Peminjaman b ");
+        
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
 
     @Override
     @Transactional(readOnly=false)

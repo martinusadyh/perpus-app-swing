@@ -20,6 +20,9 @@ public interface TransaksiService {
     void save(Peminjaman p);
     void save(Pengembalian p);
     
+    Long countTransaksiPeminjaman(String option, String value);
+    Long countTransaksiPeminjaman();
+    
     List<Peminjaman> getTransaksiBelumKembali();
     List<Peminjaman> getTransaksiBelumKembali(String criteria, String value);
     List<PeminjamanDetail> getTransaksiBelumKembali(Date mulai, Date sampai);
