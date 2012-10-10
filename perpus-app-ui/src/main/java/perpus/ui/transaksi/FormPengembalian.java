@@ -422,6 +422,7 @@ public class FormPengembalian extends javax.swing.JPanel {
         pengembalian.setTransaksiPeminjaman(peminjaman);
         pengembalian.setTotalDenda(TextComponentUtils.parseNumberToBigDecimal(txtTotalDenda.getText()));
         pengembalian.setTglKembaliRealisasi(tglKembali2.getDate());
+        pengembalian.setPegawai(Main.getPegawai());
         for(PengembalianDetail d : detailPengembalians){
             d.setHeader(pengembalian);
         }

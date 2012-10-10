@@ -84,6 +84,7 @@ public class FormPeminjaman extends javax.swing.JPanel {
         peminjaman.setAnggota(anggota);
         peminjaman.setTglKembali(jdcKembali.getDate());
         peminjaman.setTglPinjam(jdcPinjam.getDate());
+        peminjaman.setPegawai(Main.getPegawai());
         for (PeminjamanDetail d : detailsPeminjaman) {
             d.setHeader(peminjaman);
         }
@@ -345,7 +346,7 @@ public class FormPeminjaman extends javax.swing.JPanel {
             Main.getTransaksiService().save(peminjaman);
             clearForm();
             JOptionPane.showMessageDialog(Main.getMainForm(), 
-                    "Transaksi berhasil disimpan !");
+                    "Transaksi berhasil disimpan Save!");
         } else {
             JOptionPane.showMessageDialog(Main.getMainForm(), 
                     "Data yang anda masukan tidak lengkap !");
@@ -358,11 +359,13 @@ public class FormPeminjaman extends javax.swing.JPanel {
 
     private void btnLookupAnggotaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLookupAnggotaActionPerformed
         anggota = new LookupAnggotaDialog().showDialog();
-        if(anggota != null && anggota.getStatus() != null && anggota.getStatus().equals(Boolean.FALSE)){
-            txtNamaAnggota.setText(anggota.getNamaAnggota());
-        } else {
-            JOptionPane.showMessageDialog(Main.getMainForm(), 
-                    "Anggota ini masih meminjam buku dan belum dikembalikan !");
+        if(anggota != null){
+            if(anggota.getStatus() != null && anggota.getStatus().equals(Boolean.FALSE)){
+                txtNamaAnggota.setText(anggota.getNamaAnggota());
+            } else {
+                JOptionPane.showMessageDialog(Main.getMainForm(), 
+                        "Anggota ini masih meminjam buku dan belum dikembalikan !");
+            }
         }
     }//GEN-LAST:event_btnLookupAnggotaActionPerformed
 

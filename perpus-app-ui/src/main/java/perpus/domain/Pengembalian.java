@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import perpus.domain.security.Pegawai;
 
 /**
  *
@@ -41,6 +42,10 @@ public class Pengembalian extends BaseEntity{
     @Cascade(CascadeType.SAVE_UPDATE)
     private List<PengembalianDetail> detailsPengembalian = new ArrayList<PengembalianDetail>();
 
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
+    private Pegawai pegawai;
+    
     public Date getTglKembaliRealisasi() {
         return tglKembaliRealisasi;
     }
@@ -71,6 +76,14 @@ public class Pengembalian extends BaseEntity{
 
     public void setDetailsPengembalian(List<PengembalianDetail> detailsPengembalian) {
         this.detailsPengembalian = detailsPengembalian;
+    }
+
+    public Pegawai getPegawai() {
+        return pegawai;
+    }
+
+    public void setPegawai(Pegawai pegawai) {
+        this.pegawai = pegawai;
     }
     
 }
