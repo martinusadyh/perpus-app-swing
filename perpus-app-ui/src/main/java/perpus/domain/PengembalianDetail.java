@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -16,9 +17,10 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="pengembalian_detail")
+@Table(name="pengembalian_detail",uniqueConstraints=@UniqueConstraint(columnNames={"id_header","id_buku"}))
 public class PengembalianDetail extends BaseEntity{
     
+    private Integer telat = 0;
     private BigDecimal denda = BigDecimal.ZERO;
     
     @ManyToOne
@@ -51,6 +53,14 @@ public class PengembalianDetail extends BaseEntity{
 
     public void setHeader(Pengembalian header) {
         this.header = header;
+    }
+
+    public Integer getTelat() {
+        return telat;
+    }
+
+    public void setTelat(Integer telat) {
+        this.telat = telat;
     }
     
 }

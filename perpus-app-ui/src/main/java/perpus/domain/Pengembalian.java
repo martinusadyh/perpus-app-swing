@@ -39,7 +39,7 @@ public class Pengembalian extends BaseEntity{
     
     @OneToMany(mappedBy="header")
     @Cascade(CascadeType.SAVE_UPDATE)
-    private List<Pengembalian> detailsPengembalian = new ArrayList<Pengembalian>();
+    private List<PengembalianDetail> detailsPengembalian = new ArrayList<PengembalianDetail>();
 
     public Date getTglKembaliRealisasi() {
         return tglKembaliRealisasi;
@@ -65,11 +65,11 @@ public class Pengembalian extends BaseEntity{
         this.transaksiPeminjaman = transaksiPeminjaman;
     }
 
-    public List<Pengembalian> getDetailsPengembalian() {
+    public List<PengembalianDetail> getDetailsPengembalian() {
         return detailsPengembalian;
     }
 
-    public void setDetailsPengembalian(List<Pengembalian> detailsPengembalian) {
+    public void setDetailsPengembalian(List<PengembalianDetail> detailsPengembalian) {
         this.detailsPengembalian = detailsPengembalian;
     }
     

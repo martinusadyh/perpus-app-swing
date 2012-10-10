@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
@@ -15,7 +16,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="peminjaman_detail")
+@Table(name="peminjaman_detail",uniqueConstraints=@UniqueConstraint(columnNames={"id_header","id_buku"}))
 public class PeminjamanDetail extends BaseEntity {
     
     @ManyToOne

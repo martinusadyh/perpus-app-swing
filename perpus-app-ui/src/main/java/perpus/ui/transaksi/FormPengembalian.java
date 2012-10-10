@@ -10,6 +10,32 @@
  */
 package perpus.ui.transaksi;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeComparator;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.springframework.util.StringUtils;
+import perpus.Main;
+import perpus.domain.Buku;
+import perpus.domain.Konfigurasi;
+import perpus.domain.Peminjaman;
+import perpus.domain.PeminjamanDetail;
+import perpus.domain.Pengembalian;
+import perpus.domain.PengembalianDetail;
+import perpus.ui.TableUtil;
+import perpus.ui.tablemodel.PengembalianDetailTableModel;
+import perpus.util.BigDecimalTableRenderer;
+import perpus.util.TextComponentUtils;
+
 /**
  *
  * @author adi
@@ -18,10 +44,18 @@ public class FormPengembalian extends javax.swing.JPanel {
 
     public static final String PANEL_NAME = "Transaksi Pengembalian";
     private static FormPengembalian panel;
+    private Peminjaman peminjaman;
+    private Pengembalian pengembalian;
+    private PengembalianDetail detail;
+    private List<PengembalianDetail> detailPengembalians = new ArrayList<PengembalianDetail>();
+    private List<PengembalianDetail> detailPengembaliansOrig = new ArrayList<PengembalianDetail>();
     
     /** Creates new form FormPengembalian */
     public FormPengembalian() {
         initComponents();
+        TextComponentUtils.setCurrency(txtTotalDenda);
+        tbl.setDefaultRenderer(BigDecimal.class, new BigDecimalTableRenderer());
+        tbl.getSelectionModel().addListSelectionListener(new TableSelection());
     }
 
     public static FormPengembalian getPanel() {
@@ -31,7 +65,94 @@ public class FormPengembalian extends javax.swing.JPanel {
         return panel;
     }
     
+    void clearForm(){
+        peminjaman = null;
+        pengembalian = null;
+        detailPengembalians = new ArrayList<PengembalianDetail>();
+        detailPengembaliansOrig = new ArrayList<PengembalianDetail>();
+        txtTransaksi.setText("");
+        txtTotalDenda.setText("");
+        tglPinjam.setDate(null);
+        tglKembali1.setDate(null);
+        tglKembali2.setDate(null);
+        
+        refreshTableDetail();
+    }
     
+    public static Integer hitungHari(Date from, Date to) {
+        DateTime sampai = new DateTime(to);
+
+        DateTimeComparator comparator = DateTimeComparator.getDateOnlyInstance();
+        DateTime current = new DateTime(from);
+
+        Integer jumlahHari = 0;
+        if(comparator.compare(current, sampai) < 0){
+            while(comparator.compare(current, sampai) != 0) {
+                jumlahHari++;
+                current = current.plusDays(1);
+            }
+        }
+
+        return jumlahHari;
+    }
+    
+    void loadToDetailPengembalian(){
+        List<PengembalianDetail> listSudahDikembalikan = 
+                Main.getTransaksiService().getTransaksiPengembalianByIdPinjam(peminjaman.getId());
+        
+        Integer telat = hitungHari(peminjaman.getTglKembali(), tglKembali2.getDate());
+        System.out.println("Telat " + telat + " hari!");
+        Konfigurasi config = Main.getMasterService().getKonfigurasi();
+        
+        for(PeminjamanDetail d1 : peminjaman.getDetailPeminjamans()){
+            boolean allowAdd = true;
+            for(PengembalianDetail d2 : listSudahDikembalikan){
+                if(d1.getBuku().getKodeBuku().equalsIgnoreCase(d2.getBuku().getKodeBuku())){
+                    allowAdd = false;
+                    break;
+                }
+            }
+            if(allowAdd){
+                PengembalianDetail detail = new PengembalianDetail();
+                detail.setBuku(d1.getBuku());
+                detail.setTelat(telat);
+                BigDecimal denda = config.getDendaPerHari()
+                        .multiply(new BigDecimal(detail.getTelat()));
+                detail.setDenda(denda);
+                detailPengembalians.add(detail);
+                detailPengembaliansOrig.add(detail);
+            }
+        }
+        refreshTableDetail();
+    }
+    
+    void refreshTableDetail(){
+        tbl.setModel(new PengembalianDetailTableModel(detailPengembalians));
+        TableUtil.initColumn(tbl);
+        hitungTotalDenda();
+    }
+    
+    void hitungTotalDenda(){
+        BigDecimal total = BigDecimal.ZERO;
+        for (PengembalianDetail d : detailPengembalians) {
+            total = total.add(d.getDenda());
+        }
+        
+        txtTotalDenda.setText(TextComponentUtils.formatNumber(total));
+    }
+    
+    Boolean cekItemExisted(Buku buku){
+        Boolean retval = true;
+        for (PengembalianDetail d : detailPengembalians) {
+            if(d.getBuku().getKodeBuku().equalsIgnoreCase(buku.getKodeBuku())){
+                JOptionPane.showMessageDialog(Main.getMainForm(), 
+                    "Buku sudah dipilih !");
+                retval = false;
+                break;
+            }
+        }
+        return retval;
+    }
 
     /** This method is called from within the constructor to
      * initialize the form.
@@ -88,7 +209,7 @@ public class FormPengembalian extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Kode", "Judul", "Denda"
+                "Kode", "Judul", "Telat", "Denda"
             }
         ));
         tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
@@ -161,8 +282,8 @@ public class FormPengembalian extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6)
                                 .addComponent(btnLookupTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel2)
@@ -182,7 +303,7 @@ public class FormPengembalian extends javax.swing.JPanel {
                                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -195,39 +316,40 @@ public class FormPengembalian extends javax.swing.JPanel {
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tglKembali1, tglKembali2, tglPinjam, txtTotalDenda, txtTransaksi});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tglKembali1, tglKembali2, tglPinjam, txtTotalDenda});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel1)
-                        .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabel5))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(tglPinjam, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tglKembali1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tglKembali2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTotalDenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(btnLookupTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(tglPinjam, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tglKembali1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tglKembali2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotalDenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -244,25 +366,94 @@ public class FormPengembalian extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        
+        PengembalianDetail detail = new TambahDetailPengembalianDialog(detailPengembaliansOrig).showDialog();
+        if(detail != null){
+            if(cekItemExisted(detail.getBuku())){
+                detailPengembalians.add(detail);
+            }
+        }
+        refreshTableDetail();
 }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        
+        detailPengembalians.remove(detail);
+        refreshTableDetail();
+        hitungTotalDenda();
 }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnLookupTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLookupTransaksiActionPerformed
-        
+        peminjaman = new LookupTransaksiPeminjamanDialog().showDialog();
+        if(peminjaman != null){
+            StringBuilder text = new StringBuilder();
+            text.append(peminjaman.getId());
+            text.append(" | ");
+            text.append(peminjaman.getAnggota().getNamaAnggota());
+            text.append(" | ");
+            text.append(peminjaman.getDetailPeminjamans().size());
+            text.append(" items");
+            txtTransaksi.setText(text.toString());
+            
+            tglPinjam.setDate(peminjaman.getTglPinjam());
+            tglKembali1.setDate(peminjaman.getTglKembali());
+            tglKembali2.setDate(new Date());
+            loadToDetailPengembalian();
+        }
 }//GEN-LAST:event_btnLookupTransaksiActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-       
+        clearForm();
 }//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        
+        if(validateForm()){
+            loadFormToDomain();
+            Main.getTransaksiService().save(pengembalian);
+            clearForm();
+            JOptionPane.showMessageDialog(Main.getMainForm(), 
+                    "Transaksi berhasil disimpan !");
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(), 
+                    "Data yang anda masukan tidak lengkap !");
+        }
 }//GEN-LAST:event_btnSaveActionPerformed
+    
+    void loadFormToDomain(){
+        pengembalian = new Pengembalian();
+        pengembalian.setTransaksiPeminjaman(peminjaman);
+        pengembalian.setTotalDenda(TextComponentUtils.parseNumberToBigDecimal(txtTotalDenda.getText()));
+        pengembalian.setTglKembaliRealisasi(tglKembali2.getDate());
+        for(PengembalianDetail d : detailPengembalians){
+            d.setHeader(pengembalian);
+        }
+        pengembalian.setDetailsPengembalian(detailPengembalians);
+    }
+    
+    Boolean validateForm(){
+        if(peminjaman != null &&
+                tglKembali2 != null &&
+                tglKembali1 != null &&
+                tglPinjam != null &&
+                StringUtils.hasText(txtTotalDenda.getText()) &&
+                detailPengembalians.size() > 0){
+            return true;
+        }
+        return false;
+    }
+    
+    private class TableSelection implements ListSelectionListener {
 
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (e.getValueIsAdjusting()) {
+                return;
+            }
+
+            if (tbl.getSelectedRow() >= 0) {
+                detail = detailPengembalians.get(tbl.getSelectedRow());
+            }
+        
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBatal;

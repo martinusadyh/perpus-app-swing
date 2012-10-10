@@ -4,35 +4,34 @@
  */
 
 /*
- * LookupAnggotaDialog.java
+ * LookupTransaksiPeminjamanDialog.java
  *
- * Created on Oct 7, 2012, 4:30:54 AM
+ * Created on Oct 7, 2012, 12:20:55 PM
  */
 package perpus.ui.transaksi;
 
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import perpus.Main;
-import perpus.domain.Anggota;
+import perpus.domain.Peminjaman;
 import perpus.ui.TableUtil;
-import perpus.ui.tablemodel.MasterAnggotaTableModel;
+import perpus.ui.tablemodel.PeminjamanTableModel;
 
 /**
  *
  * @author adi
  */
-public class LookupAnggotaDialog extends javax.swing.JDialog {
+public class LookupTransaksiPeminjamanDialog extends javax.swing.JDialog {
 
-    private Anggota anggota;
-    private List<Anggota> listAnggota = new ArrayList<Anggota>();
+    private Peminjaman pinjam;
+    private List<Peminjaman> listPeminjaman;
     
-    /** Creates new form LookupAnggotaDialog */
-    public LookupAnggotaDialog() {
+    /** Creates new form LookupTransaksiPeminjamanDialog */
+    public LookupTransaksiPeminjamanDialog() {
         super(new JFrame(), true);
         initComponents();
         setLocationRelativeTo(null);
@@ -40,32 +39,17 @@ public class LookupAnggotaDialog extends javax.swing.JDialog {
     }
     
     private void loadDataToTable(){
-        listAnggota = Main.getMasterService().findAllAnggota();
-        if(listAnggota!=null){
-            tbl.setModel(new MasterAnggotaTableModel(listAnggota));
+        listPeminjaman = Main.getTransaksiService().getTransaksiBelumKembali();
+        if(listPeminjaman != null){
+            tbl.setModel(new PeminjamanTableModel(listPeminjaman));
             TableUtil.initColumn(tbl);
             tbl.getSelectionModel().addListSelectionListener(new TableSelection());
         }
     }
     
-    public Anggota showDialog(){
+    public Peminjaman showDialog(){
         setVisible(true);
-        return anggota;
-    }
-    
-    private class TableSelection implements ListSelectionListener {
-
-        @Override
-        public void valueChanged(ListSelectionEvent e) {
-            if (e.getValueIsAdjusting()) {
-                return;
-            }
-
-            if (tbl.getSelectedRow() >= 0) {
-                anggota = listAnggota.get(tbl.getSelectedRow());
-            }
-        
-        }
+        return pinjam;
     }
 
     /** This method is called from within the constructor to
@@ -77,16 +61,18 @@ public class LookupAnggotaDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cmbOption = new javax.swing.JComboBox();
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
         btnBatal = new javax.swing.JButton();
         btnOK = new javax.swing.JButton();
-        cmbOption = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Lookup Data Anggota");
+        setTitle("Lookup Transaksi Peminjaman");
         setResizable(false);
+
+        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ID_TRX", "KODE", "NAMA" }));
 
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -99,7 +85,7 @@ public class LookupAnggotaDialog extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Kode", "Nama", "Alamat", "Email", "No Telp"
+                "Id Transaksi", "Tanggal Pinjam", "Kode Anggota", "Nama Anggota"
             }
         ));
         jScrollPane1.setViewportView(tbl);
@@ -118,38 +104,35 @@ public class LookupAnggotaDialog extends javax.swing.JDialog {
             }
         });
 
-        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "KODE", "NAMA" }));
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 510, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(cmbOption, 0, 143, Short.MAX_VALUE)
+                        .addComponent(cmbOption, 0, 114, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 366, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnBatal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBatal, btnOK});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 350, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOK)
@@ -162,31 +145,42 @@ public class LookupAnggotaDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            listPeminjaman = Main.getTransaksiService().getTransaksiBelumKembali(
+                    cmbOption.getSelectedItem().toString(), txtSearch.getText());
+            tbl.setModel(new PeminjamanTableModel(listPeminjaman));
+            TableUtil.initColumn(tbl);
+        }
+}//GEN-LAST:event_txtSearchKeyPressed
+
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-        anggota = null;
+        pinjam = null;
         this.dispose();
-    }//GEN-LAST:event_btnBatalActionPerformed
+}//GEN-LAST:event_btnBatalActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        if(anggota!=null){
+        if(pinjam!=null){
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(Main.getMainForm(), "Tidak ada Data yang dipilih !");
         }
-    }//GEN-LAST:event_btnOKActionPerformed
+}//GEN-LAST:event_btnOKActionPerformed
+ 
+    private class TableSelection implements ListSelectionListener {
 
-    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            if(cmbOption.getSelectedItem().toString().equals("KODE")){
-                listAnggota = Main.getMasterService().findAnggotaByKode(txtSearch.getText());
-            } else {
-                listAnggota = Main.getMasterService().findAnggotaByNama(txtSearch.getText());
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (e.getValueIsAdjusting()) {
+                return;
             }
-            tbl.setModel(new MasterAnggotaTableModel(listAnggota));
-            TableUtil.initColumn(tbl);
-        }
-    }//GEN-LAST:event_txtSearchKeyPressed
 
+            if (tbl.getSelectedRow() >= 0) {
+                pinjam = listPeminjaman.get(tbl.getSelectedRow());
+            }
+        
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatal;
     private javax.swing.JButton btnOK;
