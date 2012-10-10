@@ -4,6 +4,8 @@
  */
 package perpus.ui.master;
 
+import com.jgoodies.looks.HeaderStyle;
+import com.jgoodies.looks.Options;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -110,20 +112,23 @@ public class MasterBuku extends javax.swing.JPanel {
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl = new javax.swing.JTable();
+        jToolBar2 = new javax.swing.JToolBar();
         lblRows = new javax.swing.JLabel();
         lblCountRows = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         lblMinPage = new javax.swing.JLabel();
         spPaging = new javax.swing.JSpinner();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         lblMaxPage = new javax.swing.JLabel();
         cmbOption = new javax.swing.JComboBox();
         txtSearch = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
 
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
+        jToolBar1.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
 
         btnRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/refresh.gif"))); // NOI18N
         btnRefresh.setToolTipText("Refresh");
@@ -185,63 +190,8 @@ public class MasterBuku extends javax.swing.JPanel {
         });
         jToolBar1.add(btnClose);
 
-        lblRows.setText(" rows : ");
-        lblRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        lblRows.setMaximumSize(new java.awt.Dimension(55, 55));
-        lblRows.setMinimumSize(new java.awt.Dimension(10, 10));
-        jToolBar1.add(lblRows);
-
-        lblCountRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        lblCountRows.setMaximumSize(new java.awt.Dimension(50, 50));
-        lblCountRows.setMinimumSize(new java.awt.Dimension(10, 10));
-        jToolBar1.add(lblCountRows);
-
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setText("Page");
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jLabel1.setMaximumSize(new java.awt.Dimension(50, 50));
-        jLabel1.setMinimumSize(new java.awt.Dimension(50, 50));
-        jToolBar1.add(jLabel1);
-
-        lblMinPage.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblMinPage.setText("  1  ");
-        lblMinPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        lblMinPage.setMaximumSize(new java.awt.Dimension(30, 30));
-        lblMinPage.setMinimumSize(new java.awt.Dimension(10, 10));
-        jToolBar1.add(lblMinPage);
-
-        spPaging.setMaximumSize(new java.awt.Dimension(50, 50));
-        spPaging.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spPagingStateChanged(evt);
-            }
-        });
-        jToolBar1.add(spPaging);
-
         jLabel2.setMaximumSize(new java.awt.Dimension(10, 10));
         jToolBar1.add(jLabel2);
-
-        lblMaxPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        lblMaxPage.setMaximumSize(new java.awt.Dimension(50, 50));
-        lblMaxPage.setMinimumSize(new java.awt.Dimension(10, 10));
-        jToolBar1.add(lblMaxPage);
-
-        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "KODE", "NAMA" }));
-        cmbOption.setMaximumSize(new java.awt.Dimension(70, 70));
-        jToolBar1.add(cmbOption);
-
-        txtSearch.setMaximumSize(new java.awt.Dimension(150, 150));
-        txtSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSearchActionPerformed(evt);
-            }
-        });
-        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtSearchKeyPressed(evt);
-            }
-        });
-        jToolBar1.add(txtSearch);
 
         tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -255,6 +205,63 @@ public class MasterBuku extends javax.swing.JPanel {
         tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tbl);
 
+        jToolBar2.setFloatable(false);
+        jToolBar2.setRollover(true);
+        jToolBar2.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
+
+        lblRows.setText(" rows : ");
+        lblRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblRows.setMaximumSize(new java.awt.Dimension(55, 55));
+        lblRows.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblRows);
+
+        lblCountRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblCountRows.setMaximumSize(new java.awt.Dimension(50, 50));
+        lblCountRows.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblCountRows);
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setText("Page");
+        jLabel3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel3.setMaximumSize(new java.awt.Dimension(50, 50));
+        jLabel3.setMinimumSize(new java.awt.Dimension(50, 50));
+        jToolBar2.add(jLabel3);
+
+        lblMinPage.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMinPage.setText("  1  ");
+        lblMinPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblMinPage.setMaximumSize(new java.awt.Dimension(30, 30));
+        lblMinPage.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblMinPage);
+
+        spPaging.setMaximumSize(new java.awt.Dimension(50, 50));
+        spPaging.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spPagingStateChanged(evt);
+            }
+        });
+        jToolBar2.add(spPaging);
+
+        jLabel4.setMaximumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(jLabel4);
+
+        lblMaxPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblMaxPage.setMaximumSize(new java.awt.Dimension(50, 50));
+        lblMaxPage.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblMaxPage);
+
+        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "KODE", "NAMA" }));
+        cmbOption.setMaximumSize(new java.awt.Dimension(70, 70));
+        jToolBar2.add(cmbOption);
+
+        txtSearch.setMaximumSize(new java.awt.Dimension(150, 150));
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
+        jToolBar2.add(txtSearch);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -264,14 +271,16 @@ public class MasterBuku extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 713, Short.MAX_VALUE)
                 .addContainerGap())
+            .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -339,10 +348,6 @@ public class MasterBuku extends javax.swing.JPanel {
         loadDataToTable();
     }//GEN-LAST:event_spPagingStateChanged
 
-    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSearchActionPerformed
-
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
         if(evt.getKeyChar() == KeyEvent.VK_ENTER){
             initPaging();
@@ -357,10 +362,12 @@ public class MasterBuku extends javax.swing.JPanel {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JComboBox cmbOption;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JToolBar jToolBar2;
     private javax.swing.JLabel lblCountRows;
     private javax.swing.JLabel lblMaxPage;
     private javax.swing.JLabel lblMinPage;

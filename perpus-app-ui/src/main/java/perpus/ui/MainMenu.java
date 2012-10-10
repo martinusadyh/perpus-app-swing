@@ -9,6 +9,8 @@ import com.jgoodies.looks.Options;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.ExperienceBlue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +22,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import perpus.Main;
 import perpus.domain.security.Screen;
@@ -42,53 +45,55 @@ public class MainMenu extends javax.swing.JFrame {
     private List<JMenu> menus;
     private List<JMenuItem> menuItems;
     private Integer indexTab = -1;
-    
+
     /**
      * Creates new form MainForm
      */
     public MainMenu() {
         initComponents();
         mnItemLogin.setVisible(false);
-        
-        lblUserName.setText("<html><b>Username : "+ Main.getPegawai().getUserName()+"</b></html>");
-        
+        jMenu6.setVisible(false);
+
         menus = new ArrayList<JMenu>();
         menuItems = new ArrayList<JMenuItem>();
-        
+
         menus.add(menuFile);
         menus.add(menuMaster);
         menus.add(menuTransaksi);
         menus.add(menuAdmin);
         menus.add(mnItemUserManagemen);
         menus.add(menuLaporan);
-        
+
         menuItems.add(mnItemLogout);
-        
+
         menuItems.add(mnItemAnggota);
         menuItems.add(mnItemBuku);
         menuItems.add(mnItemPegawai);
-        
+
         menuItems.add(mnuPeminjaman);
-        
+
         menuItems.add(mnItemKonfigurasiDenda);
         menuItems.add(mnItemHakAkses);
         menuItems.add(mnItemGrupAkses);
-        
+
         setExtendedState(MAXIMIZED_BOTH);
+        
+        plasticLaf();
     }
-    
+
     public void initSecurity() {
+        lblUserName.setText("<html><b>Username : " + Main.getPegawai().getUserName() + "</b></html>");
         for (JMenu jMenu : menus) {
-            for (Screen screen :Main.getScreens()) {
+            for (Screen screen : Main.getScreens()) {
                 if (jMenu.getText().equals(screen.getNamaScreen())) {
                     jMenu.setEnabled(screen.getEnable());
                     jMenu.setVisible(screen.getVisible());
                 }
             }
         }
-        
+
         for (JMenuItem jMenuItem : menuItems) {
-            for (Screen screen :Main.getScreens()) {
+            for (Screen screen : Main.getScreens()) {
                 if (jMenuItem.getText().equals(screen.getNamaScreen())) {
                     jMenuItem.setEnabled(screen.getEnable());
                     jMenuItem.setVisible(screen.getVisible());
@@ -100,7 +105,7 @@ public class MainMenu extends javax.swing.JFrame {
     public JTabbedPane getMainTabbedPane() {
         return mainTabbedPane;
     }
-    
+
     public JProgressBar getProgressBar() {
         return progressBar;
     }
@@ -108,15 +113,16 @@ public class MainMenu extends javax.swing.JFrame {
     public JLabel getLblStatus() {
         return lblStatus;
     }
-    
+
     private void resetLaf() {
         SwingUtilities.updateComponentTreeUI(this);
+//        Main.getMainForm().pack();
     }
-    
+
     private int getComponentIndexByName(String panelName) {
         return mainTabbedPane.indexOfTab(panelName);
     }
-    
+
     private void setSelectedPanel(String panelName) {
         mainTabbedPane.setSelectedComponent(mainTabbedPane.getComponentAt(getComponentIndexByName(panelName)));
     }
@@ -146,9 +152,6 @@ public class MainMenu extends javax.swing.JFrame {
         mnItemAnggota = new javax.swing.JMenuItem();
         mnItemBuku = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
-        mnItemMetal = new javax.swing.JMenuItem();
-        mnItemSystem = new javax.swing.JMenuItem();
-        mnItemNimbus = new javax.swing.JMenuItem();
         mnItemPlastic = new javax.swing.JMenuItem();
         menuTransaksi = new javax.swing.JMenu();
         mnuPeminjaman = new javax.swing.JMenuItem();
@@ -267,30 +270,6 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenu6.setText("Themes");
 
-        mnItemMetal.setText("Metal");
-        mnItemMetal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnItemMetalActionPerformed(evt);
-            }
-        });
-        jMenu6.add(mnItemMetal);
-
-        mnItemSystem.setText("System");
-        mnItemSystem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnItemSystemActionPerformed(evt);
-            }
-        });
-        jMenu6.add(mnItemSystem);
-
-        mnItemNimbus.setText("Nimbus");
-        mnItemNimbus.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mnItemNimbusActionPerformed(evt);
-            }
-        });
-        jMenu6.add(mnItemNimbus);
-
         mnItemPlastic.setText("Plastic");
         mnItemPlastic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -387,7 +366,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -437,55 +416,10 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnItemBukuActionPerformed
 
-    private void mnItemMetalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemMetalActionPerformed
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-            resetLaf();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mnItemMetalActionPerformed
-
-    private void mnItemSystemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemSystemActionPerformed
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            resetLaf();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mnItemSystemActionPerformed
-
-    private void mnItemNimbusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemNimbusActionPerformed
-        try {
-            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-            resetLaf();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_mnItemNimbusActionPerformed
-
     private void mnuPeminjamanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPeminjamanActionPerformed
         FormPeminjaman.getPanel().setName(FormPeminjaman.PANEL_NAME);
         indexTab = getComponentIndexByName(FormPeminjaman.PANEL_NAME);
-        if(indexTab == -1){
+        if (indexTab == -1) {
             mainTabbedPane.addTab(FormPeminjaman.PANEL_NAME, FormPeminjaman.getPanel());
             setSelectedPanel(FormPeminjaman.PANEL_NAME);
         } else {
@@ -496,7 +430,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void mnuPengembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPengembalianActionPerformed
         FormPengembalian.getPanel().setName(FormPengembalian.PANEL_NAME);
         indexTab = getComponentIndexByName(FormPengembalian.PANEL_NAME);
-        if(indexTab == -1){
+        if (indexTab == -1) {
             mainTabbedPane.addTab(FormPengembalian.PANEL_NAME, FormPengembalian.getPanel());
             setSelectedPanel(FormPengembalian.PANEL_NAME);
         } else {
@@ -507,7 +441,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void mnItemKonfigurasiDendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemKonfigurasiDendaActionPerformed
         FormKonfigurasi.getPanel().setName(FormKonfigurasi.PANEL_NAME);
         indexTab = getComponentIndexByName(FormKonfigurasi.PANEL_NAME);
-        if(indexTab == -1){
+        if (indexTab == -1) {
             mainTabbedPane.addTab(FormKonfigurasi.PANEL_NAME, FormKonfigurasi.getPanel());
             setSelectedPanel(FormKonfigurasi.PANEL_NAME);
         } else {
@@ -529,7 +463,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void mnItemGrupAksesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemGrupAksesActionPerformed
         GrupAkses.getPanel().setName(GrupAkses.PANEL_NAME);
         indexTab = getComponentIndexByName(GrupAkses.PANEL_NAME);
-        if(indexTab == -1){
+        if (indexTab == -1) {
             mainTabbedPane.addTab(GrupAkses.PANEL_NAME, GrupAkses.getPanel());
             setSelectedPanel(GrupAkses.PANEL_NAME);
         } else {
@@ -544,7 +478,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void mnItemRptPeminjamanPengembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemRptPeminjamanPengembalianActionPerformed
         LaporanPengembalianPinjaman.getPanel().setName(LaporanPengembalianPinjaman.PANEL_NAME);
         indexTab = getComponentIndexByName(LaporanPengembalianPinjaman.PANEL_NAME);
-        if(indexTab == -1){
+        if (indexTab == -1) {
             mainTabbedPane.addTab(LaporanPengembalianPinjaman.PANEL_NAME, LaporanPengembalianPinjaman.getPanel());
             setSelectedPanel(LaporanPengembalianPinjaman.PANEL_NAME);
         } else {
@@ -557,16 +491,16 @@ public class MainMenu extends javax.swing.JFrame {
             PlasticLookAndFeel laf = new PlasticXPLookAndFeel();
             PlasticLookAndFeel.setCurrentTheme(new ExperienceBlue());
             jMenuBar1.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
-            mainTabbedPane.putClientProperty(Options.EMBEDDED_TABS_KEY, Boolean.TRUE);
+            //PlasticLookAndFeel.setTabStyle(PlasticLookAndFeel.TAB_STYLE_DEFAULT_VALUE);
+            PlasticLookAndFeel.setTabStyle(PlasticLookAndFeel.TAB_STYLE_METAL_VALUE);
             Options.setPopupDropShadowEnabled(true);
             UIManager.setLookAndFeel(laf);
-            
+
             resetLaf();
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu6;
@@ -587,12 +521,9 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemKonfigurasiDenda;
     private javax.swing.JMenuItem mnItemLogin;
     private javax.swing.JMenuItem mnItemLogout;
-    private javax.swing.JMenuItem mnItemMetal;
-    private javax.swing.JMenuItem mnItemNimbus;
     private javax.swing.JMenuItem mnItemPegawai;
     private javax.swing.JMenuItem mnItemPlastic;
     private javax.swing.JMenuItem mnItemRptPeminjamanPengembalian;
-    private javax.swing.JMenuItem mnItemSystem;
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
     private javax.swing.JMenuItem mnuPengembalian;

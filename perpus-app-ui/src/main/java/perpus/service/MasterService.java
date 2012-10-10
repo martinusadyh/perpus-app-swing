@@ -19,8 +19,14 @@ public interface MasterService {
     
     Long countBukus();
     Long countBukus(String option, String value);
+    Long countAnggota(String option, String value);
+    Long countPegawai(String option, String value);
     List<Buku> findAllBukus(Integer start, Integer rows);
+    List<Anggota> findAllAnggota(Integer start, Integer rows);
+    List<Pegawai> findAllPegawai(Integer start, Integer rows);
     List<Buku> findAllBukus(String option, String value, Integer start, Integer rows);
+    List<Anggota> findAllAnggota(String option, String value, Integer start, Integer rows);
+    List<Pegawai> findAllPegawai(String option, String value, Integer start, Integer rows);
     List<Buku> findBukuByKode(String kode);
     List<Buku> findBukuByNama(String nama);
     
