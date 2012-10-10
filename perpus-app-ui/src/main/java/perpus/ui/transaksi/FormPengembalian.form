@@ -19,25 +19,12 @@
           <Group type="102" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jSeparator1" alignment="0" pref="466" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jScrollPane2" max="32767" attributes="0"/>
-                      <EmptySpace min="13" pref="13" max="13" attributes="0"/>
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel1" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtTransaksi" min="-2" pref="190" max="-2" attributes="0"/>
-                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                              <Component id="btnLookupTransaksi" min="-2" pref="28" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="jLabel2" linkSize="1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="tglPinjam" linkSize="2" min="-2" pref="114" max="-2" attributes="0"/>
-                          </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel3" linkSize="1" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -50,22 +37,40 @@
                                   <Component id="tglKembali2" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="tglKembali1" linkSize="2" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" attributes="0">
-                                      <Component id="btnSave" min="-2" pref="28" max="-2" attributes="0"/>
+                                      <Component id="btnSave" linkSize="4" min="-2" pref="28" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="btnBatal" min="-2" pref="28" max="-2" attributes="0"/>
+                                      <Component id="btnBatal" linkSize="4" min="-2" pref="28" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btnClose" linkSize="4" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="btnAdd" min="-2" pref="28" max="-2" attributes="0"/>
+                              <Component id="btnAdd" linkSize="4" min="-2" pref="28" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="btnDelete" min="-2" pref="28" max="-2" attributes="0"/>
+                              <Component id="btnDelete" linkSize="4" min="-2" pref="28" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel1" linkSize="1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="txtTransaksi" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel2" linkSize="1" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="tglPinjam" linkSize="2" min="-2" pref="114" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="btnLookupTransaksi" linkSize="4" min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="125" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="jSeparator1" pref="466" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="0" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -102,6 +107,7 @@
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="btnSave" linkSize="3" min="-2" pref="21" max="-2" attributes="0"/>
                                   <Component id="btnBatal" linkSize="3" min="-2" pref="21" max="-2" attributes="0"/>
+                                  <Component id="btnClose" linkSize="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -271,6 +277,17 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnClose">
+      <Properties>
+        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+          <Image iconType="3" name="/perpus/img/close.gif"/>
+        </Property>
+        <Property name="toolTipText" type="java.lang.String" value="Tutup Form"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCloseActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

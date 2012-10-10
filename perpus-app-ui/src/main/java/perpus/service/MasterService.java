@@ -17,7 +17,18 @@ import perpus.domain.security.PegawaiRole;
  */
 public interface MasterService {
     
-    List<Buku> findAllBukus();
+    Long countBukus();
+    Long countBukus(String option, String value);
+    Long countAnggota();
+    Long countAnggota(String option, String value);
+    Long countPegawai();
+    Long countPegawai(String option, String value);
+    List<Buku> findAllBukus(Integer start, Integer rows);
+    List<Anggota> findAllAnggota(Integer start, Integer rows);
+    List<Pegawai> findAllPegawai(Integer start, Integer rows);
+    List<Buku> findAllBukus(String option, String value, Integer start, Integer rows);
+    List<Anggota> findAllAnggota(String option, String value, Integer start, Integer rows);
+    List<Pegawai> findAllPegawai(String option, String value, Integer start, Integer rows);
     List<Buku> findBukuByKode(String kode);
     List<Buku> findBukuByNama(String nama);
     
@@ -42,5 +53,10 @@ public interface MasterService {
     Pegawai findPegawaiByUserName(String userName);
 
     PegawaiRole findPegawaiRoleByName(String supervisoR);
+
+    Long countAvailableBuku();
+    Long countAvailableBuku(String option, String value);
+    List<Buku> findAllAvailableBukus(Integer start, Integer rows);
+    List<Buku> findAllAvailableBukus(String option, String value, Integer start, Integer rows);
     
 }

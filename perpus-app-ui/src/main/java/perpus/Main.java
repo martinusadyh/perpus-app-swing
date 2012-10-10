@@ -84,7 +84,7 @@ public class Main {
     private static void checkDefaultUser() {
         List<Pegawai> pegawais = masterService.findAllPegawai();
         PegawaiRole defaultPegawaiRole = masterService.findPegawaiRoleByName("SUPERVISOR");
-        pegawai = masterService.findPegawaiByUserName("ama");
+        Pegawai pgw = masterService.findPegawaiByUserName("ama");
 
         if (pegawais != null || pegawais.isEmpty()) {
             if (defaultPegawaiRole == null) {
@@ -99,21 +99,21 @@ public class Main {
             }
 
             defaultPegawaiRole = masterService.findPegawaiRoleByName("SUPERVISOR");
-            if (defaultPegawaiRole != null && pegawai == null) {
-                pegawai = new Pegawai();
-                pegawai.setNipPegawai("085.693.717.147");
-                pegawai.setNamaPegawai("ama");
-                pegawai.setUserName("ama");
-                pegawai.setPassword(PasswordHelper.getEncryptedTextFromPlainText("amadoang"));
-                pegawai.setPegawaiRole(defaultPegawaiRole);
+            if (defaultPegawaiRole != null && pgw == null) {
+                pgw = new Pegawai();
+                pgw.setNipPegawai("085.693.717.147");
+                pgw.setNamaPegawai("ama");
+                pgw.setUserName("ama");
+                pgw.setPassword(PasswordHelper.getEncryptedTextFromPlainText("amadoang"));
+                pgw.setPegawaiRole(defaultPegawaiRole);
 
-                defaultPegawaiRole.getPegawais().add(pegawai);
+                defaultPegawaiRole.getPegawais().add(pgw);
 
-                masterService.save(pegawai);
+                masterService.save(pgw);
             }
         }
     }
-    
+
     public static void initLogin() {
         checkDefaultUser();
         if (mainForm == null) {
@@ -131,13 +131,10 @@ public class Main {
     public static void main(String[] args) {
         initContext();
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+            PlasticLookAndFeel laf = new PlasticXPLookAndFeel();
+            PlasticLookAndFeel.setCurrentTheme(new ExperienceBlue());
+            Options.setPopupDropShadowEnabled(true);
+            UIManager.setLookAndFeel(laf);
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }

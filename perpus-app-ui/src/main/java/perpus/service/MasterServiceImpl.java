@@ -38,11 +38,44 @@ public class MasterServiceImpl implements MasterService {
     public void delete(Object obj) {
         sessionFactory.getCurrentSession().delete(obj);
     }
+    
+    @Override
+    public Long countBukus(){
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(b) from Buku b")
+                .uniqueResult();
+    }
 
     @Override
-    public List<Buku> findAllBukus() {
+    public List<Buku> findAllBukus(Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=25;
         return sessionFactory.getCurrentSession()
                 .createQuery("from Buku bk order by bk.createdDate desc")
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+    
+    @Override
+    public List<Anggota> findAllAnggota(Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=25;
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Anggota bk order by bk.createdDate desc")
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+    
+    @Override
+    public List<Pegawai> findAllPegawai(Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=25;
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Pegawai bk order by bk.createdDate desc")
+                .setFirstResult(start)
+                .setMaxResults(rows)
                 .list();
     }
 
@@ -177,5 +210,165 @@ public class MasterServiceImpl implements MasterService {
         if (pr != null) Hibernate.initialize(pr.getPegawais());
         
         return pr;
+    }
+
+    @Override
+    public Long countBukus(String option, String value) {
+        StringBuilder sb = new StringBuilder("select count(b) from Buku b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeBuku like '%" + value + "%' ");
+        } else {
+            sb.append("where b.judulBuku like '%" + value + "%' ");
+        }
+        
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
+    
+    @Override
+    public Long countAnggota(String option, String value) {
+        StringBuilder sb = new StringBuilder("select count(b) from Anggota b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeAnggota like '%" + value + "%' ");
+        } else {
+            sb.append("where b.namaAnggota like '%" + value + "%' ");
+        }
+        
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
+    
+    @Override
+    public Long countPegawai(String option, String value) {
+        StringBuilder sb = new StringBuilder("select count(b) from Pegawai b ");
+        if(option.equals("NIP")){
+            sb.append("where b.nipPegawai like '%" + value + "%' ");
+        } else {
+            sb.append("where b.namaPegawai like '%" + value + "%' ");
+        }
+        
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
+
+    @Override
+    public List<Buku> findAllBukus(String option, String value, Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=25;
+        
+        StringBuilder sb = new StringBuilder("from Buku b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeBuku like '%" + value + "%' ");
+        } else {
+            sb.append("where b.judulBuku like '%" + value + "%' ");
+        }
+        sb.append("order by b.createdDate desc ");
+        
+        return sessionFactory.getCurrentSession()
+                .createQuery(sb.toString())
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+    
+    @Override
+    public List<Anggota> findAllAnggota(String option, String value, Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=25;
+        
+        StringBuilder sb = new StringBuilder("from Anggota b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeAnggota like '%" + value + "%' ");
+        } else {
+            sb.append("where b.namaAnggota like '%" + value + "%' ");
+        }
+        sb.append("order by b.createdDate desc ");
+        
+        return sessionFactory.getCurrentSession()
+                .createQuery(sb.toString())
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+    
+    @Override
+    public List<Pegawai> findAllPegawai(String option, String value, Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=25;
+        
+        StringBuilder sb = new StringBuilder("from Pegawai b ");
+        if(option.equals("NIP")){
+            sb.append("where b.nipPegawai like '%" + value + "%' ");
+        } else {
+            sb.append("where b.namaPegawai like '%" + value + "%' ");
+        }
+        sb.append("order by b.createdDate desc ");
+        
+        return sessionFactory.getCurrentSession()
+                .createQuery(sb.toString())
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+
+    @Override
+    public Long countAnggota() {
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(a) from Anggota a")
+                .uniqueResult();
+    }
+
+    @Override
+    public Long countPegawai() {
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(a) from Pegawai a")
+                .uniqueResult();
+    }
+
+    @Override
+    public Long countAvailableBuku() {
+        return (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(bk) from Buku bk where bk.jumlahBuku > 0")
+                .uniqueResult();
+    }
+
+    @Override
+    public Long countAvailableBuku(String option, String value) {
+        StringBuilder sb = new StringBuilder("select count(b) from Buku b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeBuku like '%" + value + "%' ");
+        } else {
+            sb.append("where b.judulBuku like '%" + value + "%' ");
+        }
+        sb.append("and b.jumlahBuku > 0 ");
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
+
+    @Override
+    public List<Buku> findAllAvailableBukus(Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=30;
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Buku bk where bk.jumlahBuku > 0 order by bk.createdDate desc")
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+
+    @Override
+    public List<Buku> findAllAvailableBukus(String option, String value, Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=30;
+        
+        StringBuilder sb = new StringBuilder("from Buku b ");
+        if(option.equals("KODE")){
+            sb.append("where b.kodeBuku like '%" + value + "%' ");
+        } else {
+            sb.append("where b.judulBuku like '%" + value + "%' ");
+        }
+        sb.append("and b.jumlahBuku > 0 order by b.createdDate desc ");
+        
+        return sessionFactory.getCurrentSession()
+                .createQuery(sb.toString())
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
     }
 }

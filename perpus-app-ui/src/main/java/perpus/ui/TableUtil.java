@@ -30,6 +30,7 @@ public class TableUtil {
                 width = Math.max(width, preferedWidth);
             }
             header.setResizingColumn(column); // this line is very important
+            width += 50;
             column.setWidth(width + jTable1.getIntercellSpacing().width);
         }
     }

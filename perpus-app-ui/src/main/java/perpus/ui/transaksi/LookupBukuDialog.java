@@ -10,15 +10,20 @@
  */
 package perpus.ui.transaksi;
 
+import com.jgoodies.looks.HeaderStyle;
+import com.jgoodies.looks.Options;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import org.springframework.util.StringUtils;
 import perpus.Main;
 import perpus.domain.Buku;
+import perpus.ui.TableUtil;
 import perpus.ui.tablemodel.MasterBukuTableModel;
 
 /**
@@ -30,26 +35,64 @@ public class LookupBukuDialog extends javax.swing.JDialog {
     private Buku buku;
     private List<Buku> listBuku = new ArrayList<Buku>();
     String[] headerModel = { "Kode", "Judul" };
+    private Integer start = 0;
+    private Integer rows = 30;
     
     /** Creates new form LookupAnggotaDialog */
     public LookupBukuDialog() {
         super(new JFrame(), true);
         initComponents();
         setLocationRelativeTo(null);
+        initPaging();
         loadDataToTable();
     }
     
     private void loadDataToTable(){
-        listBuku = Main.getMasterService().findAllBukus();
+        Double hal = (Double) spPaging.getModel().getValue();
+        start = (hal.intValue() - 1) * rows;
+        
+        if(StringUtils.hasText(txtSearch.getText())){
+            listBuku = Main.getMasterService().findAllAvailableBukus(
+                    cmbOption.getSelectedItem().toString(), txtSearch.getText(),
+                    start, rows);
+        } else {
+            listBuku = Main.getMasterService().findAllAvailableBukus(start, rows);
+        }
+        
         if(listBuku!=null){
             tbl.setModel(new MasterBukuTableModel(listBuku,headerModel));
             tbl.getSelectionModel().addListSelectionListener(new TableSelection());
+            TableUtil.initColumn(tbl);
         }
     }
     
     public Buku showDialog(){
         setVisible(true);
         return buku;
+    }
+    
+    private void initPaging(){
+        //start konfigurasi untuk paging
+        Long count = 0L;
+        
+        if(StringUtils.hasText(txtSearch.getText())){
+            count = Main.getMasterService().countAvailableBuku(
+                    cmbOption.getSelectedItem().toString(), txtSearch.getText());
+        } else {
+            count = Main.getMasterService().countAvailableBuku();
+        }
+        
+        Long hasilBagi = count/rows;
+        long page = Math.round(hasilBagi); 
+        
+        if ((count%rows) > 0) {
+            page = page + 1;
+        }
+        if(page==0){page=1;}
+        lblMaxPage.setText(String.valueOf(page));
+        spPaging.setModel(new SpinnerNumberModel(1, 1, page, 1));
+        lblCountRows.setText(String.valueOf(count));
+        //end konfigurasi untuk paging
     }
     
     private class TableSelection implements ListSelectionListener {
@@ -63,7 +106,6 @@ public class LookupBukuDialog extends javax.swing.JDialog {
             if (tbl.getSelectedRow() >= 0) {
                 buku = listBuku.get(tbl.getSelectedRow());
             }
-        
         }
     }
 
@@ -79,9 +121,18 @@ public class LookupBukuDialog extends javax.swing.JDialog {
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl = new javax.swing.JTable();
-        btnBatal = new javax.swing.JButton();
-        btnOK = new javax.swing.JButton();
         cmbOption = new javax.swing.JComboBox();
+        jToolBar2 = new javax.swing.JToolBar();
+        lblRows = new javax.swing.JLabel();
+        lblCountRows = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblMinPage = new javax.swing.JLabel();
+        spPaging = new javax.swing.JSpinner();
+        jLabel5 = new javax.swing.JLabel();
+        lblMaxPage = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        btnOK1 = new javax.swing.JButton();
+        btnBatal1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Lookup Data Buku");
@@ -101,23 +152,83 @@ public class LookupBukuDialog extends javax.swing.JDialog {
                 "Kode", "Judul"
             }
         ));
+        tbl.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tbl.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tbl);
 
-        btnBatal.setText("Batal");
-        btnBatal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBatalActionPerformed(evt);
+        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "KODE", "JUDUL" }));
+
+        jToolBar2.setFloatable(false);
+        jToolBar2.setRollover(true);
+        jToolBar2.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
+
+        lblRows.setText(" rows : ");
+        lblRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblRows.setMaximumSize(new java.awt.Dimension(55, 55));
+        lblRows.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblRows);
+
+        lblCountRows.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblCountRows.setMaximumSize(new java.awt.Dimension(50, 50));
+        lblCountRows.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblCountRows);
+
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setText("Page");
+        jLabel4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jLabel4.setMaximumSize(new java.awt.Dimension(50, 50));
+        jLabel4.setMinimumSize(new java.awt.Dimension(50, 50));
+        jToolBar2.add(jLabel4);
+
+        lblMinPage.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblMinPage.setText("  1  ");
+        lblMinPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblMinPage.setMaximumSize(new java.awt.Dimension(30, 30));
+        lblMinPage.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblMinPage);
+
+        spPaging.setMaximumSize(new java.awt.Dimension(50, 50));
+        spPaging.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                spPagingStateChanged(evt);
             }
         });
+        jToolBar2.add(spPaging);
 
-        btnOK.setText("OK");
-        btnOK.addActionListener(new java.awt.event.ActionListener() {
+        jLabel5.setMaximumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(jLabel5);
+
+        lblMaxPage.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        lblMaxPage.setMaximumSize(new java.awt.Dimension(50, 50));
+        lblMaxPage.setMinimumSize(new java.awt.Dimension(10, 10));
+        jToolBar2.add(lblMaxPage);
+
+        jLabel1.setMaximumSize(new java.awt.Dimension(200, 200));
+        jToolBar2.add(jLabel1);
+
+        btnOK1.setText("OK");
+        btnOK1.setFocusable(false);
+        btnOK1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnOK1.setMaximumSize(new java.awt.Dimension(60, 60));
+        btnOK1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnOK1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnOKActionPerformed(evt);
+                btnOK1ActionPerformed(evt);
             }
         });
+        jToolBar2.add(btnOK1);
 
-        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "KODE", "NAMA" }));
+        btnBatal1.setText("Batal");
+        btnBatal1.setFocusable(false);
+        btnBatal1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnBatal1.setMaximumSize(new java.awt.Dimension(60, 60));
+        btnBatal1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnBatal1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBatal1ActionPerformed(evt);
+            }
+        });
+        jToolBar2.add(btnBatal1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -131,15 +242,9 @@ public class LookupBukuDialog extends javax.swing.JDialog {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnBatal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jToolBar2, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE))
                 .addContainerGap())
         );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnBatal, btnOK});
-
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -148,48 +253,55 @@ public class LookupBukuDialog extends javax.swing.JDialog {
                     .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnOK)
-                    .addComponent(btnBatal))
+                .addComponent(jToolBar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnBatal, btnOK, cmbOption, txtSearch});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmbOption, txtSearch});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-        buku = null;
-        this.dispose();
-    }//GEN-LAST:event_btnBatalActionPerformed
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if(evt.getKeyChar() == KeyEvent.VK_ENTER){
+            initPaging();
+            loadDataToTable();
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
 
-    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+    private void spPagingStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spPagingStateChanged
+        loadDataToTable();
+}//GEN-LAST:event_spPagingStateChanged
+
+    private void btnOK1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOK1ActionPerformed
         if(buku!=null){
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(Main.getMainForm(), "Tidak ada Data yang dipilih !");
         }
-    }//GEN-LAST:event_btnOKActionPerformed
+}//GEN-LAST:event_btnOK1ActionPerformed
 
-    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            if(cmbOption.getSelectedItem().toString().equals("KODE")){
-                listBuku = Main.getMasterService().findBukuByKode(txtSearch.getText());
-            } else {
-                listBuku = Main.getMasterService().findBukuByNama(txtSearch.getText());
-            }
-            tbl.setModel(new MasterBukuTableModel(listBuku,headerModel));
-        }
-    }//GEN-LAST:event_txtSearchKeyPressed
+    private void btnBatal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatal1ActionPerformed
+        buku = null;
+        this.dispose();
+}//GEN-LAST:event_btnBatal1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBatal;
-    private javax.swing.JButton btnOK;
+    private javax.swing.JButton btnBatal1;
+    private javax.swing.JButton btnOK1;
     private javax.swing.JComboBox cmbOption;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToolBar jToolBar2;
+    private javax.swing.JLabel lblCountRows;
+    private javax.swing.JLabel lblMaxPage;
+    private javax.swing.JLabel lblMinPage;
+    private javax.swing.JLabel lblRows;
+    private javax.swing.JSpinner spPaging;
     private javax.swing.JTable tbl;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables

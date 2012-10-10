@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import perpus.domain.Anggota;
+import perpus.domain.Buku;
 import perpus.domain.Peminjaman;
 import perpus.domain.PeminjamanDetail;
 import perpus.domain.Pengembalian;
@@ -35,8 +36,18 @@ public class TransaksiServiceImpl implements TransaksiService{
     public void save(Peminjaman p) {
         sessionFactory.getCurrentSession().save(p);
         Anggota a = masterService.findAnggotaById(p.getAnggota().getId());
-        a.setStatus(Boolean.TRUE);
+        a.setCounterPinjam(a.getCounterPinjam() + p.getDetailPeminjamans().size());
+        a.setStatus("Anggota ini meminjam " + a.getCounterPinjam() + " buku");
+        
         masterService.save(a);
+        
+        // kurangi jumlah buku
+        for (PeminjamanDetail pd : p.getDetailPeminjamans()) {
+            Buku bk = pd.getBuku();
+            bk.setJumlahBuku(bk.getJumlahBuku()-1);
+            
+            masterService.save(bk);
+        }
     }
 
     @Override
@@ -44,11 +55,20 @@ public class TransaksiServiceImpl implements TransaksiService{
     public void save(Pengembalian p) {
         sessionFactory.getCurrentSession().save(p);
         Anggota a = masterService.findAnggotaById(p.getTransaksiPeminjaman().getAnggota().getId());
+        a.setCounterPinjam(a.getCounterPinjam() - p.getDetailsPengembalian().size());
+        if(a.getCounterPinjam() > 0){
+            a.setStatus("Anggota ini meminjam " + a.getCounterPinjam() + " buku");
+        } else {
+            a.setStatus("");
+        }
+        masterService.save(a);
         
-        List<PengembalianDetail> listDetail = getTransaksiPengembalianByIdPinjam(p.getTransaksiPeminjaman().getId());
-        if(listDetail.size() == p.getTransaksiPeminjaman().getDetailPeminjamans().size()){
-            a.setStatus(Boolean.FALSE);
-            masterService.save(a);
+        // tambah jumlah buku yang dikembalikan
+        for (PengembalianDetail pd : p.getDetailsPengembalian()) {
+            Buku buku = pd.getBuku();
+            buku.setJumlahBuku(buku.getJumlahBuku()+1);
+            
+            masterService.save(buku);
         }
     }
 

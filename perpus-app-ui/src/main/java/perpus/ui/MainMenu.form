@@ -71,30 +71,6 @@
             <Property name="text" type="java.lang.String" value="Themes"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="mnItemMetal">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Metal"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemMetalActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnItemSystem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="System"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemSystemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="mnItemNimbus">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Nimbus"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemNimbusActionPerformed"/>
-              </Events>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnItemPlastic">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Plastic"/>
@@ -223,7 +199,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panelHeaderDashboard1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="mainTabbedPane" pref="357" max="32767" attributes="0"/>
+              <Component id="mainTabbedPane" pref="369" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
           </Group>
