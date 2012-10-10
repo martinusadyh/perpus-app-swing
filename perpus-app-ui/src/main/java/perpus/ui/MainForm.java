@@ -6,8 +6,15 @@ package perpus.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import perpus.Main;
+import perpus.domain.security.Screen;
 import perpus.ui.admin.GrupAkses;
 import perpus.ui.admin.HakAkses;
 import perpus.ui.master.MasterAnggota;
@@ -38,6 +45,7 @@ public class MainForm extends javax.swing.JFrame {
         menus.add(menuMaster);
         menus.add(menuTransaksi);
         menus.add(menuAdmin);
+        menus.add(mnItemUserManagemen);
         menus.add(menuLaporan);
         
         menuItems.add(mnItemLogout);
@@ -46,9 +54,38 @@ public class MainForm extends javax.swing.JFrame {
         menuItems.add(mnItemAnggota);
         menuItems.add(mnItemBuku);
         menuItems.add(mnItemPegawai);
-               
-                
+        
+        menuItems.add(mnuPeminjaman);
+        
+        menuItems.add(mnItemKonfigurasiDenda);
+        menuItems.add(mnItemHakAkses);
+        menuItems.add(mnItemGrupAkses);
+        
         setExtendedState(MAXIMIZED_BOTH);
+    }
+    
+    public void initSecurity() {
+        for (JMenu jMenu : menus) {
+            for (Screen screen :Main.getScreens()) {
+                if (jMenu.getText().equals(screen.getNamaScreen())) {
+                    jMenu.setEnabled(screen.getEnable());
+                    jMenu.setVisible(screen.getVisible());
+                }
+            }
+        }
+        
+        for (JMenuItem jMenuItem : menuItems) {
+            for (Screen screen :Main.getScreens()) {
+                if (jMenuItem.getText().equals(screen.getNamaScreen())) {
+                    jMenuItem.setEnabled(screen.getEnable());
+                    jMenuItem.setVisible(screen.getVisible());
+                }
+            }
+        }
+    }
+    
+    private void resetLaf() {
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     /**
@@ -72,6 +109,10 @@ public class MainForm extends javax.swing.JFrame {
         mnItemPegawai = new javax.swing.JMenuItem();
         mnItemAnggota = new javax.swing.JMenuItem();
         mnItemBuku = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
+        mnItemMetal = new javax.swing.JMenuItem();
+        mnItemSystem = new javax.swing.JMenuItem();
+        mnItemNimbus = new javax.swing.JMenuItem();
         menuTransaksi = new javax.swing.JMenu();
         mnuPeminjaman = new javax.swing.JMenuItem();
         mnuPengembalian = new javax.swing.JMenuItem();
@@ -110,8 +151,10 @@ public class MainForm extends javax.swing.JFrame {
         );
 
         menuFile.setText("File");
+        menuFile.setName("File"); // NOI18N
 
         mnItemLogin.setText("Login");
+        mnItemLogin.setName("Login"); // NOI18N
         mnItemLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnItemLoginActionPerformed(evt);
@@ -120,6 +163,7 @@ public class MainForm extends javax.swing.JFrame {
         menuFile.add(mnItemLogin);
 
         mnItemLogout.setText("Logout");
+        mnItemLogout.setName("Logout"); // NOI18N
         menuFile.add(mnItemLogout);
 
         jMenuBar1.add(menuFile);
@@ -128,8 +172,10 @@ public class MainForm extends javax.swing.JFrame {
         jMenuBar1.add(jMenu6);
 
         menuMaster.setText("Master");
+        menuMaster.setName("Master"); // NOI18N
 
         mnItemPegawai.setText("Entri Pegawai");
+        mnItemPegawai.setName("Entri Pegawai"); // NOI18N
         mnItemPegawai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnItemPegawaiActionPerformed(evt);
@@ -138,6 +184,7 @@ public class MainForm extends javax.swing.JFrame {
         menuMaster.add(mnItemPegawai);
 
         mnItemAnggota.setText("Entri Anggota");
+        mnItemAnggota.setName("Entri Anggota"); // NOI18N
         mnItemAnggota.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnItemAnggotaActionPerformed(evt);
@@ -146,6 +193,7 @@ public class MainForm extends javax.swing.JFrame {
         menuMaster.add(mnItemAnggota);
 
         mnItemBuku.setText("Entri Buku");
+        mnItemBuku.setName("Entri Buku"); // NOI18N
         mnItemBuku.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnItemBukuActionPerformed(evt);
@@ -155,9 +203,39 @@ public class MainForm extends javax.swing.JFrame {
 
         jMenuBar1.add(menuMaster);
 
+        jMenu6.setText("Themes");
+
+        mnItemMetal.setText("Metal");
+        mnItemMetal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemMetalActionPerformed(evt);
+            }
+        });
+        jMenu6.add(mnItemMetal);
+
+        mnItemSystem.setText("System");
+        mnItemSystem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemSystemActionPerformed(evt);
+            }
+        });
+        jMenu6.add(mnItemSystem);
+
+        mnItemNimbus.setText("Nimbus");
+        mnItemNimbus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnItemNimbusActionPerformed(evt);
+            }
+        });
+        jMenu6.add(mnItemNimbus);
+
+        jMenuBar1.add(jMenu6);
+
         menuTransaksi.setText("Transaksi");
+        menuTransaksi.setName("Transaksi"); // NOI18N
 
         mnuPeminjaman.setText("Peminjaman");
+        mnuPeminjaman.setName("Peminjaman"); // NOI18N
         mnuPeminjaman.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnuPeminjamanActionPerformed(evt);
@@ -176,13 +254,17 @@ public class MainForm extends javax.swing.JFrame {
         jMenuBar1.add(menuTransaksi);
 
         menuAdmin.setText("Admin");
+        menuAdmin.setName("Admin"); // NOI18N
 
         mnItemKonfigurasiDenda.setText("Konfigurasi Denda");
+        mnItemKonfigurasiDenda.setName("Konfigurasi Denda"); // NOI18N
         menuAdmin.add(mnItemKonfigurasiDenda);
 
         mnItemUserManagemen.setText("User Managemen");
+        mnItemUserManagemen.setName("User Managemen"); // NOI18N
 
         mnItemHakAkses.setText("Hak Akses");
+        mnItemHakAkses.setName("Hak Akses"); // NOI18N
         mnItemHakAkses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnItemHakAksesActionPerformed(evt);
@@ -191,6 +273,7 @@ public class MainForm extends javax.swing.JFrame {
         mnItemUserManagemen.add(mnItemHakAkses);
 
         mnItemGrupAkses.setText("Grup Akses");
+        mnItemGrupAkses.setName("Grup Akses"); // NOI18N
         mnItemGrupAkses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mnItemGrupAksesActionPerformed(evt);
@@ -221,7 +304,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 328, Short.MAX_VALUE)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -299,7 +382,52 @@ public class MainForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnItemGrupAksesActionPerformed
 
-    private void mnuPengembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPengembalianActionPerformed
+    private void mnItemMetalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemMetalActionPerformed
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+            resetLaf();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnItemMetalActionPerformed
+
+    private void mnItemSystemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemSystemActionPerformed
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            resetLaf();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnItemSystemActionPerformed
+
+    private void mnItemNimbusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemNimbusActionPerformed
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+            resetLaf();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mnItemNimbusActionPerformed
+	
+	private void mnuPengembalianActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPengembalianActionPerformed
         FormPengembalian.getPanel().setName(FormPengembalian.PANEL_NAME);
         indexTab = getComponentIndexByName(FormPengembalian.PANEL_NAME);
         if(indexTab == -1){
@@ -369,7 +497,10 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemKonfigurasiDenda;
     private javax.swing.JMenuItem mnItemLogin;
     private javax.swing.JMenuItem mnItemLogout;
+    private javax.swing.JMenuItem mnItemMetal;
+    private javax.swing.JMenuItem mnItemNimbus;
     private javax.swing.JMenuItem mnItemPegawai;
+    private javax.swing.JMenuItem mnItemSystem;
     private javax.swing.JMenu mnItemUserManagemen;
     private javax.swing.JMenuItem mnuPeminjaman;
     private javax.swing.JMenuItem mnuPengembalian;

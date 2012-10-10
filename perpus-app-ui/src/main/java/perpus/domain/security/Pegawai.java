@@ -17,19 +17,15 @@ import perpus.domain.BaseEntity;
 @Entity
 @Table(name="pegawai")
 public class Pegawai extends BaseEntity {
-    
-    @Column(name="nip_pegawai")
+
+    @Column(name = "nip_pegawai")
     private String nipPegawai;
-    
-    @Column(name="nama_pegawai")
+    @Column(name = "nama_pegawai")
     private String namaPegawai;
-    
-    @Column(name="user_name")
+    @Column(name = "user_name")
     private String userName;
-    
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
-    
     @ManyToOne
     private PegawaiRole pegawaiRole;
 

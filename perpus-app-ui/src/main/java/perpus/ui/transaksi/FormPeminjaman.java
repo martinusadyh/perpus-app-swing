@@ -23,9 +23,7 @@ import perpus.domain.Konfigurasi;
 import perpus.domain.Peminjaman;
 import perpus.domain.PeminjamanDetail;
 import perpus.ui.TableUtil;
-import perpus.ui.tablemodel.MasterBukuTableModel;
 import perpus.ui.tablemodel.PeminjamanDetailTableModel;
-import sun.security.util.PendingException;
 
 /**
  *

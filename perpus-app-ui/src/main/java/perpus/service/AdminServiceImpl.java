@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perpus.domain.security.PegawaiRole;
+import perpus.domain.security.Screen;
 
 /**
  *
@@ -46,5 +47,13 @@ public class AdminServiceImpl implements AdminService {
     @Transactional(readOnly=false)
     public void delete(Object obj) {
         sessionFactory.getCurrentSession().delete(obj);
+    }
+
+    @Override
+    public List<Screen> findAllScreenByPegawaiRoleId(Integer id) {
+        return sessionFactory.getCurrentSession()
+                .createQuery("from Screen screen where screen.pegawaiRole.id = :prmPegawaiRoleID")
+                .setParameter("prmPegawaiRoleID", id)
+                .list();
     }
 }

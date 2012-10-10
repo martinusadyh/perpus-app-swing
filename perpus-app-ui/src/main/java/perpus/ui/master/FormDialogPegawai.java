@@ -6,8 +6,10 @@ package perpus.ui.master;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import perpus.Main;
 import perpus.domain.security.Pegawai;
+import perpus.util.PasswordHelper;
 
 /**
  *
@@ -42,7 +44,7 @@ public class FormDialogPegawai extends javax.swing.JDialog {
         txtNIPPegawai.setText(pegawai.getNipPegawai());
         txtNmPegawai.setText(pegawai.getNamaPegawai());
         txtUserName.setText(pegawai.getUserName());
-        txtPassword.setText(pegawai.getPassword());
+        txtPassword.setText(PasswordHelper.getPlainTextFromEncryptedText(pegawai.getPassword()));
     }
     
     private void loadFormToDomain() {
@@ -52,7 +54,7 @@ public class FormDialogPegawai extends javax.swing.JDialog {
         pegawai.setNipPegawai(txtNIPPegawai.getText());
         pegawai.setNamaPegawai(txtNmPegawai.getText());
         pegawai.setUserName(txtUserName.getText());
-        pegawai.setPassword(String.valueOf(txtPassword.getPassword()));
+        pegawai.setPassword(PasswordHelper.getEncryptedTextFromPlainText(String.valueOf(txtPassword.getPassword())));
     }
     
     private Boolean validateForm() {

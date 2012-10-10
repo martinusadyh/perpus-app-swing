@@ -6,6 +6,7 @@ package perpus.service;
 
 import java.util.List;
 import perpus.domain.security.PegawaiRole;
+import perpus.domain.security.Screen;
 
 /**
  *
@@ -18,5 +19,7 @@ public interface AdminService {
     void save(Object obj);
 
     void delete(Object obj);
+
+    List<Screen> findAllScreenByPegawaiRoleId(Integer id);
     
 }

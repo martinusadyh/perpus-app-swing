@@ -14,6 +14,7 @@ import perpus.domain.Anggota;
 import perpus.domain.Buku;
 import perpus.domain.Konfigurasi;
 import perpus.domain.security.Pegawai;
+import perpus.domain.security.PegawaiRole;
 
 /**
  *
@@ -65,6 +66,7 @@ public class MasterServiceImpl implements MasterService {
                 .uniqueResult();
     }
     
+    @Override
     public List<Anggota> findAllAnggota() {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Anggota ag order by ag.namaAnggota, ag.kodeAnggota asc")
@@ -143,5 +145,27 @@ public class MasterServiceImpl implements MasterService {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Pegawai pgw where pgw.pegawaiRole is not null")
                 .list();
+    }
+
+    @Override
+    public Pegawai findPegawaiByUserName(String userName) {
+        return (Pegawai) sessionFactory.getCurrentSession()
+                .createQuery("from Pegawai pgw where pgw.userName = :prmUserName")
+                .setParameter("prmUserName", userName)
+                .setMaxResults(1)
+                .uniqueResult();
+    }
+
+    @Override
+    public PegawaiRole findPegawaiRoleByName(String supervisoR) {
+        PegawaiRole pr = (PegawaiRole) sessionFactory.getCurrentSession()
+                .createQuery("from PegawaiRole pr where pr.nama = :prmNama")
+                .setParameter("prmNama", supervisoR)
+                .setMaxResults(1)
+                .uniqueResult();
+        
+        if (pr != null) Hibernate.initialize(pr.getPegawais());
+        
+        return pr;
     }
 }
