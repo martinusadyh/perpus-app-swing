@@ -43,8 +43,12 @@ public class TransaksiServiceImpl implements TransaksiService{
     public void save(Pengembalian p) {
         sessionFactory.getCurrentSession().save(p);
         Anggota a = masterService.findAnggotaById(p.getTransaksiPeminjaman().getAnggota().getId());
-        a.setStatus(Boolean.FALSE);
-        masterService.save(a);
+        
+        List<PengembalianDetail> listDetail = getTransaksiPengembalianByIdPinjam(p.getTransaksiPeminjaman().getId());
+        if(listDetail.size() == p.getTransaksiPeminjaman().getDetailPeminjamans().size()){
+            a.setStatus(Boolean.FALSE);
+            masterService.save(a);
+        }
     }
 
     @Override

@@ -4,6 +4,7 @@
  */
 package perpus.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
@@ -74,12 +75,21 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
+    @Transactional(readOnly=false)
     public Konfigurasi getKonfigurasi() {
         List<Konfigurasi> list = sessionFactory.getCurrentSession()
                 .createQuery("from Konfigurasi k")
                 .setMaxResults(1)
                 .list();
-        return list.get(0);
+        if(list.isEmpty()){
+            Konfigurasi config = new Konfigurasi();
+            config.setMaxLamaPinjam(2);
+            config.setDendaPerHari(new BigDecimal(2000));
+            save(config);
+            return config;
+        } else {
+            return list.get(0);
+        }
     }
 
     @Override
