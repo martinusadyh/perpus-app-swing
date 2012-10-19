@@ -1,0 +1,10 @@
+-untuk buku bos maksimal peminjaman adalah 6 bulan
+-tambah searching di master buku
+-tambah menu cetak kartu anggota (forma menyusul)
+-tambah report untuk buku
+-di grid(table) kalo bisa dikasih warna (warnanya selang-seling) misal : baris 1 warna biru baris 2 warna putih baris warna biru lagi dst
+-tambah id uniq di semua .
+-kalo bisa di status peminjaman , statusnya yaitu judul / kode buku yg di pinjam
+
+-ketika logout tab2 yg ditinggalkan oleh user yg logout tidak langsung close ... 
+jadi ketika ada user baru yg login,tab2 yg dibuka oleh user sebelumnya yg tidak di close masih terbuka saat user baru login.
