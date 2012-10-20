@@ -379,6 +379,7 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_mnItemLoginActionPerformed
 
     private void mnItemLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnItemLogoutActionPerformed
+        mainTabbedPane.removeAll();
         this.dispose();
         Main.initLogin();
     }//GEN-LAST:event_mnItemLogoutActionPerformed
