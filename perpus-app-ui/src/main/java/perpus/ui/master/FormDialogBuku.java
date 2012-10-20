@@ -70,7 +70,8 @@ public class FormDialogBuku extends javax.swing.JDialog {
     
     private Boolean validateForm() {
         if (txtKodeBuku.getText().length() > 0 && 
-                txtJudulBuku.getText().length() > 0) {
+            txtJudulBuku.getText().length() > 0 &&
+            txtThnTerbit.getDate() != null) {
             return true;
         } else {
             return false;
@@ -119,7 +120,7 @@ public class FormDialogBuku extends javax.swing.JDialog {
 
         jLabel4.setText("Penerbit ");
 
-        jLabel5.setText("Tahun Terbit");
+        jLabel5.setText("Tahun Terbit *");
 
         txtThnTerbit.setDateFormatString("yyyy");
 
