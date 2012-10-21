@@ -9,8 +9,6 @@ import com.jgoodies.looks.Options;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.ExperienceBlue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,7 +20,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import perpus.Main;
 import perpus.domain.security.Screen;
@@ -78,7 +75,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         setExtendedState(MAXIMIZED_BOTH);
         
-        plasticLaf();
+//        plasticLaf();
     }
 
     public void initSecurity() {

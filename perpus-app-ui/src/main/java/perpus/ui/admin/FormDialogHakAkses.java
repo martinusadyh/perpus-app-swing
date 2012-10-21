@@ -4,10 +4,12 @@
  */
 package perpus.ui.admin;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableCellRenderer;
 import perpus.Main;
 import perpus.domain.security.PegawaiRole;
 import perpus.domain.security.Screen;
@@ -90,7 +92,18 @@ public class FormDialogHakAkses extends javax.swing.JDialog {
         btnBatal = new javax.swing.JButton();
         chkBoxTampilkanLyr = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
+        tbl = new javax.swing.JTable() {
+            public Component prepareRenderer(
+                TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                if (!isRowSelected(row)) {
+                    c.setBackground(row % 2 == 0 ? getBackground() : new java.awt.Color(237, 243, 254));
+                }
+
+                return c;
+            }
+        };
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Tambah / Update Hak Akses");
