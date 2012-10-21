@@ -75,7 +75,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         setExtendedState(MAXIMIZED_BOTH);
         
-//        plasticLaf();
+        plasticLaf();
     }
 
     public void initSecurity() {
