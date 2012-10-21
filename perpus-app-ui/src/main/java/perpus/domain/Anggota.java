@@ -18,7 +18,7 @@ import javax.persistence.Temporal;
 @Table(name="anggota")
 public class Anggota extends BaseEntity {
     
-    @Column(name="kode_anggota")
+    @Column(unique=true, name="kode_anggota")
     private String kodeAnggota;
     
     @Column(name="nama_anggota")

@@ -18,7 +18,7 @@ import perpus.domain.BaseEntity;
 @Table(name="pegawai")
 public class Pegawai extends BaseEntity {
 
-    @Column(name = "nip_pegawai")
+    @Column(unique=true, name = "nip_pegawai")
     private String nipPegawai;
     @Column(name = "nama_pegawai")
     private String namaPegawai;
