@@ -10,12 +10,13 @@
  */
 package perpus.ui.transaksi;
 
-import java.util.ArrayList;
+import java.awt.Component;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellRenderer;
 import perpus.Main;
 import perpus.domain.PengembalianDetail;
 import perpus.ui.TableUtil;
@@ -62,7 +63,18 @@ public class TambahDetailPengembalianDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
+        tbl = new javax.swing.JTable() {
+            public Component prepareRenderer(
+                TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                if (!isRowSelected(row)) {
+                    c.setBackground(row % 2 == 0 ? getBackground() : new java.awt.Color(237, 243, 254));
+                }
+
+                return c;
+            }
+        };
         btnBatal = new javax.swing.JButton();
         btnOK = new javax.swing.JButton();
 

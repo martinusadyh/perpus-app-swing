@@ -6,12 +6,14 @@ package perpus.ui.master;
 
 import com.jgoodies.looks.HeaderStyle;
 import com.jgoodies.looks.Options;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellRenderer;
 import org.springframework.util.StringUtils;
 import perpus.Main;
 import perpus.domain.Anggota;
@@ -36,7 +38,7 @@ public class MasterAnggota extends javax.swing.JPanel {
         if (panel == null) {
             panel = new MasterAnggota();
         }
-
+        
         return panel;
     }
 
@@ -102,7 +104,18 @@ public class MasterAnggota extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
+        tbl = new javax.swing.JTable() {
+            public Component prepareRenderer(
+                TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                if (!isRowSelected(row)) {
+                    c.setBackground(row % 2 == 0 ? getBackground() : new java.awt.Color(237, 243, 254));
+                }
+
+                return c;
+            }
+        };
         jToolBar1 = new javax.swing.JToolBar();
         btnRefresh = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();

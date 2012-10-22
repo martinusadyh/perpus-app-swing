@@ -10,19 +10,17 @@
  */
 package perpus.ui.transaksi;
 
+import java.awt.Component;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellRenderer;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.util.StringUtils;
 import perpus.Main;
 import perpus.domain.Buku;
@@ -169,7 +167,18 @@ public class FormPengembalian extends javax.swing.JPanel {
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
+        tbl = new javax.swing.JTable() {
+            public Component prepareRenderer(
+                TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                if (!isRowSelected(row)) {
+                    c.setBackground(row % 2 == 0 ? getBackground() : new java.awt.Color(237, 243, 254));
+                }
+
+                return c;
+            }
+        };
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();

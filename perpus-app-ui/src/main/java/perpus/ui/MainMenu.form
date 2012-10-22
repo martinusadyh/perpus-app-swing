@@ -199,7 +199,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panelHeaderDashboard1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="mainTabbedPane" pref="373" max="32767" attributes="0"/>
+              <Component id="mainTabbedPane" pref="381" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
           </Group>

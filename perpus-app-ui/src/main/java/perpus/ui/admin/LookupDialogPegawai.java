@@ -4,11 +4,13 @@
  */
 package perpus.ui.admin;
 
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.table.TableCellRenderer;
 import perpus.Main;
 import perpus.domain.security.Pegawai;
 import perpus.ui.TableUtil;
@@ -59,7 +61,18 @@ public class LookupDialogPegawai extends javax.swing.JDialog {
 
         cmbFilter = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
+        tbl = new javax.swing.JTable() {
+            public Component prepareRenderer(
+                TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                if (!isRowSelected(row)) {
+                    c.setBackground(row % 2 == 0 ? getBackground() : new java.awt.Color(237, 243, 254));
+                }
+
+                return c;
+            }
+        };
         jSeparator1 = new javax.swing.JSeparator();
         btnOK = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
