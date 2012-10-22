@@ -48,6 +48,7 @@ public class FormPengembalian extends javax.swing.JPanel {
     private PengembalianDetail detail;
     private List<PengembalianDetail> detailPengembalians = new ArrayList<PengembalianDetail>();
     private List<PengembalianDetail> detailPengembaliansOrig = new ArrayList<PengembalianDetail>();
+    private Date sekarang = new Date();
 
     /**
      * Creates new form FormPengembalian
@@ -74,8 +75,6 @@ public class FormPengembalian extends javax.swing.JPanel {
         txtTransaksi.setText("");
         txtTotalDenda.setText("");
         tglPinjam.setDate(null);
-        tglKembali1.setDate(null);
-        tglKembali2.setDate(null);
 
         refreshTableDetail();
     }
@@ -101,11 +100,9 @@ public class FormPengembalian extends javax.swing.JPanel {
         List<PengembalianDetail> listSudahDikembalikan =
                 Main.getTransaksiService().getTransaksiPengembalianByIdPinjam(peminjaman.getId());
 
-        Integer telat = hitungHari(peminjaman.getTglKembali(), tglKembali2.getDate());
-        System.out.println("Telat " + telat + " hari!");
         Konfigurasi config = Main.getMasterService().getKonfigurasi();
-
         for (PeminjamanDetail d1 : peminjaman.getDetailPeminjamans()) {
+            Integer telat = hitungHari(d1.getTglKembali(), sekarang);
             boolean allowAdd = true;
             for (PengembalianDetail d2 : listSudahDikembalikan) {
                 if (d1.getBuku().getKodeBuku().equalsIgnoreCase(d2.getBuku().getKodeBuku())) {
@@ -117,6 +114,7 @@ public class FormPengembalian extends javax.swing.JPanel {
                 PengembalianDetail detail = new PengembalianDetail();
                 detail.setBuku(d1.getBuku());
                 detail.setTelat(telat);
+                detail.setTglKembaliRealisasi(sekarang);
                 BigDecimal denda = config.getDendaPerHari()
                         .multiply(new BigDecimal(detail.getTelat()));
                 detail.setDenda(denda);
@@ -128,7 +126,7 @@ public class FormPengembalian extends javax.swing.JPanel {
     }
 
     void refreshTableDetail() {
-        tbl.setModel(new PengembalianDetailTableModel(detailPengembalians));
+        tbl.setModel(new PengembalianDetailTableModel(detailPengembalians, peminjaman));
         TableUtil.initColumn(tbl);
         hitungTotalDenda();
     }
@@ -181,14 +179,10 @@ public class FormPengembalian extends javax.swing.JPanel {
         };
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtTransaksi = new javax.swing.JTextField();
         tglPinjam = new com.toedter.calendar.JDateChooser();
-        tglKembali1 = new com.toedter.calendar.JDateChooser();
-        tglKembali2 = new com.toedter.calendar.JDateChooser();
         txtTotalDenda = new javax.swing.JTextField();
         btnLookupTransaksi = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
@@ -233,19 +227,11 @@ public class FormPengembalian extends javax.swing.JPanel {
 
         jLabel2.setText("Tgl Pinjam");
 
-        jLabel3.setText("Tgl Kembali Seharusnya");
-
-        jLabel4.setText("Tgl Kembali Realisasi");
-
         jLabel5.setText("Total Denda");
 
         txtTransaksi.setEnabled(false);
 
         tglPinjam.setEnabled(false);
-
-        tglKembali1.setEnabled(false);
-
-        tglKembali2.setEnabled(false);
 
         txtTotalDenda.setEnabled(false);
 
@@ -298,49 +284,42 @@ public class FormPengembalian extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addGap(13, 13, 13))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2)
                                     .addComponent(jLabel5))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtTotalDenda, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tglKembali2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(tglKembali1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnClose))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
+                                        .addComponent(btnClose))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(txtTransaksi, javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(tglPinjam, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtTransaksi))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(tglPinjam, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnLookupTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(125, Short.MAX_VALUE))
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)))
+                                        .addComponent(btnLookupTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(136, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(389, 389, 389))))
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel5});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tglKembali1, tglKembali2, tglPinjam, txtTotalDenda});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {tglPinjam, txtTotalDenda});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAdd, btnBatal, btnClose, btnDelete, btnLookupTransaksi, btnSave});
 
@@ -355,28 +334,19 @@ public class FormPengembalian extends javax.swing.JPanel {
                             .addComponent(txtTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel5))
+                            .addComponent(jLabel2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(tglPinjam, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tglKembali1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tglKembali2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtTotalDenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnClose)))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel5)
+                                    .addComponent(txtTotalDenda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addComponent(btnLookupTransaksi, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -384,11 +354,11 @@ public class FormPengembalian extends javax.swing.JPanel {
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, btnBatal, btnClose, btnDelete, btnLookupTransaksi, btnSave, jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, tglKembali1, tglKembali2, tglPinjam, txtTotalDenda, txtTransaksi});
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAdd, btnBatal, btnClose, btnDelete, btnLookupTransaksi, btnSave, jLabel1, jLabel2, jLabel5, tglPinjam, txtTotalDenda, txtTransaksi});
 
     }// </editor-fold>//GEN-END:initComponents
 
@@ -398,8 +368,8 @@ public class FormPengembalian extends javax.swing.JPanel {
                         "Semua data sudah terpilih !");
             return;
         }
-        
-        PengembalianDetail detail = new TambahDetailPengembalianDialog(detailPengembaliansOrig).showDialog();
+        System.out.println("detailPengembaliansOrig : " + detailPengembaliansOrig.size());
+        PengembalianDetail detail = new TambahDetailPengembalianDialog(detailPengembaliansOrig, peminjaman).showDialog();
         if (detail != null) {
             if (cekItemExisted(detail.getBuku())) {
                 detailPengembalians.add(detail);
@@ -427,8 +397,6 @@ public class FormPengembalian extends javax.swing.JPanel {
             txtTransaksi.setText(text.toString());
 
             tglPinjam.setDate(peminjaman.getTglPinjam());
-            tglKembali1.setDate(peminjaman.getTglKembali());
-            tglKembali2.setDate(new Date());
             loadToDetailPengembalian();
         }
 }//GEN-LAST:event_btnLookupTransaksiActionPerformed
@@ -463,7 +431,6 @@ public class FormPengembalian extends javax.swing.JPanel {
         pengembalian = new Pengembalian();
         pengembalian.setTransaksiPeminjaman(peminjaman);
         pengembalian.setTotalDenda(TextComponentUtils.parseNumberToBigDecimal(txtTotalDenda.getText()));
-        pengembalian.setTglKembaliRealisasi(tglKembali2.getDate());
         pengembalian.setPegawai(Main.getPegawai());
         for (PengembalianDetail d : detailPengembalians) {
             d.setHeader(pengembalian);
@@ -473,8 +440,6 @@ public class FormPengembalian extends javax.swing.JPanel {
 
     Boolean validateForm() {
         if (peminjaman != null
-                && tglKembali2 != null
-                && tglKembali1 != null
                 && tglPinjam != null
                 && StringUtils.hasText(txtTotalDenda.getText())
                 && detailPengembalians.size() > 0) {
@@ -507,14 +472,10 @@ public class FormPengembalian extends javax.swing.JPanel {
     private javax.swing.JButton btnSave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable tbl;
-    private com.toedter.calendar.JDateChooser tglKembali1;
-    private com.toedter.calendar.JDateChooser tglKembali2;
     private com.toedter.calendar.JDateChooser tglPinjam;
     private javax.swing.JTextField txtTotalDenda;
     private javax.swing.JTextField txtTransaksi;
