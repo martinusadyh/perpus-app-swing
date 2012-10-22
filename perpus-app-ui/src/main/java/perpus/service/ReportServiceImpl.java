@@ -47,7 +47,7 @@ public class ReportServiceImpl implements ReportService{
                 lpd.setKodeAnggota(p.getHeader().getAnggota().getKodeAnggota());
                 lpd.setNamaAnggota(p.getHeader().getAnggota().getNamaAnggota());
                 lpd.setTglPinjam(p.getHeader().getTglPinjam());
-                lpd.setTglKembali(p.getHeader().getTglKembali());
+                lpd.setTglKembali(p.getTglKembali());
                 lpd.setKodeBuku(p.getBuku().getKodeBuku());
                 lpd.setJudul(p.getBuku().getJudulBuku());
 
@@ -66,12 +66,15 @@ public class ReportServiceImpl implements ReportService{
             List<PengembalianDetail> detailpengembalians = 
                     transaksiService.getTransaksiPengembalian(mulai, sampai);
             for (PengembalianDetail p : detailpengembalians) {
+                PeminjamanDetail pinjam = transaksiService.getTransaksiPeminjamanByIdAndBuku(
+                        p.getHeader().getTransaksiPeminjaman().getId(), 
+                        p.getBuku().getId());
                 LaporanPeminjamanDto lpd = new LaporanPeminjamanDto();
                 lpd.setId(p.getHeader().getId().toString());
                 lpd.setKodeAnggota(p.getHeader().getTransaksiPeminjaman().getAnggota().getKodeAnggota());
                 lpd.setNamaAnggota(p.getHeader().getTransaksiPeminjaman().getAnggota().getNamaAnggota());
                 lpd.setTglPinjam(p.getHeader().getTransaksiPeminjaman().getTglPinjam());
-                lpd.setTglKembali(p.getHeader().getTransaksiPeminjaman().getTglKembali());
+                lpd.setTglKembali(pinjam.getTglKembali());
                 lpd.setKodeBuku(p.getBuku().getKodeBuku());
                 lpd.setJudul(p.getBuku().getJudulBuku());
                 lpd.setTglKembaliSebenarnya(p.getCreatedDate());

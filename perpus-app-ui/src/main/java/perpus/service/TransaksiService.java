@@ -26,6 +26,7 @@ public interface TransaksiService {
     List<Peminjaman> getTransaksiBelumKembali(Integer start, Integer rows);
     List<Peminjaman> getTransaksiBelumKembali(String criteria, String value, Integer start, Integer rows);
     List<PeminjamanDetail> getTransaksiBelumKembali(Date mulai, Date sampai);
+    PeminjamanDetail getTransaksiPeminjamanByIdAndBuku(Integer id, Integer kode);
     
     
     List<PengembalianDetail> getTransaksiPengembalian(Date mulai, Date sampai);

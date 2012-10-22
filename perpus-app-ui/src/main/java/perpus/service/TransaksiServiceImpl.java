@@ -200,6 +200,16 @@ public class TransaksiServiceImpl implements TransaksiService{
         
         return result;
     }
+    
+    @Override
+    public PeminjamanDetail getTransaksiPeminjamanByIdAndBuku(Integer id, Integer kode){
+        return (PeminjamanDetail) sessionFactory.getCurrentSession()
+                .createQuery("select pd from PeminjamanDetail pd "
+                + "where pd.header.id=:header and pd.buku.id=:buku")
+                .setParameter("header", id)
+                .setParameter("buku", kode)
+                .uniqueResult();
+    }
 
     @Override
     public List<PengembalianDetail> getTransaksiPengembalian(Date mulai, Date sampai) {

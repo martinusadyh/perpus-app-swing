@@ -35,10 +35,6 @@ public class Peminjaman extends BaseEntity{
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date tglPinjam;
     
-    @Column(name="tanggal_kembali", nullable=false)
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date tglKembali;
-    
     @OneToMany(mappedBy="header")
     @Cascade(CascadeType.SAVE_UPDATE)
     private List<PeminjamanDetail> detailPeminjamans = new ArrayList<PeminjamanDetail>();
@@ -61,14 +57,6 @@ public class Peminjaman extends BaseEntity{
 
     public void setDetailPeminjamans(List<PeminjamanDetail> detailPeminjamans) {
         this.detailPeminjamans = detailPeminjamans;
-    }
-
-    public Date getTglKembali() {
-        return tglKembali;
-    }
-
-    public void setTglKembali(Date tglKembali) {
-        this.tglKembali = tglKembali;
     }
 
     public Date getTglPinjam() {

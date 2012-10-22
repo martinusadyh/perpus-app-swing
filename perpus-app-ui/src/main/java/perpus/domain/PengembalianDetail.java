@@ -5,10 +5,13 @@
 package perpus.domain;
 
 import java.math.BigDecimal;
+import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
 /**
@@ -19,6 +22,10 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name="pengembalian_detail",uniqueConstraints=@UniqueConstraint(columnNames={"id_header","id_buku"}))
 public class PengembalianDetail extends BaseEntity{
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name="tgl_kembali_realisasi", nullable=false)
+    private Date tglKembaliRealisasi;
     
     private Integer telat = 0;
     private BigDecimal denda = BigDecimal.ZERO;
@@ -61,6 +68,14 @@ public class PengembalianDetail extends BaseEntity{
 
     public void setTelat(Integer telat) {
         this.telat = telat;
+    }
+
+    public Date getTglKembaliRealisasi() {
+        return tglKembaliRealisasi;
+    }
+
+    public void setTglKembaliRealisasi(Date tglKembaliRealisasi) {
+        this.tglKembaliRealisasi = tglKembaliRealisasi;
     }
     
 }
