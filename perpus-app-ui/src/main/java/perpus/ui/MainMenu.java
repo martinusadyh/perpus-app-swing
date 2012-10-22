@@ -26,6 +26,7 @@ import perpus.domain.security.Screen;
 import perpus.ui.admin.FormKonfigurasi;
 import perpus.ui.admin.GrupAkses;
 import perpus.ui.admin.HakAkses;
+import perpus.ui.laporan.LaporanBuku;
 import perpus.ui.laporan.LaporanPengembalianPinjaman;
 import perpus.ui.master.MasterAnggota;
 import perpus.ui.master.MasterBuku;
@@ -160,6 +161,7 @@ public class MainMenu extends javax.swing.JFrame {
         mnItemGrupAkses = new javax.swing.JMenuItem();
         menuLaporan = new javax.swing.JMenu();
         mnItemRptPeminjamanPengembalian = new javax.swing.JMenuItem();
+        mnuLaporanBuku = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -172,7 +174,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(panelHeaderDashboard1Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(759, Short.MAX_VALUE))
         );
         panelHeaderDashboard1Layout.setVerticalGroup(
             panelHeaderDashboard1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -194,7 +196,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 211, Short.MAX_VALUE)
                 .addComponent(lblStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -346,6 +348,14 @@ public class MainMenu extends javax.swing.JFrame {
         });
         menuLaporan.add(mnItemRptPeminjamanPengembalian);
 
+        mnuLaporanBuku.setText("Buku");
+        mnuLaporanBuku.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuLaporanBukuActionPerformed(evt);
+            }
+        });
+        menuLaporan.add(mnuLaporanBuku);
+
         jMenuBar1.add(menuLaporan);
 
         setJMenuBar(jMenuBar1);
@@ -363,7 +373,7 @@ public class MainMenu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelHeaderDashboard1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(mainTabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -484,6 +494,17 @@ public class MainMenu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_mnItemRptPeminjamanPengembalianActionPerformed
 
+    private void mnuLaporanBukuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuLaporanBukuActionPerformed
+        LaporanBuku.getPanel().setName(LaporanBuku.PANEL_NAME);
+        indexTab = getComponentIndexByName(LaporanBuku.PANEL_NAME);
+        if (indexTab == -1) {
+            mainTabbedPane.addTab(LaporanBuku.PANEL_NAME, LaporanBuku.getPanel());
+            setSelectedPanel(LaporanBuku.PANEL_NAME);
+        } else {
+            mainTabbedPane.setSelectedIndex(indexTab);
+        }
+    }//GEN-LAST:event_mnuLaporanBukuActionPerformed
+
     private void plasticLaf() {
         try {
             PlasticLookAndFeel laf = new PlasticXPLookAndFeel();
@@ -523,6 +544,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnItemPlastic;
     private javax.swing.JMenuItem mnItemRptPeminjamanPengembalian;
     private javax.swing.JMenu mnItemUserManagemen;
+    private javax.swing.JMenuItem mnuLaporanBuku;
     private javax.swing.JMenuItem mnuPeminjaman;
     private javax.swing.JMenuItem mnuPengembalian;
     private perpus.ui.PanelHeaderDashboard panelHeaderDashboard1;
