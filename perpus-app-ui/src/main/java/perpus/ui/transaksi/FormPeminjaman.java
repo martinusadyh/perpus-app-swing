@@ -10,13 +10,13 @@
  */
 package perpus.ui.transaksi;
 
-import com.jgoodies.looks.HeaderStyle;
-import com.jgoodies.looks.Options;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellRenderer;
 import org.joda.time.DateTime;
 import perpus.Main;
 import perpus.domain.Anggota;
@@ -141,7 +141,18 @@ public class FormPeminjaman extends javax.swing.JPanel {
         btnBatal = new javax.swing.JButton();
         btnLookupAnggota = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
+        tbl = new javax.swing.JTable() {
+            public Component prepareRenderer(
+                TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                if (!isRowSelected(row)) {
+                    c.setBackground(row % 2 == 0 ? getBackground() : new java.awt.Color(237, 243, 254));
+                }
+
+                return c;
+            }
+        };
         btnClose = new javax.swing.JButton();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(

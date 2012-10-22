@@ -12,6 +12,7 @@ package perpus.ui.transaksi;
 
 import com.jgoodies.looks.HeaderStyle;
 import com.jgoodies.looks.Options;
+import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JFrame;
@@ -19,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellRenderer;
 import org.springframework.util.StringUtils;
 import perpus.Main;
 import perpus.domain.Peminjaman;
@@ -95,7 +97,18 @@ public class LookupTransaksiPeminjamanDialog extends javax.swing.JDialog {
         cmbOption = new javax.swing.JComboBox();
         txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbl = new javax.swing.JTable();
+        tbl = new javax.swing.JTable() {
+            public Component prepareRenderer(
+                TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+
+                if (!isRowSelected(row)) {
+                    c.setBackground(row % 2 == 0 ? getBackground() : new java.awt.Color(237, 243, 254));
+                }
+
+                return c;
+            }
+        };
         jToolBar2 = new javax.swing.JToolBar();
         lblRows = new javax.swing.JLabel();
         lblCountRows = new javax.swing.JLabel();
