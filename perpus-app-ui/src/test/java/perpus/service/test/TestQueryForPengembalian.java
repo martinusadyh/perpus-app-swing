@@ -4,6 +4,7 @@
  */
 package perpus.service.test;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -61,7 +62,7 @@ public class TestQueryForPengembalian {
     //
      //@Test
      public void hellowww() {
-         List<Peminjaman> list = transaksiService.getTransaksiBelumKembali();
+         List<Peminjaman> list = transaksiService.getTransaksiBelumKembali(0,30);
          System.out.println("size result : " + list.size());
 //         assertEquals(list.size(), 1);
      }
@@ -80,5 +81,11 @@ public class TestQueryForPengembalian {
              b.setTahunTerbit(new DateTime().plusMonths(i).toDate());
              masterService.save(b);
          }
+     }
+     
+     @Test
+     public void test(){
+         Date d = new Date(1349767959028l);
+         System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(d));
      }
 }

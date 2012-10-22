@@ -70,7 +70,17 @@ public class LookupTransaksiPeminjamanDialog extends javax.swing.JDialog {
     }
     
     private void loadDataToTable(){
-        listPeminjaman = Main.getTransaksiService().getTransaksiBelumKembali();
+        Double hal = (Double) spPaging.getModel().getValue();
+        start = (hal.intValue() - 1) * rows;
+        
+        if(StringUtils.hasText(txtSearch.getText())){
+            listPeminjaman = Main.getTransaksiService().getTransaksiBelumKembali(
+                    cmbOption.getSelectedItem().toString(), txtSearch.getText(),
+                    start, rows);
+        } else {
+            listPeminjaman = Main.getTransaksiService().getTransaksiBelumKembali(start, rows);
+        }
+        
         if(listPeminjaman != null){
             tbl.setModel(new PeminjamanTableModel(listPeminjaman));
             TableUtil.initColumn(tbl);
@@ -238,10 +248,12 @@ public class LookupTransaksiPeminjamanDialog extends javax.swing.JDialog {
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            listPeminjaman = Main.getTransaksiService().getTransaksiBelumKembali(
-                    cmbOption.getSelectedItem().toString(), txtSearch.getText());
-            tbl.setModel(new PeminjamanTableModel(listPeminjaman));
-            TableUtil.initColumn(tbl);
+            initPaging();
+            loadDataToTable();
+//            listPeminjaman = Main.getTransaksiService().getTransaksiBelumKembali(
+//                    cmbOption.getSelectedItem().toString(), txtSearch.getText());
+//            tbl.setModel(new PeminjamanTableModel(listPeminjaman));
+//            TableUtil.initColumn(tbl);
         }
 }//GEN-LAST:event_txtSearchKeyPressed
 
