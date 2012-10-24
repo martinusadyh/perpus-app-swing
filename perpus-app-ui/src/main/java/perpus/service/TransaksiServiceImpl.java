@@ -52,23 +52,42 @@ public class TransaksiServiceImpl implements TransaksiService{
     
     @Override
     public Long countTransaksiPeminjaman(String option, String value) {
-        StringBuilder sb = new StringBuilder("select count(b) from Peminjaman b ");
+        StringBuilder sb1 = new StringBuilder("select count(p) from Peminjaman p "
+                + "where p.id not in (select kembali.transaksiPeminjaman.id from Pengembalian kembali) ");
+        StringBuilder sb2 = new StringBuilder("select count(p) from Peminjaman p "
+                + "where p.id in (select kembali.transaksiPeminjaman.id from Pengembalian kembali) "
+                + "and p.detailPeminjamans.size > (select count(*) from PengembalianDetail d "
+                + "where d.header.transaksiPeminjaman.id = p.id)");
+        
         if(option.equals("ID_TRX")){
-            sb.append("where b.id like '%" + value + "%' ");
+            sb1.append("where b.id like '%" + value + "%' ");
+            sb2.append("where b.id like '%" + value + "%' ");
         } else if (option.equals("KODE")) {
-            sb.append("where b.anggota.kodeAnggota like '%" + value + "%' ");
+            sb1.append("where b.anggota.kodeAnggota like '%" + value + "%' ");
+            sb2.append("where b.anggota.kodeAnggota like '%" + value + "%' ");
         } else {
-            sb.append("where b.anggota.namaAnggota like '%" + value + "%' ");
+            sb1.append("where b.anggota.namaAnggota like '%" + value + "%' ");
+            sb2.append("where b.anggota.namaAnggota like '%" + value + "%' ");
         }
         
-        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+        Long count = (Long) sessionFactory.getCurrentSession().createQuery(sb1.toString()).uniqueResult();
+        count = count + (Long) sessionFactory.getCurrentSession().createQuery(sb2.toString()).uniqueResult();
+        return count;
     }
     
     @Override
     public Long countTransaksiPeminjaman() {
-        StringBuilder sb = new StringBuilder("select count(b) from Peminjaman b ");
-        
-        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+        Long count = (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(p) from Peminjaman p "
+                + "where p.id not in (select kembali.transaksiPeminjaman.id from Pengembalian kembali)")
+                .uniqueResult();
+        count = count + (Long) sessionFactory.getCurrentSession()
+                .createQuery("select count(p) from Peminjaman p "
+                + "where p.id in (select kembali.transaksiPeminjaman.id from Pengembalian kembali) "
+                + "and p.detailPeminjamans.size > (select count(*) from PengembalianDetail d "
+                + "where d.header.transaksiPeminjaman.id = p.id)")
+                .uniqueResult();
+        return count;
     }
 
     @Override
@@ -94,7 +113,9 @@ public class TransaksiServiceImpl implements TransaksiService{
     }
 
     @Override
-    public List<Peminjaman> getTransaksiBelumKembali() {
+    public List<Peminjaman> getTransaksiBelumKembali(Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=30;
         List<Peminjaman> result = sessionFactory.getCurrentSession()
                 .createQuery("select distinct(p) from Peminjaman p join fetch p.detailPeminjamans "
                 + "where p.id not in (select kembali.transaksiPeminjaman.id from Pengembalian kembali)")
@@ -105,14 +126,16 @@ public class TransaksiServiceImpl implements TransaksiService{
                 + "and p.detailPeminjamans.size > (select count(*) from PengembalianDetail d "
                 + "where d.header.transaksiPeminjaman.id = p.id)")
                 .list());
-        
-        return result;
+        Integer end = start+rows > result.size() ? result.size() : start+rows;
+        return result.subList(start, end);
     }
     
     @Override
-    public List<Peminjaman> getTransaksiBelumKembali(String criteria, String value) {
+    public List<Peminjaman> getTransaksiBelumKembali(String criteria, String value, Integer start, Integer rows) {
+        if(start==null) start=0;
+        if(rows==null) rows=30;
         if(!StringUtils.hasText(criteria) || !StringUtils.hasText(value)){
-            return getTransaksiBelumKembali();
+            return getTransaksiBelumKembali(start,rows);
         }
         
         StringBuilder q1 = new StringBuilder();
@@ -154,7 +177,7 @@ public class TransaksiServiceImpl implements TransaksiService{
                 .createQuery(q2.toString())
                 .list());
         
-        return result;
+        return result.subList(start, start + rows);
     }
 
     @Override
@@ -176,6 +199,16 @@ public class TransaksiServiceImpl implements TransaksiService{
                 .list();
         
         return result;
+    }
+    
+    @Override
+    public PeminjamanDetail getTransaksiPeminjamanByIdAndBuku(Integer id, Integer kode){
+        return (PeminjamanDetail) sessionFactory.getCurrentSession()
+                .createQuery("select pd from PeminjamanDetail pd "
+                + "where pd.header.id=:header and pd.buku.id=:buku")
+                .setParameter("header", id)
+                .setParameter("buku", kode)
+                .uniqueResult();
     }
 
     @Override

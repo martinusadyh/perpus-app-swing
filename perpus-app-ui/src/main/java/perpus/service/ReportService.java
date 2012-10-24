@@ -14,5 +14,15 @@ import net.sf.jasperreports.engine.JasperPrint;
 public interface ReportService {
     
     public JasperPrint printLaporanPeminjaman(String mode, Date mulai, Date sampai);
+    
+    /**
+     * Method printLaporanBuku
+     * @params
+     * @param params[0] adalah nama kolom
+     * @param params[1] adalah nama relational
+     * @param params[2] adalah nama value
+     * @return JasperPrint
+     */
+    public JasperPrint printLaporanBuku(String...params);
             
 }

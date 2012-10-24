@@ -18,6 +18,8 @@ import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import perpus.domain.Buku;
 import perpus.domain.LaporanPeminjamanDto;
 import perpus.domain.PeminjamanDetail;
 import perpus.domain.PengembalianDetail;
@@ -26,7 +28,7 @@ import perpus.domain.PengembalianDetail;
  *
  * @author adi
  */
-@Service("reportService")
+@Service("reportService") @Transactional(readOnly=true)
 public class ReportServiceImpl implements ReportService{
     
     @Autowired private SessionFactory sessionFactory;
@@ -47,7 +49,7 @@ public class ReportServiceImpl implements ReportService{
                 lpd.setKodeAnggota(p.getHeader().getAnggota().getKodeAnggota());
                 lpd.setNamaAnggota(p.getHeader().getAnggota().getNamaAnggota());
                 lpd.setTglPinjam(p.getHeader().getTglPinjam());
-                lpd.setTglKembali(p.getHeader().getTglKembali());
+                lpd.setTglKembali(p.getTglKembali());
                 lpd.setKodeBuku(p.getBuku().getKodeBuku());
                 lpd.setJudul(p.getBuku().getJudulBuku());
 
@@ -66,12 +68,15 @@ public class ReportServiceImpl implements ReportService{
             List<PengembalianDetail> detailpengembalians = 
                     transaksiService.getTransaksiPengembalian(mulai, sampai);
             for (PengembalianDetail p : detailpengembalians) {
+                PeminjamanDetail pinjam = transaksiService.getTransaksiPeminjamanByIdAndBuku(
+                        p.getHeader().getTransaksiPeminjaman().getId(), 
+                        p.getBuku().getId());
                 LaporanPeminjamanDto lpd = new LaporanPeminjamanDto();
                 lpd.setId(p.getHeader().getId().toString());
                 lpd.setKodeAnggota(p.getHeader().getTransaksiPeminjaman().getAnggota().getKodeAnggota());
                 lpd.setNamaAnggota(p.getHeader().getTransaksiPeminjaman().getAnggota().getNamaAnggota());
                 lpd.setTglPinjam(p.getHeader().getTransaksiPeminjaman().getTglPinjam());
-                lpd.setTglKembali(p.getHeader().getTransaksiPeminjaman().getTglKembali());
+                lpd.setTglKembali(pinjam.getTglKembali());
                 lpd.setKodeBuku(p.getBuku().getKodeBuku());
                 lpd.setJudul(p.getBuku().getJudulBuku());
                 lpd.setTglKembaliSebenarnya(p.getCreatedDate());
@@ -109,5 +114,70 @@ public class ReportServiceImpl implements ReportService{
             ex.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * Method printLaporanBuku
+     * @params
+     * @param params[0] adalah nama kolom
+     * @param params[1] adalah nama relational
+     * @param params[2] adalah nama value
+     * @return JasperPrint
+     */
+    @Override
+    public JasperPrint printLaporanBuku(String...params) {
+        try {
+            InputStream inputStream = 
+                    getClass().getResourceAsStream("/perpus/jrxml/LaporanBuku.jasper");
+            List<Buku> bukus = dataLaporanBuku(params);
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            
+            JasperPrint j =
+                    JasperFillManager.fillReport(
+                    inputStream, parameters, new JRBeanCollectionDataSource(bukus));
+
+            return j;
+        } catch (JRException ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    private List<Buku> dataLaporanBuku(String...params) {
+        if(params.length < 3){
+            return sessionFactory.getCurrentSession()
+                    .createQuery("from Buku b order by b.jenisBuku asc, b.createdDate asc")
+                    .list();
+        } else {
+            String kolom = params[0];
+            String relational = params[1];
+            String value = params[2];
+            
+            StringBuilder sb = new StringBuilder("select b from Buku b where ");
+            
+            if(kolom.equalsIgnoreCase("KODE")){
+                sb.append("b.kodeBuku " + relational + "'" + value + "' ");
+            } else if(kolom.equalsIgnoreCase("JUDUL")){
+                sb.append("b.judulBuku " + relational + "'" + value + "' ");
+            } else if(kolom.equalsIgnoreCase("JENIS")){
+                sb.append("b.jenisBuku " + relational + "'" + value + "' ");
+            } else if(kolom.equalsIgnoreCase("KOTA_TERBIT")){
+                sb.append("b.kotaTerbit " + relational + "'" + value + "' ");
+            } else if(kolom.equalsIgnoreCase("PENERBIT")){
+                sb.append("b.penerbit " + relational + "'" + value + "' ");
+            } else if(kolom.equalsIgnoreCase("PENGARANG")){
+                sb.append("b.pengarang " + relational + "'" + value + "' ");
+            } else if(kolom.equalsIgnoreCase("TAHUN_TERBIT")){
+                sb.append("b.tahunTerbit " + relational + "'" + value + "' ");
+            } else if(kolom.equalsIgnoreCase("JUMLAH")){
+                sb.append("b.jumlahBuku " + relational + "'" + value + "' ");
+            }
+            
+            sb.append("order by b.jenisBuku asc, b.createdDate asc ");
+            
+            return sessionFactory.getCurrentSession()
+                    .createQuery(sb.toString())
+                    .list();
+        }
     }
 }

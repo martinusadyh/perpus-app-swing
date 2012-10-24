@@ -27,10 +27,6 @@ import perpus.domain.security.Pegawai;
 @Table(name="pengembalian")
 public class Pengembalian extends BaseEntity{
     
-    @Temporal(javax.persistence.TemporalType.DATE)
-    @Column(name="tgl_kembali_realisasi", nullable=false)
-    private Date tglKembaliRealisasi;
-    
     @Column(name="total_denda", nullable=false)
     private BigDecimal totalDenda = BigDecimal.ZERO;
     
@@ -46,14 +42,6 @@ public class Pengembalian extends BaseEntity{
     @JoinColumn(name="user_id", nullable=false)
     private Pegawai pegawai;
     
-    public Date getTglKembaliRealisasi() {
-        return tglKembaliRealisasi;
-    }
-
-    public void setTglKembaliRealisasi(Date tglKembaliRealisasi) {
-        this.tglKembaliRealisasi = tglKembaliRealisasi;
-    }
-
     public BigDecimal getTotalDenda() {
         return totalDenda;
     }

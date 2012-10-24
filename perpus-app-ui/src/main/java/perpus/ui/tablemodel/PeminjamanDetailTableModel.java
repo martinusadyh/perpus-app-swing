@@ -5,6 +5,7 @@
 package perpus.ui.tablemodel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 import perpus.domain.PeminjamanDetail;
@@ -46,7 +47,16 @@ public class PeminjamanDetailTableModel extends AbstractTableModel{
             case 1: return d.getBuku().getJudulBuku();
             case 2: return d.getBuku().getJenisBuku();
             case 3: return d.getBuku().getPengarang();
+            case 4: return d.getTglKembali();
             default: return "";
+        }
+    }
+    
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        switch(columnIndex){
+            case 4: return Date.class;
+            default: return String.class;
         }
     }
     
