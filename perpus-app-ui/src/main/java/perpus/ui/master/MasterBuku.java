@@ -263,7 +263,7 @@ public class MasterBuku extends javax.swing.JPanel {
         lblMaxPage.setMinimumSize(new java.awt.Dimension(10, 10));
         jToolBar2.add(lblMaxPage);
 
-        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "KODE", "NAMA" }));
+        cmbOption.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "KODE", "JUDUL", "PENGARANG", "PENERBIT", "KOTA TERBIT", "TAHUN TERBIT", "JENIS", "JUMLAH BUKU" }));
         cmbOption.setMaximumSize(new java.awt.Dimension(70, 70));
         jToolBar2.add(cmbOption);
 
