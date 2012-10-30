@@ -438,7 +438,7 @@ public class MasterAnggota extends javax.swing.JPanel {
         dialog.add(viewer, BorderLayout.CENTER);
 
         dialog.pack();
-        dialog.setSize(700, 450);
+        dialog.setSize(700, 550);
         dialog.setLocationRelativeTo(null);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
