@@ -6,6 +6,7 @@ package perpus.service;
 
 import java.util.Date;
 import net.sf.jasperreports.engine.JasperPrint;
+import perpus.domain.Anggota;
 
 /**
  *
@@ -24,5 +25,6 @@ public interface ReportService {
      * @return JasperPrint
      */
     public JasperPrint printLaporanBuku(String...params);
+    public JasperPrint printKartuAnggota(Anggota anggota);
             
 }

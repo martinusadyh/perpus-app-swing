@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -19,6 +20,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import perpus.domain.Anggota;
 import perpus.domain.Buku;
 import perpus.domain.LaporanPeminjamanDto;
 import perpus.domain.PeminjamanDetail;
@@ -178,6 +180,32 @@ public class ReportServiceImpl implements ReportService{
             return sessionFactory.getCurrentSession()
                     .createQuery(sb.toString())
                     .list();
+        }
+    }
+
+    @Override
+    public JasperPrint printKartuAnggota(Anggota anggota) {
+        try {
+            InputStream inputStream = 
+                    getClass().getResourceAsStream("/perpus/jrxml/KartuAnggota.jasper");
+            Map<String, Object> parameters = new HashMap<String, Object>();
+            parameters.put("noAnggota", anggota.getKodeAnggota());
+            parameters.put("nama", anggota.getNamaAnggota());
+            parameters.put("jkel", anggota.getJenisKelamin());
+            parameters.put("alamat", anggota.getAlamat());
+            parameters.put("agama", anggota.getAgama());
+            parameters.put("telp", anggota.getNoTelp());
+            parameters.put("email", anggota.getEmail());
+            parameters.put("berlaku", new DateTime(anggota.getTahunMasuk()).plusYears(1).toDate());
+            
+            JasperPrint j =
+                    JasperFillManager.fillReport(
+                    inputStream, parameters, new JREmptyDataSource());
+
+            return j;
+        } catch (JRException ex) {
+            ex.printStackTrace();
+            return null;
         }
     }
 }
