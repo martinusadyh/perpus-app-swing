@@ -430,19 +430,15 @@ public class MasterAnggota extends javax.swing.JPanel {
     public void showPrintDialog() {
         JDialog dialog = new JDialog(Main.getMainForm(), true);
         dialog.setTitle("Cetak Kartu Anggota");
-        JPanel pane = new JPanel();
-        pane.setSize(900, 600);
-        dialog.getContentPane().add(pane, BorderLayout.CENTER);
         
         JasperPrint jasperPrint =
             Main.getReportService().printKartuAnggota(anggota);
         
         JRViewer viewer = new JRViewer(jasperPrint);
-        viewer.setSize(900, 600);
-        pane.add(viewer);
+        dialog.add(viewer, BorderLayout.CENTER);
 
         dialog.pack();
-        //dialog.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        dialog.setSize(700, 450);
         dialog.setLocationRelativeTo(null);
         dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         dialog.setVisible(true);
