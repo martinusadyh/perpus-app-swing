@@ -6,14 +6,23 @@ package perpus.ui.master;
 
 import com.jgoodies.looks.HeaderStyle;
 import com.jgoodies.looks.Options;
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Panel;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingWorker;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JRViewer;
 import org.springframework.util.StringUtils;
 import perpus.Main;
 import perpus.domain.Anggota;
@@ -122,6 +131,7 @@ public class MasterAnggota extends javax.swing.JPanel {
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
+        btnCetak = new javax.swing.JButton();
         jToolBar2 = new javax.swing.JToolBar();
         lblRows = new javax.swing.JLabel();
         lblCountRows = new javax.swing.JLabel();
@@ -207,6 +217,18 @@ public class MasterAnggota extends javax.swing.JPanel {
             }
         });
         jToolBar1.add(btnClose);
+
+        btnCetak.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/print.png"))); // NOI18N
+        btnCetak.setToolTipText("Tutup Form");
+        btnCetak.setFocusable(false);
+        btnCetak.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnCetak.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnCetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCetakActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btnCetak);
 
         jToolBar2.setFloatable(false);
         jToolBar2.setRollover(true);
@@ -358,8 +380,20 @@ public class MasterAnggota extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_txtSearchKeyPressed
 
+    private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
+        if(anggota != null){
+            showPrintDialog();
+        } else {
+            JOptionPane.showMessageDialog(Main.getMainForm(),
+                        "Tidak ada data yang dipilih untuk di cetak !!",
+                        "Peringatan",
+                        JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnCetakActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCetak;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
@@ -392,4 +426,26 @@ public class MasterAnggota extends javax.swing.JPanel {
             }
         }
     }
+    
+    public void showPrintDialog() {
+        JDialog dialog = new JDialog(Main.getMainForm(), true);
+        dialog.setTitle("Cetak Kartu Anggota");
+        JPanel pane = new JPanel();
+        pane.setSize(900, 600);
+        dialog.getContentPane().add(pane, BorderLayout.CENTER);
+        
+        JasperPrint jasperPrint =
+            Main.getReportService().printKartuAnggota(anggota);
+        
+        JRViewer viewer = new JRViewer(jasperPrint);
+        viewer.setSize(900, 600);
+        pane.add(viewer);
+
+        dialog.pack();
+        //dialog.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        dialog.setLocationRelativeTo(null);
+        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setVisible(true);
+    }
+    
 }
