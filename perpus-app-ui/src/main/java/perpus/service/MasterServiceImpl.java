@@ -256,8 +256,20 @@ public class MasterServiceImpl implements MasterService {
         StringBuilder sb = new StringBuilder("from Buku b ");
         if(option.equals("KODE")){
             sb.append("where b.kodeBuku like '%" + value + "%' ");
-        } else {
+        } else if (option.equals("JUDUL")) {
             sb.append("where b.judulBuku like '%" + value + "%' ");
+        } else if (option.equals("PENGARANG")) {
+            sb.append("where b.pengarang like '%" + value + "%' ");
+        } else if (option.equals("PENERBIT")) {
+            sb.append("where b.penerbit like '%" + value + "%' ");
+        } else if (option.equals("KOTA TERBIT")) {
+            sb.append("where b.kotaTerbit like '%" + value + "%' ");
+        } else if (option.equals("TAHUN TERBIT")) {
+            sb.append("where year(b.tahunTerbit) = '" + value + "'");
+        } else if (option.equals("JENIS")) {
+            sb.append("where b.jenisBuku like '%" + value + "%' ");
+        } else {
+            sb.append("where b.jumlahBuku like '%" + value + "%' ");
         }
         sb.append("order by b.createdDate desc ");
         

@@ -292,9 +292,15 @@
         <Component class="javax.swing.JComboBox" name="cmbOption">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
+              <StringArray count="8">
                 <StringItem index="0" value="KODE"/>
-                <StringItem index="1" value="NAMA"/>
+                <StringItem index="1" value="JUDUL"/>
+                <StringItem index="2" value="PENGARANG"/>
+                <StringItem index="3" value="PENERBIT"/>
+                <StringItem index="4" value="KOTA TERBIT"/>
+                <StringItem index="5" value="TAHUN TERBIT"/>
+                <StringItem index="6" value="JENIS"/>
+                <StringItem index="7" value="JUMLAH BUKU"/>
               </StringArray>
             </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
