@@ -219,7 +219,7 @@ public class MasterAnggota extends javax.swing.JPanel {
         jToolBar1.add(btnClose);
 
         btnCetak.setIcon(new javax.swing.ImageIcon(getClass().getResource("/perpus/img/print.png"))); // NOI18N
-        btnCetak.setToolTipText("Tutup Form");
+        btnCetak.setToolTipText("Cetak Kartu Anggota");
         btnCetak.setFocusable(false);
         btnCetak.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnCetak.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

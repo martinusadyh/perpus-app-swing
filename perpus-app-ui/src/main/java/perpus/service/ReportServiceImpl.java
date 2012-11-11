@@ -196,7 +196,7 @@ public class ReportServiceImpl implements ReportService{
             parameters.put("agama", anggota.getAgama());
             parameters.put("telp", anggota.getNoTelp());
             parameters.put("email", anggota.getEmail());
-            parameters.put("berlaku", new DateTime(anggota.getTahunMasuk()).plusYears(1).toDate());
+            parameters.put("berlaku", new DateTime(anggota.getTahunMasuk()).plusYears(3).toDate());
             
             JasperPrint j =
                     JasperFillManager.fillReport(
