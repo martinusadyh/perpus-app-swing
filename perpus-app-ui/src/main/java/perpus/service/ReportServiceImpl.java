@@ -170,7 +170,7 @@ public class ReportServiceImpl implements ReportService{
             } else if(kolom.equalsIgnoreCase("PENGARANG")){
                 sb.append("b.pengarang " + relational + "'" + value + "' ");
             } else if(kolom.equalsIgnoreCase("TAHUN_TERBIT")){
-                sb.append("b.tahunTerbit " + relational + "'" + value + "' ");
+                sb.append("year(b.tahunTerbit) " + relational + "'" + value + "' ");
             } else if(kolom.equalsIgnoreCase("JUMLAH")){
                 sb.append("b.jumlahBuku " + relational + "'" + value + "' ");
             }
