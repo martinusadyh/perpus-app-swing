@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="KartuAnggota" pageWidth="450" pageHeight="300" whenNoDataType="AllSectionsNoDetail" columnWidth="410" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="2.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="52"/>
 	<parameter name="noAnggota" class="java.lang.String"/>
 	<parameter name="nama" class="java.lang.String"/>
 	<parameter name="jkel" class="java.lang.String"/>
@@ -21,119 +21,91 @@
 	<pageHeader>
 		<band height="232" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="99" y="146" width="105" height="20"/>
+				<reportElement x="77" y="126" width="105" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{noAnggota}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="99" y="166" width="105" height="20"/>
+				<reportElement x="77" y="146" width="105" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{nama}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="99" y="186" width="105" height="20"/>
+				<reportElement x="77" y="166" width="105" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{jkel}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="99" y="206" width="105" height="20"/>
+				<reportElement x="77" y="186" width="105" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{alamat}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="297" y="146" width="100" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{agama}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="297" y="166" width="100" height="20"/>
+				<reportElement x="77" y="206" width="105" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{telp}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="297" y="186" width="100" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$P{email}]]></textFieldExpression>
-			</textField>
 			<textField pattern="dd/MM/yy" isBlankWhenNull="true">
-				<reportElement x="297" y="206" width="100" height="20"/>
+				<reportElement x="246" y="206" width="75" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10"/>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[$P{berlaku}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="107" width="410" height="28"/>
+				<reportElement x="0" y="97" width="410" height="28"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[KARTU ANGGOTA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="16" y="146" width="77" height="20"/>
+				<reportElement x="0" y="126" width="77" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[No. Anggota]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="16" y="166" width="77" height="20"/>
+				<reportElement x="0" y="146" width="77" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nama]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="16" y="186" width="77" height="20"/>
+				<reportElement x="0" y="166" width="77" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Jenis Kelamin]]></text>
+				<text><![CDATA[Jns. Kel]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="16" y="206" width="77" height="20"/>
+				<reportElement x="0" y="186" width="77" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Alamat]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="214" y="146" width="77" height="20"/>
+				<reportElement x="0" y="206" width="77" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Agama]]></text>
+				<text><![CDATA[Telp]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="214" y="166" width="77" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[No. Telepon]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="214" y="186" width="77" height="20"/>
-				<textElement verticalAlignment="Middle">
-					<font size="10" isBold="true"/>
-				</textElement>
-				<text><![CDATA[E-Mail]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="214" y="206" width="77" height="20"/>
+				<reportElement x="194" y="206" width="52" height="20"/>
 				<textElement verticalAlignment="Middle">
 					<font size="10" isBold="true"/>
 				</textElement>
@@ -170,6 +142,9 @@
 				</textElement>
 				<text><![CDATA[Jl. Raya Wijaya Harapan Baru, Kota Bekasi Telp. 88960671]]></text>
 			</staticText>
+			<rectangle>
+				<reportElement x="321" y="136" width="76" height="80"/>
+			</rectangle>
 		</band>
 	</pageHeader>
 	<columnHeader>

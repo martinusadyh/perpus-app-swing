@@ -71,7 +71,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Monospaced" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[KODE BUKU]]></text>
 			</staticText>
@@ -85,7 +85,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Monospaced" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[JUDUL]]></text>
 			</staticText>
@@ -99,7 +99,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Monospaced" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[JENIS BUKU]]></text>
 			</staticText>
@@ -113,7 +113,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Monospaced" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PENGARANG]]></text>
 			</staticText>
@@ -127,7 +127,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Monospaced" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PENERBIT]]></text>
 			</staticText>
@@ -141,7 +141,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Monospaced" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[KOTA]]></text>
 			</staticText>
@@ -155,7 +155,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Monospaced" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TAHUN]]></text>
 			</staticText>
@@ -169,7 +169,7 @@
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="12" isBold="true"/>
+					<font fontName="Monospaced" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[JUMLAH BUKU]]></text>
 			</staticText>
