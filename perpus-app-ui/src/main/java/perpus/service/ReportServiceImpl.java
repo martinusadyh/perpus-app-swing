@@ -170,7 +170,7 @@ public class ReportServiceImpl implements ReportService{
             } else if(kolom.equalsIgnoreCase("PENGARANG")){
                 sb.append("b.pengarang " + relational + "'" + value + "' ");
             } else if(kolom.equalsIgnoreCase("TAHUN_TERBIT")){
-                sb.append("b.tahunTerbit " + relational + "'" + value + "' ");
+                sb.append("year(b.tahunTerbit) " + relational + "'" + value + "' ");
             } else if(kolom.equalsIgnoreCase("JUMLAH")){
                 sb.append("b.jumlahBuku " + relational + "'" + value + "' ");
             }
@@ -196,7 +196,7 @@ public class ReportServiceImpl implements ReportService{
             parameters.put("agama", anggota.getAgama());
             parameters.put("telp", anggota.getNoTelp());
             parameters.put("email", anggota.getEmail());
-            parameters.put("berlaku", new DateTime(anggota.getTahunMasuk()).plusYears(1).toDate());
+            parameters.put("berlaku", new DateTime(anggota.getTahunMasuk()).plusYears(3).toDate());
             
             JasperPrint j =
                     JasperFillManager.fillReport(
