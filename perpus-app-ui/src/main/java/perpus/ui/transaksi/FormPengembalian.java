@@ -100,8 +100,8 @@ public class FormPengembalian extends javax.swing.JPanel {
         List<PengembalianDetail> listSudahDikembalikan =
                 Main.getTransaksiService().getTransaksiPengembalianByIdPinjam(peminjaman.getId());
 
-        Konfigurasi config = Main.getMasterService().getKonfigurasi();
         for (PeminjamanDetail d1 : peminjaman.getDetailPeminjamans()) {
+            Konfigurasi config = Main.getMasterService().findKonfigurasiByKode(d1.getBuku().getJenisBuku().getKode());
             Integer telat = hitungHari(d1.getTglKembali(), sekarang);
             boolean allowAdd = true;
             for (PengembalianDetail d2 : listSudahDikembalikan) {
