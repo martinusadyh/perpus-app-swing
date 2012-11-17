@@ -339,11 +339,11 @@ public class FormPeminjaman extends javax.swing.JPanel {
                 if (cekItemExisted(buku)) {
                     PeminjamanDetail detail = new PeminjamanDetail();
                     detail.setBuku(buku);
-                    if(buku.getJenisBuku().equalsIgnoreCase("BUKU BOS")){
-                        detail.setTglKembali(sekarang.plusMonths(6).toDate());
-                    } else {
-                        detail.setTglKembali(sekarang.plusDays(config.getMaxLamaPinjam()).toDate());
-                    }
+//                    if(buku.getJenisBuku().equalsIgnoreCase("BUKU BOS")){
+//                        detail.setTglKembali(sekarang.plusMonths(6).toDate());
+//                    } else {
+//                        detail.setTglKembali(sekarang.plusDays(config.getMaxLamaPinjam()).toDate());
+//                    }
                     detailsPeminjaman.add(detail);
                 }
             }

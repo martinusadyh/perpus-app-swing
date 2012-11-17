@@ -4,10 +4,14 @@
  */
 package perpus.ui.master;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import perpus.Main;
 import perpus.domain.Buku;
+import perpus.domain.JenisBuku;
+import perpus.ui.tablemodel.JenisBukuComboModel;
 import perpus.util.TextComponentUtils;
 
 /**
@@ -17,6 +21,7 @@ import perpus.util.TextComponentUtils;
 public class FormDialogBuku extends javax.swing.JDialog {
     
     private Buku buku;
+    private List<JenisBuku> listJenisBuku = new ArrayList<JenisBuku>();
 
     /**
      * Creates new form FormDialogBuku
@@ -26,6 +31,8 @@ public class FormDialogBuku extends javax.swing.JDialog {
         initComponents();
         
         TextComponentUtils.setNumericTextOnly(txtJmlBuku);
+        listJenisBuku = Main.getMasterService().findAllJenisBuku(0, Main.getMasterService().countAllJenisBuku().intValue());
+        cmbJnsBuku.setModel(new JenisBukuComboModel(listJenisBuku));
         
         setLocationRelativeTo(null);
     }
@@ -64,7 +71,7 @@ public class FormDialogBuku extends javax.swing.JDialog {
         buku.setPenerbit(txtPenerbit.getText());
         buku.setKotaTerbit(txtKotaTerbit.getText());
         buku.setTahunTerbit(txtThnTerbit.getDate());
-        buku.setJenisBuku(cmbJnsBuku.getSelectedItem().toString());
+        buku.setJenisBuku((JenisBuku)cmbJnsBuku.getSelectedItem());
         buku.setJumlahBuku(Integer.valueOf(txtJmlBuku.getText()));
     }
     
@@ -127,6 +134,11 @@ public class FormDialogBuku extends javax.swing.JDialog {
         jLabel6.setText("Jenis Buku ");
 
         cmbJnsBuku.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "BUKU BOS", "BUKU UMUM", "BUKU PENUNJANG" }));
+        cmbJnsBuku.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbJnsBukuItemStateChanged(evt);
+            }
+        });
 
         btnOK.setText("OK");
         btnOK.addActionListener(new java.awt.event.ActionListener() {
@@ -157,31 +169,33 @@ public class FormDialogBuku extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtKodeBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtJudulBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPengarang, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPenerbit, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtKotaTerbit)
-                    .addComponent(txtThnTerbit, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmbJnsBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtJmlBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnOK)
-                .addGap(12, 12, 12))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel8))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtKodeBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtJudulBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPengarang, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPenerbit, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtKotaTerbit)
+                            .addComponent(txtThnTerbit, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cmbJnsBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtJmlBuku, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnOK)
+                        .addGap(12, 12, 12))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jLabel1, jLabel2, jLabel3, jLabel4, jLabel5, jLabel6, jLabel7, jLabel8});
@@ -252,6 +266,11 @@ public class FormDialogBuku extends javax.swing.JDialog {
                         JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnOKActionPerformed
+
+    private void cmbJnsBukuItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbJnsBukuItemStateChanged
+        JenisBuku jb = (JenisBuku) cmbJnsBuku.getSelectedItem();
+        System.out.println(jb.getKode() + " " + jb.getKeterangan());
+    }//GEN-LAST:event_cmbJnsBukuItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatal;

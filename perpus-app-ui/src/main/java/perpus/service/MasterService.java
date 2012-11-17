@@ -7,6 +7,7 @@ package perpus.service;
 import java.util.List;
 import perpus.domain.Anggota;
 import perpus.domain.Buku;
+import perpus.domain.JenisBuku;
 import perpus.domain.Konfigurasi;
 import perpus.domain.security.Pegawai;
 import perpus.domain.security.PegawaiRole;
@@ -58,5 +59,10 @@ public interface MasterService {
     Long countAvailableBuku(String option, String value);
     List<Buku> findAllAvailableBukus(Integer start, Integer rows);
     List<Buku> findAllAvailableBukus(String option, String value, Integer start, Integer rows);
+    
+    Long countAllJenisBuku();
+    JenisBuku findJenisBukuById(Integer id);
+    JenisBuku findJenisBukuByKode(String kode);
+    List<JenisBuku> findAllJenisBuku(Integer start, Integer rows);
     
 }

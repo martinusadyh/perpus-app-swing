@@ -71,7 +71,7 @@ public class TestQueryForPengembalian {
      public void insertOneThousandBuku(){
          for(int i=0; i<1000; i++){
              Buku b = new Buku();
-             b.setJenisBuku("JENIS" + StringUtils.leftPad(String.valueOf(i), 5, "0"));
+//             b.setJenisBuku("JENIS" + StringUtils.leftPad(String.valueOf(i), 5, "0"));
              b.setJudulBuku("BUKU" + StringUtils.leftPad(String.valueOf(i), 5, "0"));
              b.setJumlahBuku(i);
              b.setKodeBuku("BKO" + StringUtils.leftPad(String.valueOf(i), 5, "0"));

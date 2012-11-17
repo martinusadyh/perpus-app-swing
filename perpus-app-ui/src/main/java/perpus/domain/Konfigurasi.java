@@ -7,6 +7,8 @@ package perpus.domain;
 import java.math.BigDecimal;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -17,6 +19,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="konfigurasi")
 public class Konfigurasi extends BaseEntity{
+    
+    @OneToOne
+    @JoinColumn(name="id_jenis_buku", unique=true, nullable=false)
+    private JenisBuku jenisBuku;
     
     @Column(name="max_lama_pinjam", nullable=false)
     private Integer maxLamaPinjam = 0;
@@ -38,6 +44,14 @@ public class Konfigurasi extends BaseEntity{
 
     public void setMaxLamaPinjam(Integer maxLamaPinjam) {
         this.maxLamaPinjam = maxLamaPinjam;
+    }
+
+    public JenisBuku getJenisBuku() {
+        return jenisBuku;
+    }
+
+    public void setJenisBuku(JenisBuku jenisBuku) {
+        this.jenisBuku = jenisBuku;
     }
     
 }

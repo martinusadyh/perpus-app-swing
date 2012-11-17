@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perpus.domain.Anggota;
 import perpus.domain.Buku;
+import perpus.domain.JenisBuku;
 import perpus.domain.Konfigurasi;
 import perpus.domain.security.Pegawai;
 import perpus.domain.security.PegawaiRole;
@@ -379,6 +380,34 @@ public class MasterServiceImpl implements MasterService {
         
         return sessionFactory.getCurrentSession()
                 .createQuery(sb.toString())
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+
+    @Override
+    public Long countAllJenisBuku() {
+        return (Long) sessionFactory.getCurrentSession().createQuery("select count(jb) from JenisBuku jb").uniqueResult();
+    }
+
+    @Override
+    public JenisBuku findJenisBukuById(Integer id) {
+        return (JenisBuku) sessionFactory.getCurrentSession().createQuery("select jb from JenisBuku jb where jb.id=:id")
+                .setParameter("id", id).uniqueResult();
+    }
+
+    @Override
+    public JenisBuku findJenisBukuByKode(String kode) {
+        return (JenisBuku) sessionFactory.getCurrentSession().createQuery("select jb from JenisBuku jb where jb.kode=:kode")
+                .setParameter("kode", kode).uniqueResult();
+    }
+
+    @Override
+    public List<JenisBuku> findAllJenisBuku(Integer start, Integer rows) {
+        if(start==null) start = 0;
+        if(rows==null) rows = 30;
+        
+        return sessionFactory.getCurrentSession().createQuery("from JenisBuku jb order by jb.createdDate desc")
                 .setFirstResult(start)
                 .setMaxResults(rows)
                 .list();
