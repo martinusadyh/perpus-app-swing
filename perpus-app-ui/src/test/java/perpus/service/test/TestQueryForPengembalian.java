@@ -27,39 +27,8 @@ import static org.junit.Assert.*;
  *
  * @author adi
  */
-public class TestQueryForPengembalian {
+public class TestQueryForPengembalian extends BaseTest{
     
-    private static AbstractXmlApplicationContext context;
-    private static TransaksiService transaksiService;
-    private static AdminService adminService;
-    private static MasterService masterService;
-    
-    public TestQueryForPengembalian() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        context = new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
-        transaksiService = (TransaksiService) context.getBean("transaksiService");
-        adminService = (AdminService) context.getBean("adminService");
-        masterService = (MasterService) context.getBean("masterService");
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-        context.stop();
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
      //@Test
      public void hellowww() {
          List<Peminjaman> list = transaksiService.getTransaksiBelumKembali(0,30);
