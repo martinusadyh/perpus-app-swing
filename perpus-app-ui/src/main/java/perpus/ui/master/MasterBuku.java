@@ -48,13 +48,13 @@ public class MasterBuku extends javax.swing.JPanel {
      */
     public MasterBuku() {
         initComponents();
-        initPaging();
+        initPaging(null);
         
         loadDataToTable();
         tbl.getSelectionModel().addListSelectionListener(new TableSelection());
     }
     
-    private void initPaging(){
+    private void initPaging(Double selectedPage){
         //start konfigurasi untuk paging
         Long count = 0L;
         
@@ -72,9 +72,13 @@ public class MasterBuku extends javax.swing.JPanel {
             page = page + 1;
         }
         if(page==0){page=1;}
+        
         lblMaxPage.setText(String.valueOf(page));
         spPaging.setModel(new SpinnerNumberModel(1, 1, page, 1));
         lblCountRows.setText(String.valueOf(count));
+        if(selectedPage != null){
+            spPaging.getModel().setValue(selectedPage);
+        }
         //end konfigurasi untuk paging
     }
 
@@ -311,6 +315,7 @@ public class MasterBuku extends javax.swing.JPanel {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
         try {
+            initPaging((Double) spPaging.getModel().getValue());
             loadDataToTable();
         } catch (Exception e) {
             ErrorDialog.showErrorDialog(e);
@@ -328,6 +333,7 @@ public class MasterBuku extends javax.swing.JPanel {
                         "Terjadi Kesalahan !!",
                         JOptionPane.ERROR_MESSAGE);
             }
+            initPaging((Double) spPaging.getModel().getValue());
         } catch (Exception e) {
             ErrorDialog.showErrorDialog(e);
         }
@@ -363,7 +369,7 @@ public class MasterBuku extends javax.swing.JPanel {
 
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
         if(evt.getKeyChar() == KeyEvent.VK_ENTER){
-            initPaging();
+            initPaging(null);
             loadDataToTable();
         }
     }//GEN-LAST:event_txtSearchKeyPressed

@@ -56,7 +56,7 @@ public class FormDialogBuku extends javax.swing.JDialog {
         txtPenerbit.setText(buku.getPenerbit());
         txtKotaTerbit.setText(buku.getKotaTerbit());
         txtThnTerbit.setDate(buku.getTahunTerbit());
-        cmbJnsBuku.setSelectedItem(buku.getJenisBuku());
+        cmbJnsBuku.getModel().setSelectedItem(buku.getJenisBuku());
         txtJmlBuku.setText(String.valueOf(buku.getJumlahBuku()));
     }
     

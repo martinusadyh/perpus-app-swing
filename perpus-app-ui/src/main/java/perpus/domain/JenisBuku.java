@@ -13,7 +13,7 @@ import javax.persistence.Table;
  * @author adi
  */
 @Entity
-@Table(name="buku")
+@Table(name="jenis_buku")
 public class JenisBuku extends BaseEntity {
     
     @Column(unique=true, nullable=false, name="kode_jenis")
@@ -36,6 +36,11 @@ public class JenisBuku extends BaseEntity {
 
     public void setKode(String kode) {
         this.kode = kode;
+    }
+
+    @Override
+    public String toString() {
+        return keterangan;
     }
     
 }

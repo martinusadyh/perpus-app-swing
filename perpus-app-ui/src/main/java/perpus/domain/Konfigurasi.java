@@ -24,6 +24,9 @@ public class Konfigurasi extends BaseEntity{
     @JoinColumn(name="id_jenis_buku", unique=true, nullable=false)
     private JenisBuku jenisBuku;
     
+    @Column(name="max_buku_pinjam", nullable=false)
+    private Integer maxBukuPinjam = 0;
+    
     @Column(name="max_lama_pinjam", nullable=false)
     private Integer maxLamaPinjam = 0;
     
@@ -52,6 +55,14 @@ public class Konfigurasi extends BaseEntity{
 
     public void setJenisBuku(JenisBuku jenisBuku) {
         this.jenisBuku = jenisBuku;
+    }
+
+    public Integer getMaxBukuPinjam() {
+        return maxBukuPinjam;
+    }
+
+    public void setMaxBukuPinjam(Integer maxBukuPinjam) {
+        this.maxBukuPinjam = maxBukuPinjam;
     }
     
 }
