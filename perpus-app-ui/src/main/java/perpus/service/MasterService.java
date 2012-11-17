@@ -38,7 +38,10 @@ public interface MasterService {
     List<Anggota> findAnggotaByKode(String kode);
     List<Anggota> findAnggotaByNama(String nama);
     
-    Konfigurasi getKonfigurasi();
+    Long countAllKonfigurasi(String option, String value);
+    Konfigurasi findKonfigurasiById(Integer id);
+    Konfigurasi findKonfigurasiByKode(String kodeJenis);
+    List<Konfigurasi> findAllKonfigurasi(String option, String value,Integer start, Integer rows);
 
     void save(Object obj);
     void delete(Object obj);

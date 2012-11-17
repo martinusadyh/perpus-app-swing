@@ -134,11 +134,6 @@ public class FormDialogBuku extends javax.swing.JDialog {
         jLabel6.setText("Jenis Buku ");
 
         cmbJnsBuku.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "BUKU BOS", "BUKU UMUM", "BUKU PENUNJANG" }));
-        cmbJnsBuku.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cmbJnsBukuItemStateChanged(evt);
-            }
-        });
 
         btnOK.setText("OK");
         btnOK.addActionListener(new java.awt.event.ActionListener() {
@@ -266,11 +261,6 @@ public class FormDialogBuku extends javax.swing.JDialog {
                         JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnOKActionPerformed
-
-    private void cmbJnsBukuItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbJnsBukuItemStateChanged
-        JenisBuku jb = (JenisBuku) cmbJnsBuku.getSelectedItem();
-        System.out.println(jb.getKode() + " " + jb.getKeterangan());
-    }//GEN-LAST:event_cmbJnsBukuItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatal;
