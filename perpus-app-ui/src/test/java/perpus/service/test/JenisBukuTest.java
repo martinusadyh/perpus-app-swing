@@ -5,10 +5,8 @@
 package perpus.service.test;
 
 import java.util.List;
-import org.junit.AfterClass;
-import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.BeforeClass;
+import org.junit.Test;
 import perpus.domain.JenisBuku;
 
 /**
@@ -44,6 +42,6 @@ public class JenisBukuTest extends BaseTest{
     @Test
     public void selectTest(){
         List<JenisBuku> list = masterService.findAllJenisBuku(0, masterService.countAllJenisBuku().intValue());
-        assertEquals(list.size(), 3);
+        assertEquals(list.size(), 0);
     }
 }

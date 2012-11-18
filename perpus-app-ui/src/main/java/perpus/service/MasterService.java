@@ -39,9 +39,11 @@ public interface MasterService {
     List<Anggota> findAnggotaByNama(String nama);
     
     Long countAllKonfigurasi(String option, String value);
+    Long countAllJenisBuku(String option, String value);
     Konfigurasi findKonfigurasiById(Integer id);
     Konfigurasi findKonfigurasiByKode(String kodeJenis);
     List<Konfigurasi> findAllKonfigurasi(String option, String value,Integer start, Integer rows);
+    List<JenisBuku> findAllJenisBuku(String option, String value,Integer start, Integer rows);
 
     void save(Object obj);
     void delete(Object obj);

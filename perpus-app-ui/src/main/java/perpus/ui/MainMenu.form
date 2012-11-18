@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
@@ -121,6 +121,15 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnItemKonfigurasiDendaActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Jenis Buku"/>
+                <Property name="name" type="java.lang.String" value="Jenis Buku" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+              </Events>
+            </MenuItem>
             <Menu class="javax.swing.JMenu" name="mnItemUserManagemen">
               <Properties>
                 <Property name="text" type="java.lang.String" value="User Managemen"/>
@@ -207,7 +216,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panelHeaderDashboard1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="mainTabbedPane" pref="381" max="32767" attributes="0"/>
+              <Component id="mainTabbedPane" pref="385" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
           </Group>

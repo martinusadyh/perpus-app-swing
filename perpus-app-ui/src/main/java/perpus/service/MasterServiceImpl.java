@@ -405,6 +405,19 @@ public class MasterServiceImpl implements MasterService {
         
         return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
     }
+    
+    @Override
+    public Long countAllJenisBuku(String option, String value) {
+        StringBuilder sb = new StringBuilder("select count(k) from JenisBuku k ");
+        
+        if (option !=null && option.equals("KODE")){
+            sb.append("where k.kode like '%" + value + "%' ");
+        } else if (option !=null && option.equals("JENIS")) {
+            sb.append("where k.keterangan like '%" + value + "%' ");
+        }
+        
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
 
     @Override
     public Konfigurasi findKonfigurasiById(Integer id) {
@@ -427,6 +440,26 @@ public class MasterServiceImpl implements MasterService {
         
         if(option !=null && option.equals("KD_JNS_BUKU")){
             sb.append("where k.jenisBuku.kode like '%" + value + "%' ");
+        }
+        
+        sb.append("order by k.createdDate desc ");
+        
+        return sessionFactory.getCurrentSession().createQuery(sb.toString())
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+    @Override
+    public List<JenisBuku> findAllJenisBuku(String option, String value, Integer start, Integer rows) {
+        if(start==null) start = 0;
+        if(rows==null) rows = 30;
+        
+        StringBuilder sb = new StringBuilder("from JenisBuku k ");
+        
+        if(option !=null && option.equals("KODE")){
+            sb.append("where k.kode like '%" + value + "%' ");
+        } else if(option !=null && option.equals("JENIS")){
+            sb.append("where k.keterangan like '%" + value + "%' ");
         }
         
         sb.append("order by k.createdDate desc ");
