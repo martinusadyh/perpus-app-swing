@@ -5,10 +5,7 @@
 package perpus.domain;
 
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
+import javax.persistence.*;
 
 /**
  *
@@ -37,8 +34,9 @@ public class Buku extends BaseEntity {
     @Column(name="tahun_terbit")
     private Date tahunTerbit;
     
-    @Column(name="jenis_buku")
-    private String jenisBuku;
+    @ManyToOne
+    @JoinColumn(name="id_jenis_buku", nullable=false)
+    private JenisBuku jenisBuku;
     
     @Column(name="jumlah_buku")
     private Integer jumlahBuku = new Integer(0);
@@ -99,11 +97,11 @@ public class Buku extends BaseEntity {
         this.tahunTerbit = tahunTerbit;
     }
 
-    public String getJenisBuku() {
+    public JenisBuku getJenisBuku() {
         return jenisBuku;
     }
 
-    public void setJenisBuku(String jenisBuku) {
+    public void setJenisBuku(JenisBuku jenisBuku) {
         this.jenisBuku = jenisBuku;
     }
 }

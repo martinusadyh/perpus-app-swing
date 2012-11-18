@@ -4,6 +4,7 @@
  */
 package perpus.ui.tablemodel;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

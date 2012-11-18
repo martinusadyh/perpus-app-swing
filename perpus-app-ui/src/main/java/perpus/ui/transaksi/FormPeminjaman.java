@@ -334,16 +334,12 @@ public class FormPeminjaman extends javax.swing.JPanel {
                     "Maximal 3 buku yang boleh dipinjam !");
         } else {
             Buku buku = new LookupBukuDialog().showDialog();
-            Konfigurasi config = Main.getMasterService().getKonfigurasi();
             if (buku != null) {
                 if (cekItemExisted(buku)) {
+                    Konfigurasi konfig = Main.getMasterService().findKonfigurasiByKode(buku.getJenisBuku().getKode());
                     PeminjamanDetail detail = new PeminjamanDetail();
                     detail.setBuku(buku);
-                    if(buku.getJenisBuku().equalsIgnoreCase("BUKU BOS")){
-                        detail.setTglKembali(sekarang.plusMonths(6).toDate());
-                    } else {
-                        detail.setTglKembali(sekarang.plusDays(config.getMaxLamaPinjam()).toDate());
-                    }
+                    detail.setTglKembali(sekarang.plusDays(konfig.getMaxLamaPinjam()).toDate());
                     detailsPeminjaman.add(detail);
                 }
             }
