@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perpus.domain.Anggota;
 import perpus.domain.Buku;
+import perpus.domain.JenisBuku;
 import perpus.domain.Konfigurasi;
 import perpus.domain.security.Pegawai;
 import perpus.domain.security.PegawaiRole;
@@ -105,24 +106,6 @@ public class MasterServiceImpl implements MasterService {
         return sessionFactory.getCurrentSession()
                 .createQuery("from Anggota ag order by ag.namaAnggota, ag.kodeAnggota asc")
                 .list();
-    }
-
-    @Override
-    @Transactional(readOnly=false)
-    public Konfigurasi getKonfigurasi() {
-        List<Konfigurasi> list = sessionFactory.getCurrentSession()
-                .createQuery("from Konfigurasi k")
-                .setMaxResults(1)
-                .list();
-        if(list.isEmpty()){
-            Konfigurasi config = new Konfigurasi();
-            config.setMaxLamaPinjam(2);
-            config.setDendaPerHari(new BigDecimal(2000));
-            save(config);
-            return config;
-        } else {
-            return list.get(0);
-        }
     }
 
     @Override
@@ -379,6 +362,76 @@ public class MasterServiceImpl implements MasterService {
         
         return sessionFactory.getCurrentSession()
                 .createQuery(sb.toString())
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+
+    @Override
+    public Long countAllJenisBuku() {
+        return (Long) sessionFactory.getCurrentSession().createQuery("select count(jb) from JenisBuku jb").uniqueResult();
+    }
+
+    @Override
+    public JenisBuku findJenisBukuById(Integer id) {
+        return (JenisBuku) sessionFactory.getCurrentSession().createQuery("select jb from JenisBuku jb where jb.id=:id")
+                .setParameter("id", id).uniqueResult();
+    }
+
+    @Override
+    public JenisBuku findJenisBukuByKode(String kode) {
+        return (JenisBuku) sessionFactory.getCurrentSession().createQuery("select jb from JenisBuku jb where jb.kode=:kode")
+                .setParameter("kode", kode).uniqueResult();
+    }
+
+    @Override
+    public List<JenisBuku> findAllJenisBuku(Integer start, Integer rows) {
+        if(start==null) start = 0;
+        if(rows==null) rows = 30;
+        
+        return sessionFactory.getCurrentSession().createQuery("from JenisBuku jb order by jb.createdDate desc")
+                .setFirstResult(start)
+                .setMaxResults(rows)
+                .list();
+    }
+
+    @Override
+    public Long countAllKonfigurasi(String option, String value) {
+        StringBuilder sb = new StringBuilder("select count(k) from Konfigurasi k ");
+        
+        if(option !=null && option.equals("KD_JNS_BUKU")){
+            sb.append("where k.jenisBuku.kode like '%" + value + "%' ");
+        }
+        
+        return (Long) sessionFactory.getCurrentSession().createQuery(sb.toString()).uniqueResult();
+    }
+
+    @Override
+    public Konfigurasi findKonfigurasiById(Integer id) {
+        return (Konfigurasi) sessionFactory.getCurrentSession().createQuery("select k from Konfigurasi k where k.id=:id")
+                .setParameter("id", id).uniqueResult();
+    }
+
+    @Override
+    public Konfigurasi findKonfigurasiByKode(String kode) {
+        return (Konfigurasi) sessionFactory.getCurrentSession().createQuery("select k from Konfigurasi k where k.jenisBuku.kode=:kode")
+                .setParameter("kode", kode).uniqueResult();
+    }
+
+    @Override
+    public List<Konfigurasi> findAllKonfigurasi(String option, String value, Integer start, Integer rows) {
+        if(start==null) start = 0;
+        if(rows==null) rows = 30;
+        
+        StringBuilder sb = new StringBuilder("from Konfigurasi k ");
+        
+        if(option !=null && option.equals("KD_JNS_BUKU")){
+            sb.append("where k.jenisBuku.kode like '%" + value + "%' ");
+        }
+        
+        sb.append("order by k.createdDate desc ");
+        
+        return sessionFactory.getCurrentSession().createQuery(sb.toString())
                 .setFirstResult(start)
                 .setMaxResults(rows)
                 .list();

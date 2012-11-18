@@ -8,6 +8,7 @@
         
         <!-- master -->
         <mapping class="perpus.domain.Buku" />
+        <mapping class="perpus.domain.JenisBuku" />
         <mapping class="perpus.domain.Anggota" />
         <mapping class="perpus.domain.Konfigurasi" />
         
